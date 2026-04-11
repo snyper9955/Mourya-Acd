@@ -39,6 +39,9 @@ const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
+  // Featured courses for carousel (use first 5 active courses)
+  const featuredCourses = courses.filter(c => !c.isFinished).slice(0, 5);
+
   useEffect(() => {
     const fetchPublicData = async () => {
       try {
@@ -61,21 +64,23 @@ const Home = () => {
 
   // Auto-play carousel
   useEffect(() => {
-    if (!isAutoPlaying || courses.length === 0) return;
+    if (!isAutoPlaying || featuredCourses.length === 0) return;
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % courses.length);
+      setCurrentSlide((prev) => (prev + 1) % featuredCourses.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, [isAutoPlaying, courses.length]);
+  }, [isAutoPlaying, featuredCourses.length]);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % courses.length);
+    if (featuredCourses.length === 0) return;
+    setCurrentSlide((prev) => (prev + 1) % featuredCourses.length);
     setIsAutoPlaying(false);
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + courses.length) % courses.length);
+    if (featuredCourses.length === 0) return;
+    setCurrentSlide((prev) => (prev - 1 + featuredCourses.length) % featuredCourses.length);
     setIsAutoPlaying(false);
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
@@ -132,124 +137,116 @@ const Home = () => {
     },
   ];
 
-  // Featured courses for carousel (use first 5 active courses)
-  const featuredCourses = courses.filter(c => !c.isFinished).slice(0, 5);
-
   return (
     <div className="min-h-screen bg-white font-sans text-gray-800 mt-25">
       {/* Hero Carousel Section - Pixabay Style */}
-      <section className="relative w-[80%] mx-auto overflow-hidden bg-gray-900 rounded-lg ">
-        {/* Carousel Container */}
-        <div className="relative h-[20vh] sm:h-[30vh] md:h-[30vh] lg:h-[30vh] ">
-          {featuredCourses.length > 0 ? (
-            featuredCourses.map((course, index) => (
-              <div
-                key={course._id}
-                className={`absolute inset-0  ${
-                  index === currentSlide ? " z-10" : " z-0"
-                }`}
-              >
-                <Link
-                  to={`/course/${course._id}`}
-                  className="absolute inset-0 z-10 cursor-pointer group"
-                >
-                  {/* Background Image */}
-                  <div className="absolute inset-0 bg-linear-to-r from-black to-transparent "></div>
-                  {course.image ? (
-                    <img
-                      src={course.image}
-                      alt={course.title}
-                      className="w-full h-full object-cover "
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-linear-to-br from-emerald-700 to-emerald-900 flex items-center justify-center">
-                      <BookOpen className="w-24 h-24 text-white/20" />
-                    </div>
-                  )}
-                  {/* Content Overlay */}
-                  <div className="absolute inset-0 flex justify-end p-8 sm:p-12 lg:p-16 flex-col">
-                    <div className="max-w-2xl text-white">
-                      <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight opacity-100 transition-opacity duration-300 relative top-3">
-                        {course.title}
-                      </h2>
-                      <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 leading-tight opacity-100 transition-opacity duration-300 ">
-                        {course.duration}
-                      </h3>
-                      <div className="text-white/80 text-center w-fit mt-4 bg-blue-500 px-6 py-2.5 rounded-full font-semibold hover:bg-blue-600 transition-colors shadow-lg shadow-blue-500/30">
-                        View Details
-                      </div>
-                    </div>
-                  </div>
-                </Link>
+     <section className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
+  <div className="relative rounded-xl overflow-hidden bg-gray-900 min-h-[260px] sm:min-h-[320px] md:min-h-[380px] lg:min-h-[420px]">
+
+    {featuredCourses.length > 0 ? (
+      featuredCourses.map((course, index) => (
+        <div
+          key={course._id}
+          className={`absolute inset-0 transition-opacity duration-700 ${
+            index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
+          }`}
+        >
+          <Link
+            to={`/course/${course._id}`}
+            className="absolute inset-0 cursor-pointer group"
+          >
+            {/* Background Image */}
+            {course.image ? (
+              <img
+                src={course.image}
+                alt={course.title}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            ) : (
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-700 to-emerald-900 flex items-center justify-center">
+                <BookOpen className="w-20 h-20 text-white/20" />
               </div>
-            ))
-          ) : (
-            // Fallback slide when no courses
-            <div className="absolute inset-0">
-              <div className="w-full h-full bg-linear-to-br from-emerald-700 to-blue-800 flex items-center justify-center">
-                <div className="text-center text-white">
-                  <BookOpen className="w-20 h-20 mx-auto mb-4 opacity-50" />
-                  <h2 className="text-3xl font-bold mb-2">Learn from the Best</h2>
-                  <p className="text-lg opacity-80">Discover our amazing courses</p>
+            )}
+
+            {/* Dark Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/50 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 opacity-10 via-black/50 to-transparent" />
+
+            {/* Content */}
+            <div className="relative z-20 h-full flex flex-col items-end justify-end p-4 sm:p-8 md:p-12">
+              <div className="max-w-xl text-white">
+                <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 leading-tight">
+                  {course.title}
+                </h2>
+
+                <h3 className="text-sm sm:text-lg md:text-xl lg:text-2xl font-semibold text-white/80">
+                  {course.duration}
+                </h3>
+
+                <div className="mt-4 inline-block bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded-full text-sm sm:text-base font-semibold transition shadow-lg">
+                  View Details
                 </div>
               </div>
             </div>
-          )}
-
-          {/* Navigation Arrows */}
-          {featuredCourses.length > 1 && (
-            <>
-              <button
-                onClick={prevSlide}
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 backdrop-blur-sm transition-all"
-                aria-label="Previous slide"
-              >
-                <ChevronLeftIcon className="w-5 h-5 sm:w-6 sm:h-6" />
-              </button>
-              <button
-                onClick={nextSlide}
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 backdrop-blur-sm transition-all"
-                aria-label="Next slide"
-              >
-                <ChevronRightIcon className="w-5 h-5 sm:w-6 sm:h-6" />
-              </button>
-            </>
-          )}
-
-          {/* Slide Indicators */}
-          {featuredCourses.length > 1 && (
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex gap-2">
-              {featuredCourses.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToSlide(index)}
-                  className={`transition-all rounded-full ${
-                    index === currentSlide
-                      ? "w-8 h-2 bg-white"
-                      : "w-2 h-2 bg-white/50 hover:bg-white/80"
-                  }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
-          )}
-
-          {/* Auto-play Toggle */}
-          {featuredCourses.length > 1 && (
-            <button
-              onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-              className="absolute bottom-6 right-6 z-30 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 backdrop-blur-sm transition-all"
-              aria-label={isAutoPlaying ? "Pause slideshow" : "Play slideshow"}
-            >
-              {isAutoPlaying ? (
-                <Pause className="w-4 h-4" />
-              ) : (
-                <PlayIcon className="w-4 h-4" />
-              )}
-            </button>
-          )}
+          </Link>
         </div>
-      </section>
+      ))
+    ) : (
+      <div className="absolute inset-0 bg-gradient-to-br from-emerald-700 to-blue-800 flex items-center justify-center">
+        <div className="text-center text-white px-4">
+          <BookOpen className="w-16 h-16 mx-auto mb-4 opacity-50" />
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2">Learn from the Best</h2>
+          <p className="text-sm sm:text-lg opacity-80">Discover our amazing courses</p>
+        </div>
+      </div>
+    )}
+
+    {/* Navigation Arrows */}
+    {featuredCourses.length > 1 && (
+      <>
+        <button
+          onClick={prevSlide}
+          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 backdrop-blur transition"
+        >
+          <ChevronLeftIcon className="w-5 h-5" />
+        </button>
+        <button
+          onClick={nextSlide}
+          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 backdrop-blur transition"
+        >
+          <ChevronRightIcon className="w-5 h-5" />
+        </button>
+      </>
+    )}
+
+    {/* Indicators */}
+    {featuredCourses.length > 1 && (
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex gap-2">
+        {featuredCourses.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => goToSlide(index)}
+            className={`transition-all rounded-full ${
+              index === currentSlide
+                ? "w-8 h-2 bg-white"
+                : "w-2 h-2 bg-white/50"
+            }`}
+          />
+        ))}
+      </div>
+    )}
+
+    {/* Auto Play */}
+    {featuredCourses.length > 1 && (
+      <button
+        onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+        className="absolute bottom-4 right-4 z-30 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 backdrop-blur transition"
+      >
+        {isAutoPlaying ? <Pause className="w-4 h-4" /> : <PlayIcon className="w-4 h-4" />}
+      </button>
+    )}
+  </div>
+</section>
 
       {/* Info Banner */}
    
