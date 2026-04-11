@@ -141,7 +141,7 @@ const Home = () => {
     <div className="min-h-screen bg-white font-sans text-gray-800 mt-25">
       {/* Hero Carousel Section - Pixabay Style */}
      <section className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
-  <div className="relative rounded-xl overflow-hidden bg-gray-900 min-h-[260px] sm:min-h-[320px] md:min-h-[380px] lg:min-h-[420px]">
+  <div className="relative rounded-xl overflow-hidden bg-gray-900 min-h-[180px] sm:min-h-[320px] md:min-h-[380px] lg:min-h-[420px]">
 
     {featuredCourses.length > 0 ? (
       featuredCourses.map((course, index) => (
