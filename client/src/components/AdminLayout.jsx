@@ -179,7 +179,12 @@ const AdminLayout = ({ children }) => {
                         <ChevronRight className="w-3 h-3" />
                         <span className="text-slate-900">{menuItems.find(i => isActive(i.path))?.name || 'Dashboard'}</span>
                     </div>
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-3">
+                        <nav className="hidden md:flex items-center gap-2 mr-4 bg-slate-100/50 p-1 rounded-lg">
+                            <Link to="/admin" className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${isActive('/admin') ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>Dashboard</Link>
+                            <Link to="/courses" className="px-3 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-700 transition-all">Courses</Link>
+                            <Link to="/notices" className="px-3 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-700 transition-all">Notices</Link>
+                        </nav>
                         <button className="p-2.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-all">
                             <Bell className="w-5 h-5" />
                         </button>

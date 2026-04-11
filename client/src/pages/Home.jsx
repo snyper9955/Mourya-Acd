@@ -75,20 +75,20 @@ const Home = () => {
     if (featuredCourses.length === 0) return;
     setCurrentSlide((prev) => (prev + 1) % featuredCourses.length);
     setIsAutoPlaying(false);
-    setTimeout(() => setIsAutoPlaying(true), 10000);
+    setTimeout(() => setIsAutoPlaying(true), 3000);
   };
 
   const prevSlide = () => {
     if (featuredCourses.length === 0) return;
     setCurrentSlide((prev) => (prev - 1 + featuredCourses.length) % featuredCourses.length);
     setIsAutoPlaying(false);
-    setTimeout(() => setIsAutoPlaying(true), 10000);
+    setTimeout(() => setIsAutoPlaying(true), 3000);
   };
 
   const goToSlide = (index) => {
     setCurrentSlide(index);
     setIsAutoPlaying(false);
-    setTimeout(() => setIsAutoPlaying(true), 10000);
+    setTimeout(() => setIsAutoPlaying(true), 3000);
   };
 
   // Features data

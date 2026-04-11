@@ -53,6 +53,11 @@ const Header = () => {
 
   const navLinks = [
     { name: "Home", path: "/", icon: Home },
+    ...(user ? [{ 
+      name: "Dashboard", 
+      path: user.role === 'admin' ? "/admin" : "/dashboard", 
+      icon: LayoutDashboard 
+    }] : []),
     { name: "Courses", path: "/courses", icon: GraduationCap },
     { name: "Toppers", path: "/toppers", icon: Trophy },
     { name: "Notices", path: "/notices", icon: Megaphone },
@@ -118,14 +123,14 @@ const Header = () => {
             {/* Desktop Auth Actions */}
             <div className="hidden md:flex items-center gap-3">
               {user ? (
-                <div className="relative group">
+                <div className="flex items-center gap-2">
+                  <div className="h-9 w-px bg-slate-200 mx-2" />
                   <button
-                    onClick={() => navigate("/dashboard")}
-                    className="group/btn flex items-center gap-2.5 bg-linear-to-r from-slate-800 to-slate-700 text-white px-5 py-2.5 rounded-xl font-medium text-sm hover:from-slate-700 hover:to-slate-600 transition-all duration-300 shadow-lg shadow-slate-200 hover:shadow-xl hover:shadow-slate-300 active:scale-95"
+                    onClick={() => navigate("/profile")}
+                    className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-slate-600 hover:bg-slate-200 transition-all active:scale-95"
+                    title="Profile"
                   >
-                    <LayoutDashboard className="w-4 h-4 transition-transform group-hover/btn:rotate-12" />
-                    <span>Dashboard</span>
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5" />
+                    <User className="w-5 h-5" />
                   </button>
                 </div>
               ) : (

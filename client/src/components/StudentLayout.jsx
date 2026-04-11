@@ -10,7 +10,9 @@ import {
   User,
   Globe,
   Menu,
-  X
+  X,
+  Megaphone,
+  GraduationCap
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -21,9 +23,11 @@ const StudentLayout = ({ children }) => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
     const menuItems = [
-        { icon: Globe, label: 'Public Site', path: '/' },
         { icon: LayoutDashboard, label: 'Dashboard', path: '/student/dashboard' },
+        { icon: GraduationCap, label: 'Explore Courses', path: '/courses' },
+        { icon: Megaphone, label: 'Latest Notices', path: '/notices' },
         { icon: User, label: 'My Profile', path: '/student/profile' },
+        { icon: Globe, label: 'View Public Site', path: '/' },
     ];
 
     const handleLogout = async () => {
@@ -167,7 +171,12 @@ const StudentLayout = ({ children }) => {
                         <ChevronRight className="w-3 h-3" />
                         <span className="text-slate-900">{menuItems.find(i => location.pathname === i.path)?.label || 'Dashboard'}</span>
                     </div>
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-3">
+                        <nav className="hidden md:flex items-center gap-2 mr-4 bg-slate-100/50 p-1 rounded-lg">
+                            <Link to="/student/dashboard" className={`px-3 py-1.5 text-xs font-bold rounded-md transition-all ${location.pathname === '/student/dashboard' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>Dashboard</Link>
+                            <Link to="/courses" className="px-3 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-700 transition-all">Courses</Link>
+                            <Link to="/notices" className="px-3 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-700 transition-all">Notices</Link>
+                        </nav>
                         <button className="p-2.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-all">
                             <Bell className="w-5 h-5" />
                         </button>
