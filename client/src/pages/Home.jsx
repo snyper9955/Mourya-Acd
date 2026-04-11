@@ -173,17 +173,17 @@ const Home = () => {
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 opacity-10 via-black/50 to-transparent" />
 
             {/* Content */}
-            <div className="relative z-20 h-full flex flex-col items-end justify-end p-4 sm:p-8 md:p-12">
-              <div className="max-w-xl text-white">
-                <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 leading-tight">
+            <div className="relative z-20 h-full flex flex-col items-end justify-end p-6 sm:p-10 md:p-14 text-right">
+              <div className="max-w-2xl text-white">
+                <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-3 leading-tight tracking-tight drop-shadow-md">
                   {course.title}
                 </h2>
 
-                <h3 className="text-sm sm:text-lg md:text-xl lg:text-2xl font-semibold text-white/80">
+                <h3 className="text-sm sm:text-xl md:text-2xl lg:text-3xl font-medium text-white/90 mb-6 drop-shadow-sm">
                   {course.duration}
                 </h3>
 
-                <div className="mt-4 inline-block bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded-full text-sm sm:text-base font-semibold transition shadow-lg">
+                <div className="inline-block font-medium bg-emerald-600 hover:bg-emerald-700 px-8 py-3 rounded-full text-sm sm:text-lg font-bold transition-all duration-300 shadow-xl hover:scale-105 active:scale-95">
                   View Details
                 </div>
               </div>
@@ -236,15 +236,6 @@ const Home = () => {
       </div>
     )}
 
-    {/* Auto Play */}
-    {featuredCourses.length > 1 && (
-      <button
-        onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-        className="absolute bottom-4 right-4 z-30 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 backdrop-blur transition"
-      >
-        {isAutoPlaying ? <Pause className="w-4 h-4" /> : <PlayIcon className="w-4 h-4" />}
-      </button>
-    )}
   </div>
 </section>
 
