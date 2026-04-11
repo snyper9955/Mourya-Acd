@@ -32,9 +32,9 @@ const StudentLayout = ({ children }) => {
     };
 
     return (
-        <div className="flex min-h-screen bg-slate-50/50 font-sans selection:bg-blue-100 selection:text-blue-900">
+        <div className="  flex min-h-screen bg-slate-50/50 font-sans selection:bg-blue-100 selection:text-blue-900 ">
             {/* Sidebar */}
-            <aside className="w-72 bg-white border-r border-slate-200/60 hidden lg:flex flex-col fixed top-0 bottom-0 left-0 z-40 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+            <aside className="w-72 bg-white border-r border-slate-200/60 hidden lg:flex flex-col fixed top-0 bottom-0 left-0 z-40 shadow-[4px_0_24px_rgba(0,0,0,0.02)] ">
                 <div className="p-8 flex items-center gap-3.5 mb-2">
                     <div className="w-10 h-10 bg-linear-to-br from-blue-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20">
                         <BookOpen className="text-white w-5 h-5" />
