@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom';
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
+    const [resetLink, setResetLink] = useState('');
     const { forgotPassword } = useAuth();
-
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -41,7 +42,6 @@ const ForgotPassword = () => {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                             </svg>
                         </div>
-                        <h3 className="text-emerald-900 font-bold font-heading mb-1">Check your inbox</h3>
                         <p className="text-emerald-700 text-sm">{message}</p>
                         <Link to="/login" className="inline-block mt-6 text-emerald-800 font-bold text-sm hover:underline">
                             Back to Login
@@ -53,7 +53,7 @@ const ForgotPassword = () => {
                             <label className="block text-sm font-semibold font-heading text-slate-700 mb-2 ml-1 group-focus-within:text-emerald-600 transition-colors">Registered Email</label>
                             <input 
                                 type="email" 
-                                placeholder="name@example.com" 
+                                placeholder="Enter your registered email address" 
                                 value={email} 
                                 onChange={(e) => setEmail(e.target.value)} 
                                 className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-5 py-4 text-slate-800 placeholder-slate-400 outline-none focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-500/5 transition-all"

@@ -53,11 +53,7 @@ const Header = () => {
 
   const navLinks = [
     { name: "Home", path: "/", icon: Home },
-    ...(user ? [{ 
-      name: "Dashboard", 
-      path: user.role === 'admin' ? "/admin" : "/dashboard", 
-      icon: LayoutDashboard 
-    }] : []),
+  
     { name: "Courses", path: "/courses", icon: GraduationCap },
     { name: "Toppers", path: "/toppers", icon: Trophy },
     { name: "Notices", path: "/notices", icon: Megaphone },
@@ -82,8 +78,8 @@ const Header = () => {
               className="group relative flex items-center gap-2.5 lg:gap-3"
             >
               <div className="relative">
-                <div className="absolute inset-0 bg-linear-to-r from-blue-600 to-indigo-600 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
-                <div className="relative w-9 h-9 lg:w-11 lg:h-11 bg-linear-to-br from-blue-600 via-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-all duration-500 group-hover:shadow-xl group-hover:shadow-blue-500/30">
+                <div className="absolute inset-0 bg-linear-to-r from-green-600 to-green-800 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
+                <div className="relative w-9 h-9 lg:w-11 lg:h-11 bg-linear-to-br from-green-600 via-green-600 to-green-700 rounded-xl flex items-center justify-center shadow-lg shadow-green-500/20 group-hover:scale-105 transition-all duration-500 group-hover:shadow-xl group-hover:shadow-green-500/30">
                   <BookOpen className="text-white w-5 h-5 lg:w-6 lg:h-6" />
                 </div>
               </div>
@@ -125,13 +121,11 @@ const Header = () => {
               {user ? (
                 <div className="flex items-center gap-2">
                   <div className="h-9 w-px bg-slate-200 mx-2" />
-                  <button
-                    onClick={() => navigate("/profile")}
-                    className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-slate-600 hover:bg-slate-200 transition-all active:scale-95"
-                    title="Profile"
-                  >
-                    <User className="w-5 h-5" />
-                  </button>
+                
+                    <Link to={ user.role === 'admin' ? "/admin" : "/dashboard"}>
+                      <User className="w-5 h-5" />
+                    </Link>
+                 
                 </div>
               ) : (
                 <div className="flex items-center gap-2">

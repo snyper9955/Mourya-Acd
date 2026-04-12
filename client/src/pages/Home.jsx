@@ -141,7 +141,7 @@ const Home = () => {
     <div className="min-h-screen bg-white font-sans text-gray-800 mt-25">
       {/* Hero Carousel Section - Pixabay Style */}
      <section className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
-  <div className="relative rounded-xl overflow-hidden bg-gray-900 min-h-[180px] sm:min-h-[320px] md:min-h-[380px] lg:min-h-[420px]">
+  <div className="relative rounded-xl overflow-hidden bg-gray-900 min-h-[180px] sm:min-h-[320px] md:min-h-[320px] lg:min-h-[320px]">
 
     {featuredCourses.length > 0 ? (
       featuredCourses.map((course, index) => (
@@ -239,10 +239,73 @@ const Home = () => {
   </div>
 </section>
 
-      {/* Info Banner */}
-   
-
-      {/* Hero Section - Original (simplified now) */}
+      {/* Compact Toppers Marquee Slide */}
+      {toppers.length > 0 && (
+        <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 overflow-hidden">
+          <div className="flex items-center gap-4">
+            <div className="shrink-0 flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-amber-100 to-amber-50 border border-amber-200 rounded-full shadow-sm z-10 relative">
+              <Award className="w-4 h-4 text-amber-600 animate-pulse" />
+              <span className="text-xs font-bold text-amber-800 uppercase tracking-wider">Top Achievers</span>
+            </div>
+            
+            <div className="marquee-container flex-1">
+              <div className="marquee-content">
+                {[...toppers, ...toppers, ...toppers, ...toppers].map((topper, idx) => (
+                  <Link 
+                    to="/toppers" 
+                    key={`${topper._id}-${idx}`} 
+                    className="shrink-0 flex items-center gap-3 bg-white border border-gray-100 rounded-full p-1.5 pr-5 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] hover:shadow-md hover:border-amber-200 transition-all cursor-pointer group"
+                  >
+                    <div className="w-9 h-9 rounded-full bg-gray-50 overflow-hidden shrink-0 border border-amber-200 shadow-inner">
+                      {topper.image ? (
+                        <img src={topper.image} alt={topper.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center font-bold text-sm text-gray-400 bg-gray-100">{topper.name.charAt(0)}</div>
+                      )}
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-gray-800 leading-none group-hover:text-amber-600 transition-colors">{topper.name}</h4>
+                      <div className="flex items-center gap-1 mt-1">
+                        <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
+                        <span className="text-[11px] font-medium text-gray-500">Rank {topper.rank}</span>
+                        {topper.course && (
+                           <>
+                             <span className="w-1 h-1 rounded-full bg-gray-300 mx-0.5"></span>
+                             <span className="text-[10px] text-gray-400 truncate max-w-[100px]">{topper.course}</span>
+                           </>
+                        )}
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <style dangerouslySetInnerHTML={{__html: `
+            .marquee-container {
+                display: flex;
+                overflow: hidden;
+                white-space: nowrap;
+                width: 100%;
+                mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
+                -webkit-mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
+            }
+            .marquee-content {
+                display: flex;
+                gap: 1.5rem;
+                animation: scrollMarquee 40s linear infinite;
+            }
+            .marquee-content:hover {
+                animation-play-state: paused;
+            }
+            @keyframes scrollMarquee {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
+            }
+          `}} />
+        </section>
+      )}
      <section className="relative w-full bg-white overflow-hidden">
   <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-100/20 rounded-full blur-3xl -mr-48 -mt-48" />
 
@@ -250,9 +313,36 @@ const Home = () => {
     
     <div className="grid md:grid-cols-2 gap-10 items-center">
       
+      
       {/* LEFT SIDE - TEXT */}
       <div className="text-center md:text-left">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 rounded-full border border-emerald-100 mb-6">
+          <div className="flex flex-col sm:flex-row gap-4">
+          <button
+            onClick={() => navigate("/courses")}
+            className="bg-neutral-900 text-white px-8 py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2  transition-all shadow-sm hover:shadow-md"
+          >
+            Explore Courses <ArrowRight className="w-4 h-4" />
+          </button>
+         
+          
+          <Link
+          to="tel:+919835958271"
+            className="bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-emerald-700 transition-all shadow-sm hover:shadow-md"
+          >
+          <Phone className="w-4 h-4" />  call us 
+          </Link>
+         
+
+          {!user && (
+            <button
+              onClick={() => navigate("/register")}
+              className="bg-white text-gray-700 px-8 py-3.5 rounded-xl font-semibold border border-gray-200 hover:bg-gray-50 transition-all"
+            >
+              Get Started Free
+            </button>
+          )}
+        </div>
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 rounded-full border border-emerald-100 mt-6">
           <Sparkles className="w-4 h-4 text-emerald-600" />
           <span className="text-sm font-semibold text-emerald-700">
             India's Leading Learning Platform
@@ -279,39 +369,18 @@ const Home = () => {
           </span>{" "}
           Achievers.
         </h1>
+      
+        
+     
 
-        <p className="text-lg sm:text-xl text-gray-600 max-w-xl mb-8 leading-relaxed">
+        <p className="text-lg sm:text-xl text-gray-600 max-w-xl mb-8 leading-relaxed ">
           Join 10,000+ successful students mastering technology,
           management, and more with our industry-leading mentors.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4">
-          <button
-            onClick={() => navigate("/courses")}
-            className="bg-neutral-900 text-white px-8 py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2  transition-all shadow-sm hover:shadow-md"
-          >
-            Explore Courses <ArrowRight className="w-4 h-4" />
-          </button>
-         
-          
-          <Link
-          to="tel:+919835958271"
-            className="bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-emerald-700 transition-all shadow-sm hover:shadow-md"
-          >
-          <Phone className="w-4 h-4" />  call us 
-          </Link>
-         
-
-          {!user && (
-            <button
-              onClick={() => navigate("/register")}
-              className="bg-white text-gray-700 px-8 py-3.5 rounded-xl font-semibold border border-gray-200 hover:bg-gray-50 transition-all"
-            >
-              Get Started Free
-            </button>
-          )}
-        </div>
+        
       </div>
+      
 
       {/* RIGHT SIDE - IMAGE */}
       <div className="flex justify-center md:justify-end">
@@ -693,124 +762,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 px-4 sm:px-6 lg:px-8 pt-12 pb-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <GraduationCap className="w-6 h-6 text-emerald-400" />
-                <span className="font-bold text-lg text-white tracking-tight">
-                  EduManage
-                </span>
-              </div>
-              <p className="text-sm leading-relaxed">
-                Empowering students with world-class education and personalized
-                guidance since 2010.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold text-white text-sm uppercase tracking-wider mb-4">
-                Quick Links
-              </h4>
-              <ul className="space-y-2 text-sm">
-                <li>
-                  <Link
-                    to="/about"
-                    className="hover:text-white transition-colors"
-                  >
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/courses"
-                    className="hover:text-white transition-colors"
-                  >
-                    Courses
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/contact"
-                    className="hover:text-white transition-colors"
-                  >
-                    Contact
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/blog"
-                    className="hover:text-white transition-colors"
-                  >
-                    Blog
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-white text-sm uppercase tracking-wider mb-4">
-                Support
-              </h4>
-              <ul className="space-y-2 text-sm">
-                <li>
-                  <Link
-                    to="/faq"
-                    className="hover:text-white transition-colors"
-                  >
-                    FAQ
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/privacy"
-                    className="hover:text-white transition-colors"
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/terms"
-                    className="hover:text-white transition-colors"
-                  >
-                    Terms of Service
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/refund"
-                    className="hover:text-white transition-colors"
-                  >
-                    Refund Policy
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-white text-sm uppercase tracking-wider mb-4">
-                Contact Info
-              </h4>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-center gap-2">
-                  <Phone className="w-4 h-4" /> +91 12345 67890
-                </li>
-                <li className="flex items-center gap-2">
-                  <Mail className="w-4 h-4" /> support@edumanage.com
-                </li>
-                <li className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4" /> 123 Education Hub, City
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="pt-8 border-t border-gray-800 text-center">
-            <p className="text-xs tracking-wider">
-              © 2024 EduManage Coaching Hub • Built for Success
-            </p>
-          </div>
-        </div>
-      </footer>
+      
     </div>
   );
 };

@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const crypto = require("crypto");
+const sendEmail = require('../utils/sendEmail');
 
 // Generate Token
 const generateToken = (id) => {
@@ -27,6 +28,7 @@ exports.register = async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            phone: user.phone,
             role: user.role,
             token: generateToken(user._id)
         });
@@ -46,6 +48,7 @@ exports.login = async (req, res) => {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
+                phone: user.phone,
                 role: user.role,
                 token: generateToken(user._id)
             });
@@ -80,13 +83,28 @@ exports.forgotPassword = async (req, res) => {
 
     await user.save();
 
-    // Send token (later via email)
-    const resetURL = `http://localhost:3000/reset-password/${resetToken}`;
+    // Send token via native email integration
+    const frontendURL = (process.env.FRONTEND_URL || 'http://localhost:5173').replace(/\/+$/, '');
+    const resetURL = `${frontendURL}/reset-password/${resetToken}`;
 
-    res.json({
-      message: "Reset link generated",
-      resetURL, // for testing
-    });
+    const message = `You are receiving this email because you (or someone else) have requested the reset of a password. \n\nPlease click on the following link, or paste this into your browser to complete the process:\n\n${resetURL}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.`;
+
+    try {
+        await sendEmail({
+            email: user.email,
+            subject: 'Password Reset Notification - Action Required',
+            message,
+        });
+
+        res.json({ message: "Password reset link sent to your email!" });
+    } catch (err) {
+        console.error("Email send failed:", err);
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpire = undefined;
+        await user.save();
+
+        return res.status(500).json({ message: 'Email could not be sent. Please contact support.' });
+    }
 
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -156,6 +174,9 @@ exports.updateProfile = async (req, res) => {
         if (user) {
             user.name = req.body.name || user.name;
             user.email = req.body.email || user.email;
+            if (req.body.phone !== undefined) {
+                user.phone = req.body.phone;
+            }
             if (req.body.password) {
                 user.password = req.body.password;
             }
@@ -166,6 +187,7 @@ exports.updateProfile = async (req, res) => {
                 _id: updatedUser._id,
                 name: updatedUser.name,
                 email: updatedUser.email,
+                phone: updatedUser.phone,
                 role: updatedUser.role,
                 token: generateToken(updatedUser._id),
             });

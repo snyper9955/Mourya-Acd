@@ -49,9 +49,18 @@ const AdminLayout = ({ children }) => {
             <aside className="hidden lg:flex flex-col w-72 bg-white border-r border-slate-200/60 fixed top-0 bottom-0 left-0 z-40 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
                 <div className="p-8 flex items-center gap-3.5 mb-2">
                     <div className="w-10 h-10 bg-linear-to-br from-emerald-600 to-teal-700 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                    <Link to="/">
                         <BookOpen className="text-white w-5 h-5" />
+
+                    
+                    </Link>
+
+
+
                     </div>
-                    <span className="text-xl font-extrabold font-heading text-slate-900 tracking-tight">EduManage</span>
+                    <Link to="/">
+                        <span className="text-xl font-extrabold font-heading text-slate-900 tracking-tight">EduManage</span>
+                    </Link>
                 </div>
 
                 <nav className="flex-1 px-6 space-y-1.5 overflow-y-auto custom-scrollbar">

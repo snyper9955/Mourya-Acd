@@ -9,6 +9,7 @@ import StudentLayout from './components/StudentLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 import PublicOnlyRoute from './components/PublicOnlyRoute';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import { SocketProvider } from './context/SocketContext';
 import { Toaster } from 'react-hot-toast';
 import './App.css';
@@ -59,7 +60,7 @@ const AppContent = () => {
     <ApiProvider>
       <SocketProvider>
         <Toaster />
-        {!['/admin', '/student', '/login', '/register', '/dashboard'].some(path => location.pathname.startsWith(path)) && <Header />}
+        {!['/admin', '/student', '/login', '/register', '/forgot-password', '/reset-password', '/dashboard'].some(path => location.pathname.startsWith(path)) && <Header />}
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>
             <Route path="/login" element={<PublicOnlyRoute><Login /></PublicOnlyRoute>} />
@@ -105,6 +106,7 @@ const AppContent = () => {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         </Suspense>
+        {!['/admin', '/student', '/login', '/register', '/forgot-password', '/reset-password', '/dashboard'].some(path => location.pathname.startsWith(path)) && <Footer />}
       </SocketProvider>
     </ApiProvider>
   );
