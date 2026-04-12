@@ -94,9 +94,13 @@ const StudentLayout = ({ children }) => {
             <header className="fixed top-0 left-0 right-0 h-20 bg-white/80 backdrop-blur-xl border-b border-slate-200/60 flex items-center justify-between px-6 z-50 lg:hidden">
                 <div className="flex items-center gap-3">
                     <div className="w-9 h-9 bg-linear-to-br from-blue-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/10">
+                        <Link to="/">
                         <BookOpen className="text-white w-4.5 h-4.5" />
+                        </Link>
                     </div>
-                    <span className="text-lg font-extrabold text-slate-900 tracking-tight">Student Hub</span>
+                    <Link to="/">
+                        <span className="text-lg font-extrabold text-slate-900 tracking-tight">Student Hub</span>
+                    </Link>
                 </div>
                 <button 
                     onClick={() => setIsMenuOpen(!isMenuOpen)}

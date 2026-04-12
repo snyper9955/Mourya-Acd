@@ -52,6 +52,11 @@ const AppContent = () => {
   const { loading, user } = useAuth();
   const location = useLocation();
 
+  React.useEffect(() => {
+    // Scroll to top instantly on every route map redirect
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   if (loading) {
     return <FullPageLoading />;
   }
