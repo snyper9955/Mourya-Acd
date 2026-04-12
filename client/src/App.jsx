@@ -1,57 +1,68 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ApiProvider } from './context/ApiContext';
-import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
-import ForgotPassword from './pages/auth/ForgotPassword';
-import ResetPassword from './pages/auth/ResetPassword';
+
+// Layouts and components that should be loaded immediately
 import AdminLayout from './components/AdminLayout';
 import StudentLayout from './components/StudentLayout';
-import Dashboard from './pages/Dashboard';
-import Students from './pages/Students';
-import Courses from './pages/Courses';
-import Inquiries from './pages/Inquiries';
-import Payments from './pages/Payments';
-import Notices from './pages/Notices';
-import Toppers from './pages/Toppers';
-import Home from './pages/Home';
-import PublicCourses from './pages/PublicCourses';
-import PublicNotices from './pages/PublicNotices';
-import PublicToppers from './pages/PublicToppers';
-import CourseDetail from './pages/CourseDetail';
-import Checkout from './pages/Checkout';
-import Profile from './pages/Profile';
-import StudentDashboard from './pages/student/StudentDashboard';
-import CourseContent from './pages/student/CourseContent';
 import ProtectedRoute from './components/ProtectedRoute';
 import PublicOnlyRoute from './components/PublicOnlyRoute';
-import './App.css';
-
+import Header from './components/Header';
 import { SocketProvider } from './context/SocketContext';
 import { Toaster } from 'react-hot-toast';
-import Header from './components/Header';
+import './App.css';
+
+// Lazy load pages for code splitting
+const Login = lazy(() => import('./pages/auth/Login'));
+const Register = lazy(() => import('./pages/auth/Register'));
+const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'));
+const ResetPassword = lazy(() => import('./pages/auth/ResetPassword'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Students = lazy(() => import('./pages/Students'));
+const Courses = lazy(() => import('./pages/Courses'));
+const Inquiries = lazy(() => import('./pages/Inquiries'));
+const Payments = lazy(() => import('./pages/Payments'));
+const Notices = lazy(() => import('./pages/Notices'));
+const Toppers = lazy(() => import('./pages/Toppers'));
+const Home = lazy(() => import('./pages/Home'));
+const PublicCourses = lazy(() => import('./pages/PublicCourses'));
+const PublicNotices = lazy(() => import('./pages/PublicNotices'));
+const PublicToppers = lazy(() => import('./pages/PublicToppers'));
+const CourseDetail = lazy(() => import('./pages/CourseDetail'));
+const Checkout = lazy(() => import('./pages/Checkout'));
+const Profile = lazy(() => import('./pages/Profile'));
+const StudentDashboard = lazy(() => import('./pages/student/StudentDashboard'));
+const CourseContent = lazy(() => import('./pages/student/CourseContent'));
+
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center min-h-[400px] bg-transparent">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-900"></div>
+  </div>
+);
+
+const FullPageLoading = () => (
+  <div className="flex items-center justify-center min-h-screen bg-slate-50">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-900"></div>
+  </div>
+);
 
 const AppContent = () => {
   const { loading, user } = useAuth();
   const location = useLocation();
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-slate-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-900"></div>
-      </div>
-    );
+    return <FullPageLoading />;
   }
-
 
   return (
     <ApiProvider>
       <SocketProvider>
         <Toaster />
         {!['/admin', '/student', '/login', '/register', '/dashboard'].some(path => location.pathname.startsWith(path)) && <Header />}
-        <Routes>
-          <Route path="/login" element={<PublicOnlyRoute><Login /></PublicOnlyRoute>} />
+        <Suspense fallback={<LoadingSpinner />}>
+          <Routes>
+            <Route path="/login" element={<PublicOnlyRoute><Login /></PublicOnlyRoute>} />
           <Route path="/register" element={<PublicOnlyRoute><Register /></PublicOnlyRoute>} />
           <Route path="/forgot-password" element={<PublicOnlyRoute><ForgotPassword /></PublicOnlyRoute>} />
           <Route path="/reset-password/:token" element={<PublicOnlyRoute><ResetPassword /></PublicOnlyRoute>} />
@@ -93,6 +104,7 @@ const AppContent = () => {
           {/* Catch-all redirect */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+        </Suspense>
       </SocketProvider>
     </ApiProvider>
   );
