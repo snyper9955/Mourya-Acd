@@ -282,17 +282,25 @@ const Home = () => {
 
         <p className="text-lg sm:text-xl text-gray-600 max-w-xl mb-8 leading-relaxed">
           Join 10,000+ successful students mastering technology,
-          management, and more with our industry-leading mentors and
-          comprehensive curriculum.
+          management, and more with our industry-leading mentors.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4">
           <button
             onClick={() => navigate("/courses")}
-            className="bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-emerald-700 transition-all shadow-sm hover:shadow-md"
+            className="bg-neutral-900 text-white px-8 py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2  transition-all shadow-sm hover:shadow-md"
           >
             Explore Courses <ArrowRight className="w-4 h-4" />
           </button>
+         
+          
+          <Link
+          to="tel:+919835958271"
+            className="bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-emerald-700 transition-all shadow-sm hover:shadow-md"
+          >
+          <Phone className="w-4 h-4" />  call us 
+          </Link>
+         
 
           {!user && (
             <button
