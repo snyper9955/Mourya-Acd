@@ -117,7 +117,7 @@ const AdminLayout = ({ children }) => {
                         className="lg:hidden fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40 animate-in fade-in duration-300"
                         onClick={() => setIsMenuOpen(false)}
                     />
-                    <div className="lg:hidden fixed top-0 right-0 bottom-0 w-[50%] bg-white z-50 p-8 shadow-2xl animate-in slide-in-from-right duration-300 flex flex-col border-l border-slate-100">
+                    <div className="lg:hidden fixed top-0 right-0 bottom-0 w-[85%] sm:w-[60%] bg-white z-50 p-6 shadow-2xl animate-in slide-in-from-right duration-300 flex flex-col border-l border-slate-100">
                         <div className="flex items-center justify-between mb-8">
                             <span className="text-xl font-black text-slate-900">Admin Menu</span>
                             <button 
@@ -191,7 +191,7 @@ const AdminLayout = ({ children }) => {
                     </div>
                 </div>
 
-                <div className="p-6 pt-28 lg:pt-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                <div className="px-4 sm:px-6 lg:px-8 py-8 pt-28 lg:pt-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
                     <div className="max-w-7xl mx-auto">
                         {children}
                     </div>
