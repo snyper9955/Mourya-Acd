@@ -212,7 +212,7 @@ const Header = () => {
           </div>
 
           {/* Drawer Navigation */}
-          <nav className="flex-1 flex flex-col p-6 gap-3">
+          <nav className="flex flex-col p-6 gap-3 overflow-y-auto">
             {navLinks.map((link, index) => (
               <Link
                 key={link.name}
@@ -247,8 +247,8 @@ const Header = () => {
             <div className="h-px bg-linear-to-r from-transparent via-slate-200 to-transparent" />
           </div>
 
-          {/* Drawer Footer */}
-          <div className="p-6 space-y-3">
+          {/* Drawer Auth Actions */}
+          <div className="px-6 pb-6 space-y-3 mt-4">
             {user ? (
               <button
                 onClick={() => {

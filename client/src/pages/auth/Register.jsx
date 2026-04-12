@@ -16,7 +16,7 @@ const Register = () => {
         setIsLoading(true);
         try {
             await register(name, email, password);
-            navigate('/dashboard');
+            navigate('/');
         } catch (error) {
             alert(error.response?.data?.message || 'Registration failed');
         } finally {
@@ -54,7 +54,7 @@ const Register = () => {
                         </label>
                         <input 
                             type="text" 
-                            placeholder="John Doe" 
+                            placeholder="Enter your full name" 
                             value={name} 
                             onChange={(e) => setName(e.target.value)} 
                             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-slate-800 placeholder-slate-400 outline-none focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/10 transition-all"
@@ -69,7 +69,7 @@ const Register = () => {
                         </label>
                         <input 
                             type="email" 
-                            placeholder="name@example.com" 
+                            placeholder="Enter your email address" 
                             value={email} 
                             onChange={(e) => setEmail(e.target.value)} 
                             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-slate-800 placeholder-slate-400 outline-none focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/10 transition-all"
@@ -84,7 +84,7 @@ const Register = () => {
                         </label>
                         <input 
                             type="password" 
-                            placeholder="Min. 8 characters" 
+                            placeholder="Min. 6 characters" 
                             value={password} 
                             onChange={(e) => setPassword(e.target.value)} 
                             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base text-slate-800 placeholder-slate-400 outline-none focus:border-emerald-500 focus:bg-white focus:ring-2 focus:ring-emerald-500/10 transition-all"

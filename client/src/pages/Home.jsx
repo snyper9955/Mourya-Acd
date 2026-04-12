@@ -241,14 +241,14 @@ const Home = () => {
 
       {/* Compact Toppers Marquee Slide */}
       {toppers.length > 0 && (
-        <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 overflow-hidden">
-          <div className="flex items-center gap-4">
-            <div className="shrink-0 flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-amber-100 to-amber-50 border border-amber-200 rounded-full shadow-sm z-10 relative">
-              <Award className="w-4 h-4 text-amber-600 animate-pulse" />
-              <span className="text-xs font-bold text-amber-800 uppercase tracking-wider">Top Achievers</span>
+        <section className="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 mt-6 overflow-hidden">
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+            <div className="shrink-0 flex items-center gap-2 px-3 py-1.5 sm:py-2 bg-gradient-to-r from-amber-100 to-amber-50 border border-amber-200 rounded-full shadow-sm z-10 relative">
+              <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-600 animate-pulse" />
+              <span className="text-[10px] sm:text-xs font-bold text-amber-800 uppercase tracking-wider">Top Achievers</span>
             </div>
             
-            <div className="marquee-container flex-1">
+            <div className="marquee-container flex-1 w-full">
               <div className="marquee-content">
                 {[...toppers, ...toppers, ...toppers, ...toppers].map((topper, idx) => (
                   <Link 
@@ -367,7 +367,7 @@ const Home = () => {
               />
             </svg>
           </span>{" "}
-          Achievers.
+          Teachers.
         </h1>
       
         

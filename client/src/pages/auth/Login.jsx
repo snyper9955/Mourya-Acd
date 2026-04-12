@@ -23,7 +23,7 @@ const Login = () => {
         setIsLoading(true);
         try {
             await googleLoginByToken(token);
-            navigate('/dashboard');
+            navigate('/');
         } catch (error) {
             alert('Google login failed. Please try again.');
             navigate('/login');
@@ -43,7 +43,7 @@ const Login = () => {
         setIsLoading(true);
         try {
             await login(email, password);
-            navigate('/dashboard');
+            navigate('/');
         } catch (error) {
             alert(error.response?.data?.message || 'Login failed');
         } finally {
