@@ -50,9 +50,13 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = async () => {
-        await axios.post('/api/auth/logout');
         setUser(null);
         localStorage.removeItem('userInfo');
+        try {
+            await axios.post('/api/auth/logout');
+        } catch (error) {
+            console.error("Logout request failed, but local session is cleared.", error);
+        }
     };
 
     return (
