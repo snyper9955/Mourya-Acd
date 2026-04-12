@@ -11,7 +11,7 @@ export const ApiProvider = ({ children }) => {
 
     const api = useMemo(() => {
         const instance = axios.create({
-            baseURL: import.meta.env.VITE_API_URL || '',
+            baseURL: (import.meta.env.VITE_API_URL || '').replace(/\/+$/, ''),
         });
 
         // Add a request interceptor

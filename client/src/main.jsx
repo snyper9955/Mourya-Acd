@@ -5,7 +5,7 @@ import App from './App.jsx'
 import axios from 'axios'
 
 // Configure global API base URL
-axios.defaults.baseURL = import.meta.env.VITE_API_URL || '';
+axios.defaults.baseURL = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

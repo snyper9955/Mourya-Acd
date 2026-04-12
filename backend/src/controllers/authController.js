@@ -201,7 +201,7 @@ exports.googleCallback = async (req, res) => {
 
         // Redirect to frontend with token
         // The frontend should have a route to handle this and save the token
-        const frontendURL = process.env.FRONTEND_URL || 'http://localhost:5173';
+        const frontendURL = (process.env.FRONTEND_URL || 'http://localhost:5173').replace(/\/+$/, '');
         res.redirect(`${frontendURL}/login?token=${token}`);
     } catch (error) {
         console.error('Google Callback Error:', error);

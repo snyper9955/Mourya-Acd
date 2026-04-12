@@ -94,7 +94,8 @@ const Register = () => {
                     <button 
                         type="button"
                         onClick={() => {
-                            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+                            let apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+                            apiUrl = apiUrl.replace(/\/+$/, '');
                             window.location.href = `${apiUrl}/api/auth/google`;
                         }}
                         className="w-full bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold py-4 rounded-2xl shadow-sm transform active:scale-[0.98] transition-all flex items-center justify-center gap-3 group"
