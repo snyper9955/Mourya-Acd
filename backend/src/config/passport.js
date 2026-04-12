@@ -12,7 +12,12 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       const { id, displayName, emails } = profile;
-      const email = emails[0].value;
+      const email = emails && emails.length > 0 ? emails[0].value : null;
+
+      if (!email) {
+          console.error("Google Auth Error: No email returned from Google profile.");
+          return done(new Error("No email found from Google profile"), null);
+      }
 
       try {
         let user = await User.findOne({ googleId: id });
