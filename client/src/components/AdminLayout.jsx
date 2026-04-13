@@ -15,7 +15,8 @@ import {
   Award,
   UserCircle,
   Globe,
-  Home
+  Home,
+  ArrowLeft
 } from 'lucide-react';
 
 const AdminLayout = ({ children }) => {
@@ -106,6 +107,9 @@ const AdminLayout = ({ children }) => {
             {/* Mobile Header */}
             <header className="fixed top-0 left-0 right-0 h-20 bg-white/80 backdrop-blur-xl border-b border-slate-200/60 flex items-center justify-between px-6 z-50 lg:hidden">
                 <div className="flex items-center gap-3">
+                    <Link to="/" className="p-2 hover:bg-slate-100 rounded-xl transition-colors shrink-0 -ml-2">
+                        <ArrowLeft className="w-5 h-5 text-slate-600" />
+                    </Link>
                     <div className="w-9 h-9 bg-linear-to-br from-emerald-600 to-teal-700 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/10">
                     <Link to="/">
                         <BookOpen className="text-white w-4.5 h-4.5" />
@@ -191,6 +195,9 @@ const AdminLayout = ({ children }) => {
                 {/* Desktop Top Bar */}
                 <div className="hidden lg:flex items-center justify-between h-20 px-10 bg-white/50 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-30">
                     <div className="flex items-center gap-2 text-slate-400 text-xs font-bold uppercase tracking-widest">
+                        <Link to="/" className="p-1.5 hover:bg-slate-100 rounded-lg transition-colors mr-1 shrink-0" title="Back to Home">
+                            <ArrowLeft className="w-4 h-4 text-slate-600" />
+                        </Link>
                         <span>Admin</span>
                         <ChevronRight className="w-3 h-3" />
                         <span className="text-slate-900">{menuItems.find(i => isActive(i.path))?.name || 'Dashboard'}</span>

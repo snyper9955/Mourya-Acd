@@ -357,24 +357,48 @@ const Students = () => {
                     </div>
 
                     <div className="w-full space-y-4 pt-8 border-t border-slate-50">
-                        <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl group transition-all hover:bg-white hover:shadow-lg hover:shadow-slate-100 border border-transparent hover:border-slate-100">
-                            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-slate-400 group-hover:text-emerald-600 transition-colors shadow-sm">
-                                <Phone className="w-4 h-4" />
+                        {currentStudent?.phone ? (
+                            <a href={`tel:${currentStudent.phone}`} className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl group transition-all hover:bg-white hover:shadow-lg hover:shadow-slate-100 border border-transparent hover:border-slate-100 cursor-pointer">
+                                <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-slate-400 group-hover:text-emerald-600 transition-colors shadow-sm">
+                                    <Phone className="w-4 h-4" />
+                                </div>
+                                <div className="text-left">
+                                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Phone Number</p>
+                                    <p className="text-sm font-bold text-slate-900">{currentStudent.phone}</p>
+                                </div>
+                            </a>
+                        ) : (
+                            <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl group transition-all hover:bg-white hover:shadow-lg hover:shadow-slate-100 border border-transparent hover:border-slate-100">
+                                <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-slate-400 group-hover:text-emerald-600 transition-colors shadow-sm">
+                                    <Phone className="w-4 h-4" />
+                                </div>
+                                <div className="text-left">
+                                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Phone Number</p>
+                                    <p className="text-sm font-bold text-slate-900">Not Provided</p>
+                                </div>
                             </div>
-                            <div className="text-left">
-                                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Phone Number</p>
-                                <p className="text-sm font-bold text-slate-900">{currentStudent?.phone}</p>
+                        )}
+                        {currentStudent?.email ? (
+                            <a href={`mailto:${currentStudent.email}`} className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl group transition-all hover:bg-white hover:shadow-lg hover:shadow-slate-100 border border-transparent hover:border-slate-100 cursor-pointer">
+                                <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-slate-400 group-hover:text-emerald-600 transition-colors shadow-sm">
+                                    <Mail className="w-4 h-4" />
+                                </div>
+                                <div className="text-left">
+                                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Email Address</p>
+                                    <p className="text-sm font-bold text-slate-900 truncate max-w-[150px]">{currentStudent.email}</p>
+                                </div>
+                            </a>
+                        ) : (
+                            <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl group transition-all hover:bg-white hover:shadow-lg hover:shadow-slate-100 border border-transparent hover:border-slate-100">
+                                <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-slate-400 group-hover:text-emerald-600 transition-colors shadow-sm">
+                                    <Mail className="w-4 h-4" />
+                                </div>
+                                <div className="text-left">
+                                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Email Address</p>
+                                    <p className="text-sm font-bold text-slate-900 truncate max-w-[150px]">Not Provided</p>
+                                </div>
                             </div>
-                        </div>
-                        <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl group transition-all hover:bg-white hover:shadow-lg hover:shadow-slate-100 border border-transparent hover:border-slate-100">
-                            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-slate-400 group-hover:text-emerald-600 transition-colors shadow-sm">
-                                <Mail className="w-4 h-4" />
-                            </div>
-                            <div className="text-left">
-                                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Email Address</p>
-                                <p className="text-sm font-bold text-slate-900 truncate max-w-[150px]">{currentStudent?.email || 'Not Provided'}</p>
-                            </div>
-                        </div>
+                        )}
                     </div>
                 </div>
 

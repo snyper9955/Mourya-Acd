@@ -123,7 +123,7 @@ const Header = () => {
                   <div className="h-9 w-px bg-slate-200 mx-2" />
                 
                     <Link to={ user.role === 'admin' ? "/admin" : "/dashboard"}>
-                      <User className="w-5 h-5" />
+                      <User className="w-8 h-8 bg-neutral-500 text-white rounded-full p-2" />
                     </Link>
                  
                 </div>
@@ -258,7 +258,7 @@ const Header = () => {
                 className="w-full group flex items-center justify-between gap-2 bg-linear-to-r from-slate-800 to-slate-700 text-white font-medium py-4 px-5 rounded-xl shadow-lg active:scale-95 transition-all duration-300 hover:from-slate-700 hover:to-slate-600"
               >
                 <span className="flex items-center gap-3">
-                  <LayoutDashboard className="w-5 h-5" />
+                  <User className="w-5 h-5" />
                   <span>Dashboard</span>
                 </span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />

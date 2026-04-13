@@ -3,8 +3,8 @@ import { useApi } from "../context/ApiContext";
 import {
   BookOpen,
   Award,
-  Bell,
   ArrowRight,
+  Bell,
   Star,
   Users,
   Clock,
@@ -139,7 +139,75 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-800 mt-25">
+      {toppers.length > 0 && (
+        <section className="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 mt-6 overflow-hidden mb-6">
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
+            <div className="shrink-0 flex items-center gap-2 px-3 py-1.5 sm:py-2 bg-gradient-to-r from-amber-100 to-amber-50 border border-amber-200 rounded-full shadow-sm z-10 relative">
+              <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-600 animate-pulse" />
+              <span className="text-[10px] sm:text-xs font-bold text-amber-800 uppercase tracking-wider">Top Achievers</span>
+            </div>
+            
+            <div className="marquee-container flex-1 w-full">
+              <div className="marquee-content">
+                {[...toppers, ...toppers, ...toppers, ...toppers].map((topper, idx) => (
+                  <Link 
+                    to="/toppers" 
+                    key={`${topper._id}-${idx}`} 
+                    className="shrink-0 flex items-center gap-3 bg-white border border-gray-100 rounded-full p-1.5 pr-5 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] hover:shadow-md hover:border-amber-200 transition-all cursor-pointer group"
+                  >
+                    <div className="w-9 h-9 rounded-full bg-gray-50 overflow-hidden shrink-0 border border-amber-200 shadow-inner">
+                      {topper.image ? (
+                        <img src={topper.image} alt={topper.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center font-bold text-sm text-gray-400 bg-gray-100">{topper.name.charAt(0)}</div>
+                      )}
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-gray-800 leading-none group-hover:text-amber-600 transition-colors">{topper.name}</h4>
+                      <div className="flex items-center gap-1 mt-1">
+                        <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
+                        <span className="text-[11px] font-medium text-gray-500">Rank {topper.rank}</span>
+                        {topper.course && (
+                           <>
+                             <span className="w-1 h-1 rounded-full bg-gray-300 mx-0.5"></span>
+                             <span className="text-[10px] text-gray-400 truncate max-w-[100px]">{topper.course}</span>
+                           </>
+                        )}
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <style dangerouslySetInnerHTML={{__html: `
+            .marquee-container {
+                display: flex;
+                overflow: hidden;
+                white-space: nowrap;
+                width: 100%;
+                mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
+                -webkit-mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
+            }
+            .marquee-content {
+                display: flex;
+                gap: 1.5rem;
+                animation: scrollMarquee 40s linear infinite;
+            }
+            .marquee-content:hover {
+                animation-play-state: paused;
+            }
+            @keyframes scrollMarquee {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
+            }
+          `}} />
+        </section>
+      )}
       {/* Hero Carousel Section - Pixabay Style */}
+      <div className="text-center text-2xl font-extrabold">Our Courses</div>
+      <h1 className="text-center text-md text-neutral-700 mb-4 font-semibold">going on </h1>
      <section className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
   <div className="relative rounded-xl overflow-hidden bg-gray-900 min-h-[180px] sm:min-h-[320px] md:min-h-[320px] lg:min-h-[320px]">
 
@@ -239,73 +307,55 @@ const Home = () => {
   </div>
 </section>
 
-      {/* Compact Toppers Marquee Slide */}
-      {toppers.length > 0 && (
+      {notices.length > 0 && (
         <section className="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 mt-6 overflow-hidden">
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
-            <div className="shrink-0 flex items-center gap-2 px-3 py-1.5 sm:py-2 bg-gradient-to-r from-amber-100 to-amber-50 border border-amber-200 rounded-full shadow-sm z-10 relative">
-              <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-600 animate-pulse" />
-              <span className="text-[10px] sm:text-xs font-bold text-amber-800 uppercase tracking-wider">Top Achievers</span>
+            <div className="shrink-0 flex items-center gap-2 px-3 py-1.5 sm:py-2 bg-gradient-to-r from-blue-100 to-blue-50 border border-blue-200 rounded-full shadow-sm z-10 relative">
+              <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600 animate-pulse" />
+              <span className="text-[10px] sm:text-xs font-bold text-blue-800 uppercase tracking-wider">Latest Notices</span>
             </div>
             
             <div className="marquee-container flex-1 w-full">
-              <div className="marquee-content">
-                {[...toppers, ...toppers, ...toppers, ...toppers].map((topper, idx) => (
+              <div className="marquee-content" style={{ animationDuration: '35s' }}>
+                {[...notices, ...notices, ...notices, ...notices].map((notice, idx) => (
                   <Link 
-                    to="/toppers" 
-                    key={`${topper._id}-${idx}`} 
-                    className="shrink-0 flex items-center gap-3 bg-white border border-gray-100 rounded-full p-1.5 pr-5 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] hover:shadow-md hover:border-amber-200 transition-all cursor-pointer group"
+                    to="/notices" 
+                    key={`${notice._id}-${idx}`} 
+                    className="shrink-0 flex items-center gap-3 bg-white border border-gray-100 rounded-full p-1.5 pr-5 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] hover:shadow-md hover:border-blue-200 transition-all cursor-pointer group"
                   >
-                    <div className="w-9 h-9 rounded-full bg-gray-50 overflow-hidden shrink-0 border border-amber-200 shadow-inner">
-                      {topper.image ? (
-                        <img src={topper.image} alt={topper.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center font-bold text-sm text-gray-400 bg-gray-100">{topper.name.charAt(0)}</div>
-                      )}
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-gray-800 leading-none group-hover:text-amber-600 transition-colors">{topper.name}</h4>
-                      <div className="flex items-center gap-1 mt-1">
-                        <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
-                        <span className="text-[11px] font-medium text-gray-500">Rank {topper.rank}</span>
-                        {topper.course && (
-                           <>
-                             <span className="w-1 h-1 rounded-full bg-gray-300 mx-0.5"></span>
-                             <span className="text-[10px] text-gray-400 truncate max-w-[100px]">{topper.course}</span>
-                           </>
-                        )}
-                      </div>
-                    </div>
+                    <span
+                      className={`text-[10px] font-bold px-2.5 py-1 rounded-full shrink-0 ${
+                        notice.category === "Urgent"
+                          ? "bg-red-50 text-red-600 border border-red-100"
+                          : notice.category === "Event"
+                          ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
+                          : "bg-blue-50 text-blue-600 border border-blue-100"
+                      }`}
+                    >
+                      {notice.category || "Notice"}
+                    </span>
+                    <h4 className="text-sm font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">{notice.content}</h4>
+                    {notice.createdAt && (
+                       <div className="flex items-center gap-1 shrink-0">
+                         <span className="w-1 h-1 rounded-full bg-gray-300 mx-1"></span>
+                         <span className="text-[11px] font-medium text-gray-500">
+                            {new Date(notice.createdAt).toLocaleDateString("en-IN", {
+                               day: "numeric",
+                               month: "short",
+                            })}
+                         </span>
+                       </div>
+                    )}
                   </Link>
                 ))}
               </div>
             </div>
           </div>
-          
-          <style dangerouslySetInnerHTML={{__html: `
-            .marquee-container {
-                display: flex;
-                overflow: hidden;
-                white-space: nowrap;
-                width: 100%;
-                mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
-                -webkit-mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
-            }
-            .marquee-content {
-                display: flex;
-                gap: 1.5rem;
-                animation: scrollMarquee 40s linear infinite;
-            }
-            .marquee-content:hover {
-                animation-play-state: paused;
-            }
-            @keyframes scrollMarquee {
-                0% { transform: translateX(0); }
-                100% { transform: translateX(-50%); }
-            }
-          `}} />
         </section>
       )}
+
+      {/* Compact Toppers Marquee Slide */}
+      
      <section className="relative w-full bg-white overflow-hidden">
   <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-100/20 rounded-full blur-3xl -mr-48 -mt-48" />
 

@@ -98,12 +98,7 @@ const Profile = () => {
 
     const memberSince = user?.createdAt ? new Date(user.createdAt).getFullYear() : new Date().getFullYear();
 
-    const stats = [
-        { icon: BookOpen, label: 'Courses', value: user?.enrolledCourses?.length || 0, color: 'emerald' },
-        { icon: Clock, label: 'Hours', value: '24', color: 'blue' },
-        { icon: Award, label: 'Certificates', value: '3', color: 'purple' },
-        { icon: TrendingUp, label: 'Completion', value: '85%', color: 'orange' }
-    ];
+    
 
     return (
         <div className="min-h-screen bg-gray-50 pt-20 pb-8 px-4">
@@ -128,16 +123,7 @@ const Profile = () => {
                     </button>
                 </div>
 
-                {/* Stats Row - Compact */}
-                <div className="grid grid-cols-4 gap-3 mb-6">
-                    {stats.map((stat, idx) => (
-                        <div key={idx} className="bg-white rounded-xl p-3 text-center shadow-sm border border-gray-100">
-                            <stat.icon className={`w-5 h-5 text-${stat.color}-500 mx-auto mb-1`} />
-                            <p className="text-xl font-bold text-gray-900">{stat.value}</p>
-                            <p className="text-xs text-gray-500">{stat.label}</p>
-                        </div>
-                    ))}
-                </div>
+           
 
                 <div className="grid md:grid-cols-2 gap-6">
                     {/* Profile Card */}
