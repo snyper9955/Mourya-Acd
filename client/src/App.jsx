@@ -38,14 +38,25 @@ const StudentDashboard = lazy(() => import('./pages/student/StudentDashboard'));
 const CourseContent = lazy(() => import('./pages/student/CourseContent'));
 
 const LoadingSpinner = () => (
-  <div className="flex items-center justify-center min-h-[400px] bg-transparent">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-900"></div>
+  <div className="flex flex-col items-center justify-center min-h-[400px] animate-in fade-in duration-700">
+    <div className="relative">
+      <div className="h-16 w-16 rounded-full border-4 border-slate-100"></div>
+      <div className="absolute top-0 left-0 h-16 w-16 rounded-full border-4 border-emerald-500 border-t-transparent animate-spin"></div>
+    </div>
+    <p className="mt-4 text-slate-500 font-medium animate-pulse text-sm">Preparing everything...</p>
   </div>
 );
 
 const FullPageLoading = () => (
-  <div className="flex items-center justify-center min-h-screen bg-slate-50">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-900"></div>
+  <div className="flex flex-col items-center justify-center min-h-screen bg-slate-50 animate-in fade-in duration-500">
+    <div className="relative">
+      <div className="h-20 w-20 rounded-full border-4 border-white shadow-sm"></div>
+      <div className="absolute top-0 left-0 h-20 w-20 rounded-full border-4 border-emerald-600 border-t-transparent animate-spin"></div>
+    </div>
+    <div className="mt-6 flex flex-col items-center gap-1">
+      <span className="text-xl font-bold text-slate-900 tracking-tight">EduManage</span>
+      <span className="text-xs text-slate-400 font-semibold tracking-widest uppercase">Initializing Portal</span>
+    </div>
   </div>
 );
 

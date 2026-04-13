@@ -36,7 +36,9 @@ const Home = () => {
   const [notices, setNotices] = useState([]);
   const [toppers, setToppers] = useState([]);
   const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loadingCourses, setLoadingCourses] = useState(true);
+  const [loadingNotices, setLoadingNotices] = useState(true);
+  const [loadingToppers, setLoadingToppers] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
@@ -44,23 +46,42 @@ const Home = () => {
   const featuredCourses = courses.filter(c => !c.isFinished).slice(0, 5);
 
   useEffect(() => {
-    const fetchPublicData = async () => {
+    const fetchNotices = async () => {
       try {
-        const [noticesRes, toppersRes, coursesRes] = await Promise.all([
-          api.get("/api/notices"),
-          api.get("/api/toppers"),
-          api.get("/api/courses"),
-        ]);
-        setNotices(noticesRes.data.data);
-        setToppers(toppersRes.data.data);
-        setCourses(coursesRes.data.data);
+        const res = await api.get("/api/notices");
+        setNotices(res.data.data);
       } catch (err) {
-        console.error("Error fetching public data:", err);
+        console.error("Error fetching notices:", err);
       } finally {
-        setLoading(false);
+        setLoadingNotices(false);
       }
     };
-    fetchPublicData();
+
+    const fetchToppers = async () => {
+      try {
+        const res = await api.get("/api/toppers");
+        setToppers(res.data.data);
+      } catch (err) {
+        console.error("Error fetching toppers:", err);
+      } finally {
+        setLoadingToppers(false);
+      }
+    };
+
+    const fetchCourses = async () => {
+      try {
+        const res = await api.get("/api/courses");
+        setCourses(res.data.data);
+      } catch (err) {
+        console.error("Error fetching courses:", err);
+      } finally {
+        setLoadingCourses(false);
+      }
+    };
+
+    fetchNotices();
+    fetchToppers();
+    fetchCourses();
   }, [api]);
 
   // Auto-play carousel
@@ -138,8 +159,12 @@ const Home = () => {
     },
   ];
 
+  const Skeleton = ({ className }) => (
+    <div className={`animate-pulse bg-slate-200 rounded-lg ${className}`}></div>
+  );
+
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-800 mt-25">
+    <div className="min-h-screen bg-white font-sans text-gray-800 mt-20">
       {toppers.length > 0 && (
         <section className="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 mt-6 overflow-hidden mb-6">
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
@@ -208,104 +233,110 @@ const Home = () => {
       )}
       {/* Hero Carousel Section - Pixabay Style */}
       <div className="text-center text-2xl font-extrabold">Our Courses</div>
-     <section className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
-  <div className="relative rounded-xl overflow-hidden bg-gray-900 min-h-[180px] sm:min-h-[320px] md:min-h-[320px] lg:min-h-[320px]">
+      <section className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <div className="relative rounded-xl overflow-hidden bg-gray-900 min-h-[180px] sm:min-h-[320px] md:min-h-[320px] lg:min-h-[320px]">
+          {featuredCourses.length > 0 ? (
+            featuredCourses.map((course, index) => (
+              <div
+                key={course._id}
+                className={`absolute inset-0 transition-opacity duration-700 ${
+                  index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
+                }`}
+              >
+                <Link
+                  to={`/course/${course._id}`}
+                  className="absolute inset-0 cursor-pointer group"
+                >
+                  {/* Background Image */}
+                  {course.image ? (
+                    <img
+                      src={course.image}
+                      alt={course.title}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-700 to-emerald-900 flex items-center justify-center">
+                      <BookOpen className="w-20 h-20 text-white/20" />
+                    </div>
+                  )}
 
-    {featuredCourses.length > 0 ? (
-      featuredCourses.map((course, index) => (
-        <div
-          key={course._id}
-          className={`absolute inset-0 transition-opacity duration-700 ${
-            index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
-          }`}
-        >
-          <Link
-            to={`/course/${course._id}`}
-            className="absolute inset-0 cursor-pointer group"
-          >
-            {/* Background Image */}
-            {course.image ? (
-              <img
-                src={course.image}
-                alt={course.title}
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            ) : (
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-700 to-emerald-900 flex items-center justify-center">
-                <BookOpen className="w-20 h-20 text-white/20" />
+                  {/* Dark Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/50 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/80 opacity-10 via-black/50 to-transparent" />
+
+                  {/* Content */}
+                  <div className="relative z-20 h-full flex flex-col items-end justify-end p-6 sm:p-10 md:p-14 text-right">
+                    <div className="max-w-2xl text-white">
+                      <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-3 leading-tight tracking-tight drop-shadow-md">
+                        {course.title}
+                      </h2>
+
+                      <h3 className="text-sm sm:text-xl md:text-2xl lg:text-3xl font-medium text-white/90 mb-6 drop-shadow-sm">
+                        {course.duration}
+                      </h3>
+
+                      <div className="inline-block font-medium bg-emerald-600 hover:bg-emerald-700 px-8 py-3 rounded-full text-sm sm:text-lg font-bold transition-all duration-300 shadow-xl hover:scale-105 active:scale-95">
+                        View Details
+                      </div>
+                    </div>
+                  </div>
+                </Link>
               </div>
-            )}
-
-            {/* Dark Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/50 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 opacity-10 via-black/50 to-transparent" />
-
-            {/* Content */}
-            <div className="relative z-20 h-full flex flex-col items-end justify-end p-6 sm:p-10 md:p-14 text-right">
-              <div className="max-w-2xl text-white">
-                <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-3 leading-tight tracking-tight drop-shadow-md">
-                  {course.title}
-                </h2>
-
-                <h3 className="text-sm sm:text-xl md:text-2xl lg:text-3xl font-medium text-white/90 mb-6 drop-shadow-sm">
-                  {course.duration}
-                </h3>
-
-                <div className="inline-block font-medium bg-emerald-600 hover:bg-emerald-700 px-8 py-3 rounded-full text-sm sm:text-lg font-bold transition-all duration-300 shadow-xl hover:scale-105 active:scale-95">
-                  View Details
-                </div>
+            ))
+          ) : loadingCourses ? (
+            <div className="absolute inset-0 bg-slate-100 flex items-center justify-center">
+              <div className="w-full h-full flex flex-col items-center justify-center gap-4 px-10">
+                <Skeleton className="h-12 w-3/4 max-w-lg mb-4" />
+                <Skeleton className="h-6 w-1/2 max-w-sm mb-8" />
+                <Skeleton className="h-12 w-40 rounded-full" />
               </div>
             </div>
-          </Link>
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-700 to-blue-800 flex items-center justify-center">
+              <div className="text-center text-white px-4">
+                <BookOpen className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                <h2 className="text-2xl sm:text-3xl font-bold mb-2">Learn from the Best</h2>
+                <p className="text-sm sm:text-lg opacity-80">Discover our amazing courses</p>
+              </div>
+            </div>
+          )}
+
+          {/* Navigation Arrows */}
+          {featuredCourses.length > 1 && (
+            <>
+              <button
+                onClick={prevSlide}
+                className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 backdrop-blur transition"
+              >
+                <ChevronLeftIcon className="w-5 h-5" />
+              </button>
+              <button
+                onClick={nextSlide}
+                className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 backdrop-blur transition"
+              >
+                <ChevronRightIcon className="w-5 h-5" />
+              </button>
+            </>
+          )}
+
+          {/* Indicators */}
+          {featuredCourses.length > 1 && (
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex gap-2">
+              {featuredCourses.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  className={`transition-all rounded-full ${
+                    index === currentSlide
+                      ? "w-8 h-2 bg-white"
+                      : "w-2 h-2 bg-white/50"
+                  }`}
+                />
+              ))}
+            </div>
+          )}
         </div>
-      ))
-    ) : (
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-700 to-blue-800 flex items-center justify-center">
-        <div className="text-center text-white px-4">
-          <BookOpen className="w-16 h-16 mx-auto mb-4 opacity-50" />
-          <h2 className="text-2xl sm:text-3xl font-bold mb-2">Learn from the Best</h2>
-          <p className="text-sm sm:text-lg opacity-80">Discover our amazing courses</p>
-        </div>
-      </div>
-    )}
-
-    {/* Navigation Arrows */}
-    {featuredCourses.length > 1 && (
-      <>
-        <button
-          onClick={prevSlide}
-          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 backdrop-blur transition"
-        >
-          <ChevronLeftIcon className="w-5 h-5" />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 backdrop-blur transition"
-        >
-          <ChevronRightIcon className="w-5 h-5" />
-        </button>
-      </>
-    )}
-
-    {/* Indicators */}
-    {featuredCourses.length > 1 && (
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex gap-2">
-        {featuredCourses.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`transition-all rounded-full ${
-              index === currentSlide
-                ? "w-8 h-2 bg-white"
-                : "w-2 h-2 bg-white/50"
-            }`}
-          />
-        ))}
-      </div>
-    )}
-
-  </div>
-</section>
+      </section>
 
       {notices.length > 0 && (
         <section className="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 mt-6 overflow-hidden">
@@ -355,95 +386,82 @@ const Home = () => {
       )}
 
       {/* Compact Toppers Marquee Slide */}
-      
-     <section className="relative w-full bg-white overflow-hidden">
-  <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-100/20 rounded-full blur-3xl -mr-48 -mt-48" />
+      <section className="relative w-full bg-white overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-100/20 rounded-full blur-3xl -mr-48 -mt-48" />
 
-  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-    
-    <div className="grid md:grid-cols-2 gap-10 items-center">
-      
-      
-      {/* LEFT SIDE - TEXT */}
-      <div className="text-center md:text-left">
-          <div className="flex flex-col sm:flex-row gap-4">
-          <button
-            onClick={() => navigate("/courses")}
-            className="bg-neutral-900 text-white px-8 py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2  transition-all shadow-sm hover:shadow-md"
-          >
-            Explore Courses <ArrowRight className="w-4 h-4" />
-          </button>
-         
-          
-          <Link
-          to="tel:+919835958271"
-            className="bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-emerald-700 transition-all shadow-sm hover:shadow-md"
-          >
-          <Phone className="w-4 h-4" />  call us 
-          </Link>
-         
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+          <div className="grid md:grid-cols-2 gap-10 items-center">
+            {/* LEFT SIDE - TEXT */}
+            <div className="text-center md:text-left">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button
+                  onClick={() => navigate("/courses")}
+                  className="bg-neutral-900 text-white px-8 py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md"
+                >
+                  Explore Courses <ArrowRight className="w-4 h-4" />
+                </button>
+                
+                <Link
+                  to="tel:+919835958271"
+                  className="bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-emerald-700 transition-all shadow-sm hover:shadow-md"
+                >
+                  <Phone className="w-4 h-4" /> call us 
+                </Link>
 
-          {!user && (
-            <button
-              onClick={() => navigate("/register")}
-              className="bg-white text-gray-700 px-8 py-3.5 rounded-xl font-semibold border border-gray-200 hover:bg-gray-50 transition-all"
-            >
-              Get Started Free
-            </button>
-          )}
-        </div>
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 rounded-full border border-emerald-100 mt-6">
-          <Sparkles className="w-4 h-4 text-emerald-600" />
-          <span className="text-sm font-semibold text-emerald-700">
-            India's Leading Learning Platform
-          </span>
-        </div>
+                {!user && (
+                  <button
+                    onClick={() => navigate("/register")}
+                    className="bg-white text-gray-700 px-8 py-3.5 rounded-xl font-semibold border border-gray-200 hover:bg-gray-50 transition-all"
+                  >
+                    Get Started Free
+                  </button>
+                )}
+              </div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 rounded-full border border-emerald-100 mt-6">
+                <Sparkles className="w-4 h-4 text-emerald-600" />
+                <span className="text-sm font-semibold text-emerald-700">
+                  India's Leading Learning Platform
+                </span>
+              </div>
 
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 leading-tight mb-6">
-          Learn from the{" "}
-          <span className="text-emerald-600 relative inline-block">
-            Best
-            <svg
-              className="absolute -bottom-2 left-0 w-full h-2 text-emerald-600/30"
-              viewBox="0 0 100 8"
-              preserveAspectRatio="none"
-            >
-              <path
-                d="M0 4 Q 25 0, 50 4 T 100 4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="3"
-                strokeLinecap="round"
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 leading-tight mb-6">
+                Learn from the{" "}
+                <span className="text-emerald-600 relative inline-block">
+                  Best
+                  <svg
+                    className="absolute -bottom-2 left-0 w-full h-2 text-emerald-600/30"
+                    viewBox="0 0 100 8"
+                    preserveAspectRatio="none"
+                  >
+                    <path
+                      d="M0 4 Q 25 0, 50 4 T 100 4"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </span>{" "}
+                Teachers.
+              </h1>
+
+              <p className="text-lg sm:text-xl text-gray-600 max-w-xl mb-8 leading-relaxed ">
+                Join 10,000+ successful students mastering technology,
+                management, and more with our industry-leading mentors.
+              </p>
+            </div>
+
+            {/* RIGHT SIDE - IMAGE */}
+            <div className="flex justify-center md:justify-end">
+              <img
+                className="w-72 md:w-96 lg:w-[420px] drop-shadow-xl"
+                src="https://static.vecteezy.com/system/resources/previews/025/003/257/non_2x/3d-cute-cartoon-male-teacher-character-on-transparent-background-generative-ai-png.png"
+                alt="Teacher"
               />
-            </svg>
-          </span>{" "}
-          Teachers.
-        </h1>
-      
-        
-     
-
-        <p className="text-lg sm:text-xl text-gray-600 max-w-xl mb-8 leading-relaxed ">
-          Join 10,000+ successful students mastering technology,
-          management, and more with our industry-leading mentors.
-        </p>
-
-        
-      </div>
-      
-
-      {/* RIGHT SIDE - IMAGE */}
-      <div className="flex justify-center md:justify-end">
-        <img
-          className="w-72 md:w-96 lg:w-[420px] drop-shadow-xl"
-          src="https://static.vecteezy.com/system/resources/previews/025/003/257/non_2x/3d-cute-cartoon-male-teacher-character-on-transparent-background-generative-ai-png.png"
-          alt="Teacher"
-        />
-      </div>
-
-    </div>
-  </div>
-</section>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Stats Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
@@ -460,7 +478,7 @@ const Home = () => {
               <BookOpen className="w-5 h-5 text-blue-600" />
             </div>
             <p className="text-xl font-bold text-gray-900">10+</p>
-            <p className="text-xs text-gray-500">diffrent courses</p>
+            <p className="text-xs text-gray-500">different courses</p>
           </div>
           <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 text-center">
             <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center mx-auto mb-2">
@@ -521,10 +539,16 @@ const Home = () => {
               </div>
 
               <div className="flex-1 overflow-y-auto p-6 pt-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-200">
-                {loading ? (
-                  <div className="h-full flex flex-col items-center justify-center text-gray-400">
-                    <div className="w-8 h-8 border-3 border-gray-200 border-t-emerald-500 rounded-full animate-spin mb-3"></div>
-                    <p className="text-xs font-medium">Loading notices...</p>
+                {loadingNotices ? (
+                  <div className="space-y-4">
+                    {[1, 2, 3, 4].map((i) => (
+                      <div key={i} className="flex flex-col gap-2 p-4 rounded-xl border border-gray-50">
+                        <Skeleton className="h-3 w-16" />
+                        <Skeleton className="h-4 w-full" />
+                        <Skeleton className="h-3 w-3/4" />
+                        <Skeleton className="h-3 w-1/2" />
+                      </div>
+                    ))}
                   </div>
                 ) : notices.length > 0 ? (
                   notices.map((notice) => (
@@ -597,12 +621,24 @@ const Home = () => {
               </div>
 
               <div className="flex-1 overflow-y-auto p-6 pt-4">
-                <div className="grid grid-cols-1 gap-4">
-                  {(courses.filter(c => !c.isFinished).length > 0 ? courses.filter(c => !c.isFinished).slice(0, 4) : [1, 2, 3, 4]).map(
-                    (course, idx) => (
+                {loadingCourses ? (
+                  <div className="space-y-4">
+                    {[1, 2, 3, 4].map((i) => (
+                      <div key={i} className="flex gap-4 p-3 items-center">
+                        <Skeleton className="w-16 h-16 shrink-0 rounded-xl" />
+                        <div className="flex-1 space-y-2">
+                          <Skeleton className="h-4 w-3/4" />
+                          <Skeleton className="h-3 w-1/2" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 gap-4">
+                    {courses.filter(c => !c.isFinished).slice(0, 4).map((course) => (
                       <Link
-                        to={course._id ? `/course/${course._id}` : "/courses"}
-                        key={course._id || idx}
+                        to={`/course/${course._id}`}
+                        key={course._id}
                         className="group flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors"
                       >
                         <div className="w-16 h-16 rounded-xl bg-linear-to-br from-emerald-50 to-blue-50 flex items-center justify-center overflow-hidden shrink-0">
@@ -617,7 +653,7 @@ const Home = () => {
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-semibold text-gray-800 truncate ">
+                          <h4 className="font-semibold text-gray-800 truncate">
                             {course.title || "New Course"}
                           </h4>
                           <div className="flex items-center gap-3 mt-1">
@@ -631,9 +667,9 @@ const Home = () => {
                         </div>
                         <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-emerald-500 transition-colors" />
                       </Link>
-                    )
-                  )}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="p-4 pt-0">
@@ -665,10 +701,17 @@ const Home = () => {
               </div>
 
               <div className="flex-1 overflow-y-auto p-6 pt-4 space-y-3 scrollbar-thin scrollbar-thumb-white/10">
-                {loading ? (
-                  <div className="h-full flex flex-col items-center justify-center text-white/40">
-                    <div className="w-8 h-8 border-3 border-white/20 border-t-amber-400 rounded-full animate-spin mb-3"></div>
-                    <p className="text-xs font-medium">Loading toppers...</p>
+                {loadingToppers ? (
+                  <div className="space-y-4">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <div key={i} className="flex items-center gap-4 p-3 rounded-xl bg-white/5">
+                        <Skeleton className="w-12 h-12 shrink-0 bg-white/10" />
+                        <div className="flex-1 space-y-2">
+                          <Skeleton className="h-4 w-3/4 bg-white/10" />
+                          <Skeleton className="h-3 w-1/2 bg-white/10" />
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 ) : toppers.length > 0 ? (
                   toppers.slice(0, 5).map((topper, index) => (
@@ -793,7 +836,7 @@ const Home = () => {
       </section>
 
       {/* Features Section */}
-   <section className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-gray-50 to-white">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 rounded-full mb-4">
@@ -874,8 +917,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
-      
     </div>
   );
 };
