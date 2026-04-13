@@ -207,7 +207,6 @@ const Home = () => {
       )}
       {/* Hero Carousel Section - Pixabay Style */}
       <div className="text-center text-2xl font-extrabold">Our Courses</div>
-      <h1 className="text-center text-md text-neutral-700 mb-4 font-semibold">going on </h1>
      <section className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
   <div className="relative rounded-xl overflow-hidden bg-gray-900 min-h-[180px] sm:min-h-[320px] md:min-h-[320px] lg:min-h-[320px]">
 
