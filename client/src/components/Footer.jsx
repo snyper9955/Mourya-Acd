@@ -20,124 +20,122 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-br from-gray-900 via-gray-900 to-gray-800 text-gray-300">
       {/* Main Footer Content */}
-      <div className="px-4 sm:px-6 lg:px-8 pt-12 pb-8">
+      <div className="px-4 sm:px-8 lg:px-12 pt-10 sm:pt-16 pb-6 sm:pb-8">
         <div className="max-w-7xl mx-auto">
           {/* Grid Layout - Responsive */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-10">
+          <div className="flex flex-col lg:grid lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 mb-8 sm:mb-12">
             
             {/* Brand Column */}
-            <div className="text-center sm:text-left">
-              <div className="flex items-center justify-center sm:justify-start gap-2 mb-4">
-                <div className="bg-emerald-500/20 p-2 rounded-xl">
-                  <GraduationCap className="w-6 h-6 text-emerald-400" />
+            <div className="flex flex-col text-left lg:col-span-1">
+              <div className="flex items-center justify-start gap-2 mb-3 sm:mb-4">
+                <div className="bg-emerald-500/20 p-2 sm:p-2.5 rounded-xl">
+                  <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400" />
                 </div>
-                <span className="font-bold text-xl text-white tracking-tight">
+                <span className="font-bold text-xl sm:text-2xl text-white tracking-tight">
                   EduManage
                 </span>
               </div>
-              <p className="text-sm text-gray-400 leading-relaxed mb-4">
+              <p className="text-xs sm:text-sm text-gray-400 leading-relaxed mb-4 sm:mb-6 max-w-sm">
                 Empowering students with world-class education and personalized guidance since 2010.
               </p>
-              <div className="flex items-center justify-center sm:justify-start gap-3">
+              <div className="flex items-center justify-start gap-2 sm:gap-3">
                 {[Facebook, Twitter, Linkedin, Instagram].map((Icon, idx) => (
                   <a
                     key={idx}
                     href="#"
-                    className="w-8 h-8 bg-gray-800 hover:bg-emerald-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
+                    className="w-8 h-8 sm:w-9 sm:h-9 bg-gray-800/80 border border-gray-700 hover:bg-emerald-500 hover:border-emerald-500 rounded-lg flex items-center justify-center transition-all duration-300 hover:-translate-y-1"
                   >
-                    <Icon className="w-4 h-4 text-gray-400 hover:text-white transition-colors" />
+                    <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 hover:text-white transition-colors" />
                   </a>
                 ))}
               </div>
             </div>
 
-            {/* Quick Links Column */}
-            <div className="text-center sm:text-left">
-              <h4 className="font-semibold text-white text-sm uppercase tracking-wider mb-4 relative inline-block">
-                Quick Links
-                <span className="absolute -bottom-1 left-0 w-8 h-0.5 bg-emerald-500 rounded-full hidden sm:block"></span>
-              </h4>
-              <ul className="space-y-2.5 text-sm">
-                {['About Us', 'Courses', 'Contact', 'Blog'].map((item, idx) => (
-                  <li key={idx}>
-                    <Link
-                      to={`/${item.toLowerCase().replace(' ', '')}`}
-                      className="group flex items-center justify-center sm:justify-start gap-1 hover:text-white transition-colors"
-                    >
-                      <ChevronRight className="w-3 h-3 text-emerald-500 opacity-0 group-hover:opacity-100 transition-all -translate-x-1 group-hover:translate-x-0" />
-                      <span>{item}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {/* Quick Links & Support Container for Mobile 2-cols */}
+            <div className="grid grid-cols-2 gap-6 lg:col-span-2 lg:grid-cols-2">
+              {/* Quick Links Column */}
+              <div className="text-left">
+                <h4 className="font-semibold text-white text-xs sm:text-sm uppercase tracking-wider mb-4 relative inline-block">
+                  Quick Links
+                  <span className="absolute -bottom-1.5 sm:-bottom-2 left-0 w-6 sm:w-8 h-0.5 bg-emerald-500 rounded-full"></span>
+                </h4>
+                <ul className="space-y-2 sm:space-y-3 text-xs sm:text-sm">
+                  {['About Us', 'Courses', 'Contact', 'Blog'].map((item, idx) => (
+                    <li key={idx}>
+                      <Link
+                        to={`/${item.toLowerCase().replace(' ', '')}`}
+                        className="group flex items-center justify-start gap-1 sm:gap-2 hover:text-emerald-400 transition-colors text-gray-400"
+                      >
+                        <ChevronRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-emerald-500 opacity-0 group-hover:opacity-100 transition-all -translate-x-1 sm:-translate-x-2 group-hover:translate-x-0" />
+                        <span>{item}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-            {/* Support Column */}
-            <div className="text-center sm:text-left">
-              <h4 className="font-semibold text-white text-sm uppercase tracking-wider mb-4 relative inline-block">
-                Support
-                <span className="absolute -bottom-1 left-0 w-8 h-0.5 bg-emerald-500 rounded-full hidden sm:block"></span>
-              </h4>
-              <ul className="space-y-2.5 text-sm">
-                {['FAQ', 'Privacy Policy', 'Terms of Service', 'Refund Policy'].map((item, idx) => (
-                  <li key={idx}>
-                    <Link
-                      to={`/${item.toLowerCase().replace(/ /g, '')}`}
-                      className="group flex items-center justify-center sm:justify-start gap-1 hover:text-white transition-colors"
-                    >
-                      <ChevronRight className="w-3 h-3 text-emerald-500 opacity-0 group-hover:opacity-100 transition-all -translate-x-1 group-hover:translate-x-0" />
-                      <span>{item}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              {/* Support Column */}
+              <div className="text-left">
+                <h4 className="font-semibold text-white text-xs sm:text-sm uppercase tracking-wider mb-4 relative inline-block">
+                  Support
+                  <span className="absolute -bottom-1.5 sm:-bottom-2 left-0 w-6 sm:w-8 h-0.5 bg-emerald-500 rounded-full"></span>
+                </h4>
+                <ul className="space-y-2 sm:space-y-3 text-xs sm:text-sm">
+                  {['FAQ', 'Privacy Policy', 'Terms of Service', 'Refund Policy'].map((item, idx) => (
+                    <li key={idx}>
+                      <Link
+                        to={`/${item.toLowerCase().replace(/ /g, '')}`}
+                        className="group flex items-center justify-start gap-1 sm:gap-2 hover:text-emerald-400 transition-colors text-gray-400"
+                      >
+                        <ChevronRight className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-emerald-500 opacity-0 group-hover:opacity-100 transition-all -translate-x-1 sm:-translate-x-2 group-hover:translate-x-0" />
+                        <span>{item}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
             {/* Contact & Newsletter Column */}
-            <div className="text-center sm:text-left">
-              <h4 className="font-semibold text-white text-sm uppercase tracking-wider mb-4 relative inline-block">
+            <div className="text-left lg:col-span-1">
+              <h4 className="font-semibold text-white text-xs sm:text-sm uppercase tracking-wider mb-4 relative inline-block">
                 Get In Touch
-                <span className="absolute -bottom-1 left-0 w-8 h-0.5 bg-emerald-500 rounded-full hidden sm:block"></span>
+                <span className="absolute -bottom-1.5 sm:-bottom-2 left-0 w-6 sm:w-8 h-0.5 bg-emerald-500 rounded-full"></span>
               </h4>
-              <ul className="space-y-3 text-sm mb-5">
-                <li className="flex items-center justify-center sm:justify-start gap-3">
-                  <div className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-4 h-4 text-emerald-400" />
+              <ul className="space-y-3 sm:space-y-4 text-xs sm:text-sm mb-6">
+                <li className="flex items-start justify-start gap-2 sm:gap-3">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-800/80 border border-gray-700 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Phone className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-400" />
                   </div>
-                  <span className="text-gray-300">+91 12345 67890</span>
+                  <span className="text-gray-300 sm:mt-1">+91 12345 67890</span>
                 </li>
-                <li className="flex items-center justify-center sm:justify-start gap-3">
-                  <div className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-4 h-4 text-emerald-400" />
+                <li className="flex items-start justify-start gap-2 sm:gap-3">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-800/80 border border-gray-700 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Mail className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-400" />
                   </div>
-                  <span className="text-gray-300 text-sm break-all">support@edumanage.com</span>
+                  <span className="text-gray-300 break-all sm:mt-1">support@edumanage.com</span>
                 </li>
-                <li className="flex items-center justify-center sm:justify-start gap-3">
-                  <div className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-4 h-4 text-emerald-400" />
+                <li className="flex items-start justify-start gap-2 sm:gap-3">
+                  <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-800/80 border border-gray-700 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-400" />
                   </div>
-                  <span className="text-gray-300">123 Education Hub, City</span>
-                </li>
-                <li className="flex items-center justify-center sm:justify-start gap-3">
-                  <div className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-4 h-4 text-emerald-400" />
-                  </div>
-                  <span className="text-gray-300">Mon-Fri: 9AM - 6PM</span>
+                  <span className="text-gray-300 leading-relaxed max-w-[200px]">123 Education Hub, City, State 123456</span>
                 </li>
               </ul>
 
               {/* Newsletter Subscription */}
               <div className="mt-4">
-                <p className="text-xs text-gray-400 mb-2">Subscribe to our newsletter</p>
-                <div className="flex flex-col sm:flex-row gap-2">
+                <p className="text-[10px] sm:text-xs text-gray-400 mb-2 sm:mb-3 font-medium uppercase tracking-wider">Subscribe</p>
+                <div className="flex flex-row sm:flex-col gap-2">
                   <input
                     type="email"
-                    placeholder="Your email"
-                    className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 transition-colors"
+                    placeholder="Email address"
+                    className="flex-1 px-3 py-2 sm:px-4 sm:py-3 bg-gray-800/80 border border-gray-700 rounded-lg sm:rounded-xl text-xs sm:text-sm text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors min-w-0"
                   />
-                  <button className="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-2 group">
-                    <span>Subscribe</span>
-                    <Send className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  <button className="px-3 py-2 sm:px-4 sm:py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 sm:gap-2 group shrink-0">
+                    <span className="hidden sm:inline">Subscribe Now</span>
+                    <span className="sm:hidden">Send</span>
+                    <Send className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                   </button>
                 </div>
               </div>
@@ -145,18 +143,22 @@ const Footer = () => {
           </div>
 
           {/* Bottom Bar */}
-          <div className="pt-8 border-t border-gray-800">
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-3 text-center">
-              <p className="text-xs text-gray-500 tracking-wider">
+          <div className="pt-6 sm:pt-8 border-t border-gray-800/80 flex flex-col items-center">
+            <div className="w-full flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4 text-center md:text-left">
+              <p className="text-[10px] sm:text-xs text-gray-500 tracking-wider">
                 © {currentYear} EduManage Coaching Hub • Built for Success
               </p>
-              <div className="flex gap-4 text-xs">
-                <Link to="/sitemap" className="text-gray-500 hover:text-gray-300 transition-colors">
+              <div className="flex flex-wrap justify-center gap-3 sm:gap-4 text-[10px] sm:text-xs">
+                <Link to="/sitemap" className="text-gray-500 hover:text-emerald-400 transition-colors">
                   Sitemap
                 </Link>
-                <span className="text-gray-700">|</span>
-                <Link to="/accessibility" className="text-gray-500 hover:text-gray-300 transition-colors">
+                <span className="text-gray-700 hidden sm:inline">|</span>
+                <Link to="/accessibility" className="text-gray-500 hover:text-emerald-400 transition-colors">
                   Accessibility
+                </Link>
+                <span className="text-gray-700 hidden sm:inline">|</span>
+                <Link to="/terms" className="text-gray-500 hover:text-emerald-400 transition-colors">
+                  Terms
                 </Link>
               </div>
             </div>
@@ -165,7 +167,7 @@ const Footer = () => {
       </div>
 
       {/* Decorative Top Border */}
-      <div className="h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-500"></div>
+      <div className="w-full h-1 sm:h-1.5 bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-500"></div>
     </footer>
   );
 };

@@ -10,7 +10,15 @@ import {
   Star, 
   ArrowRight,
   TrendingUp,
-  Image as ImageIcon
+  Image as ImageIcon,
+  X,
+  Crown,
+  Medal,
+  Trophy,
+  Sparkles,
+  Calendar,
+  MessageSquare,
+  ExternalLink
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -20,6 +28,8 @@ const Toppers = () => {
     const [loading, setLoading] = useState(true);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [selectedYear, setSelectedYear] = useState('all');
+    const [viewMode, setViewMode] = useState('grid');
 
     const [formData, setFormData] = useState({
         name: '',
@@ -48,11 +58,15 @@ const Toppers = () => {
 
     const handleAddTopper = async (e) => {
         e.preventDefault();
+        if (!formData.name || !formData.course || !formData.rank) {
+            toast.error('Please fill in all required fields');
+            return;
+        }
         try {
             await api.post('/api/toppers', formData);
-            toast.success('Topper added to the gallery');
+            toast.success('Topper added to the gallery! 🎉');
             setIsAddModalOpen(false);
-            setFormData({ name: '', course: '', rank: '', year: new Date().getFullYear().toString(), message: '', isFeatured: false });
+            setFormData({ name: '', course: '', rank: '', year: new Date().getFullYear().toString(), message: '', image: '', isFeatured: false });
             fetchToppers();
         } catch (error) {
             toast.error(error.response?.data?.message || 'Failed to add topper');
@@ -60,205 +74,474 @@ const Toppers = () => {
     };
 
     const handleDeleteTopper = async (id) => {
-        if (!window.confirm('Are you sure you want to remove this topper?')) return;
+        if (!window.confirm('Are you sure you want to remove this achiever?')) return;
         try {
             await api.delete(`/api/toppers/${id}`);
-            toast.success('Topper removed');
+            toast.success('Achiever removed');
             fetchToppers();
         } catch (error) {
-            toast.error('Failed to remove topper');
+            toast.error('Failed to remove achiever');
         }
     };
 
-    const filteredToppers = toppers.filter(topper => 
-        topper.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        topper.course.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const getRankIcon = (rank) => {
+        const rankLower = rank.toLowerCase();
+        if (rankLower.includes('1') || rankLower.includes('first') || rankLower.includes('air 1')) 
+            return <Trophy className="w-5 h-5 text-amber-500" />;
+        if (rankLower.includes('2') || rankLower.includes('second')) 
+            return <Medal className="w-5 h-5 text-gray-400" />;
+        if (rankLower.includes('3') || rankLower.includes('third')) 
+            return <Medal className="w-5 h-5 text-amber-600" />;
+        return <Award className="w-5 h-5 text-emerald-500" />;
+    };
+
+    const getRankColor = (rank) => {
+        const rankLower = rank.toLowerCase();
+        if (rankLower.includes('1') || rankLower.includes('first')) 
+            return 'from-amber-500 to-orange-500';
+        if (rankLower.includes('2') || rankLower.includes('second')) 
+            return 'from-gray-400 to-gray-500';
+        if (rankLower.includes('3') || rankLower.includes('third')) 
+            return 'from-amber-600 to-amber-700';
+        return 'from-emerald-500 to-teal-500';
+    };
+
+    const years = ['all', ...new Set(toppers.map(t => t.year))].sort().reverse();
+    const filteredToppers = toppers.filter(topper => {
+        const matchesSearch = topper.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            topper.course.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesYear = selectedYear === 'all' || topper.year === selectedYear;
+        return matchesSearch && matchesYear;
+    });
+
+    const featuredToppers = filteredToppers.filter(t => t.isFeatured);
+    const regularToppers = filteredToppers.filter(t => !t.isFeatured);
+
+    if (loading) {
+        return (
+            <div className="flex flex-col items-center justify-center h-96 gap-4">
+                <div className="relative">
+                    <div className="w-16 h-16 border-4 border-gray-200 border-t-emerald-500 rounded-full animate-spin"></div>
+                    <Award className="w-6 h-6 text-emerald-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+                </div>
+                <p className="text-gray-500 font-medium">Loading achievers gallery...</p>
+            </div>
+        );
+    }
 
     return (
-        <div className="space-y-8 animate-in fade-in duration-700">
-            {/* Page Header */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Achievers Gallery</h1>
-                    <p className="text-slate-500 font-medium mt-1">Showcase your top performing students</p>
+        <div className="space-y-6 pb-12">
+            {/* Hero Section */}
+            <div className="relative overflow-hidden bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-600 rounded-3xl p-6 md:p-10 text-white">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-emerald-400/20 rounded-full blur-2xl -ml-24 -mb-24"></div>
+                
+                <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div>
+                        <div className="flex items-center gap-3 mb-3">
+                            <div className="bg-white/20 backdrop-blur-sm p-2 rounded-xl">
+                                <Trophy className="w-6 h-6" />
+                            </div>
+                            <span className="text-sm font-semibold uppercase tracking-wider bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
+                                Hall of Fame
+                            </span>
+                        </div>
+                        <h1 className="text-3xl md:text-4xl font-bold mb-2">Achievers Gallery</h1>
+                        <p className="text-emerald-100 text-sm md:text-base max-w-md">
+                            Celebrating excellence and inspiring the next generation of achievers
+                        </p>
+                    </div>
+                    <button 
+                        onClick={() => setIsAddModalOpen(true)}
+                        className="inline-flex items-center gap-2 bg-white text-emerald-700 hover:bg-emerald-50 px-5 py-2.5 rounded-xl font-bold shadow-lg transition-all active:scale-95"
+                    >
+                        <Plus className="w-4 h-4" />
+                        <span>Add Achiever</span>
+                    </button>
                 </div>
-                <button 
-                    onClick={() => setIsAddModalOpen(true)}
-                    className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3.5 rounded-2xl font-bold shadow-lg shadow-emerald-200 transition-all active:scale-[0.98]"
-                >
-                    <Plus className="w-5 h-5" />
-                    <span>Add Achiever</span>
-                </button>
             </div>
 
-            {/* Search Bar */}
-            <div className="bg-white p-4 rounded-3xl border border-slate-200 shadow-sm relative group max-w-2xl">
-                <Search className="absolute left-8 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors" />
-                <input 
-                    type="text" 
-                    placeholder="Search by name or course..." 
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-14 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:bg-white focus:border-emerald-500 transition-all text-slate-800 font-medium"
-                />
+            {/* Stats Bar */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                    <p className="text-xs text-gray-400">Total Achievers</p>
+                    <p className="text-2xl font-bold text-gray-800">{toppers.length}</p>
+                </div>
+                <div className="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                    <p className="text-xs text-gray-400">Featured</p>
+                    <p className="text-2xl font-bold text-amber-500">{toppers.filter(t => t.isFeatured).length}</p>
+                </div>
+                <div className="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                    <p className="text-xs text-gray-400">Courses</p>
+                    <p className="text-2xl font-bold text-emerald-500">{new Set(toppers.map(t => t.course)).size}</p>
+                </div>
+                <div className="bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                    <p className="text-xs text-gray-400">Years Active</p>
+                    <p className="text-2xl font-bold text-blue-500">{years.length - 1}</p>
+                </div>
             </div>
 
-            {/* Toppers Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredToppers.length > 0 ? filteredToppers.map((topper) => (
-                    <div key={topper._id} className="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden group hover:shadow-xl transition-all hover:-translate-y-2">
-                        <div className="h-4 bg-emerald-600 w-full"></div>
-                        <div className="p-8">
-                            <div className="flex justify-between items-start mb-6">
-                                <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center font-black text-2xl shadow-inner relative">
-                                    {topper.name?.charAt(0) || 'T'}
-                                    {topper.isFeatured && (
-                                        <div className="absolute -top-2 -right-2 bg-amber-400 text-white p-1 rounded-full shadow-md">
-                                            <Star className="w-3 h-3 fill-current" />
-                                        </div>
-                                    )}
-                                </div>
-                                <button onClick={() => handleDeleteTopper(topper._id)} className="p-2 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all opacity-0 group-hover:opacity-100">
-                                    <Trash2 className="w-5 h-5" />
-                                </button>
-                            </div>
-
-                            <div className="space-y-1 mb-6">
-                                <h3 className="text-xl font-black text-slate-900 tracking-tight">{topper.name}</h3>
-                                <p className="text-emerald-600 font-bold text-sm flex items-center gap-1 uppercase tracking-wider">
-                                    <GraduationCap className="w-4 h-4" /> {topper.course}
-                                </p>
-                            </div>
-                            {topper.image && (
-                                <div className="mb-6">
-                                    <img 
-                                        src={topper.image} 
-                                        alt={topper.name} 
-                                        className="w-full h-64 object-cover rounded-3xl shadow-lg"
-                                    />
-                                </div>
-                            )}
-
-                            <div className="bg-slate-50 rounded-4xl p-6 border border-slate-100 mb-6">
-                                <div className="flex items-center justify-between mb-2">
-                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Achievement</span>
-                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{topper.year}</span>
-                                </div>
-                                <p className="text-2xl font-black text-slate-900">{topper.rank}</p>
-                            </div>
-
-                            {topper.message && (
-                                <p className="text-slate-500 text-sm italic font-medium line-clamp-2">"{topper.message}"</p>
-                            )}
+            {/* Filters Bar */}
+            <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
+                <div className="flex flex-col sm:flex-row gap-3">
+                    <div className="flex-1 relative">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                        <input 
+                            type="text" 
+                            placeholder="Search by name or course..." 
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all"
+                        />
+                    </div>
+                    <div className="flex gap-2">
+                        <select
+                            value={selectedYear}
+                            onChange={(e) => setSelectedYear(e.target.value)}
+                            className="px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm outline-none focus:border-emerald-500"
+                        >
+                            {years.map(year => (
+                                <option key={year} value={year}>
+                                    {year === 'all' ? 'All Years' : year}
+                                </option>
+                            ))}
+                        </select>
+                        <div className="flex bg-gray-100 rounded-xl p-1">
+                            <button
+                                onClick={() => setViewMode('grid')}
+                                className={`px-3 py-1.5 rounded-lg text-sm transition-all ${viewMode === 'grid' ? 'bg-white shadow-sm text-emerald-600' : 'text-gray-500'}`}
+                            >
+                                Grid
+                            </button>
+                            <button
+                                onClick={() => setViewMode('list')}
+                                className={`px-3 py-1.5 rounded-lg text-sm transition-all ${viewMode === 'list' ? 'bg-white shadow-sm text-emerald-600' : 'text-gray-500'}`}
+                            >
+                                List
+                            </button>
                         </div>
                     </div>
-                )) : (
-                    <div className="col-span-full py-20 text-center bg-white rounded-4xl border border-slate-200 border-dashed">
-                        <Award className="w-16 h-16 text-slate-200 mx-auto mb-4" />
-                        <p className="text-slate-400 font-bold italic">No achievers in your gallery yet</p>
+                </div>
+            </div>
+
+            {/* Featured Section */}
+            {featuredToppers.length > 0 && viewMode === 'grid' && (
+                <div>
+                    <div className="flex items-center gap-2 mb-4">
+                        <Sparkles className="w-5 h-5 text-amber-500" />
+                        <h2 className="text-lg font-bold text-gray-800">Featured Achievers</h2>
+                        <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">Top Performers</span>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        {featuredToppers.map((topper) => (
+                            <FeaturedTopperCard 
+                                key={topper._id} 
+                                topper={topper} 
+                                onDelete={handleDeleteTopper}
+                                getRankIcon={getRankIcon}
+                                getRankColor={getRankColor}
+                            />
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Main Grid/List View */}
+            <div>
+                {filteredToppers.length > 0 ? (
+                    viewMode === 'grid' ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                            {regularToppers.map((topper) => (
+                                <TopperCard 
+                                    key={topper._id} 
+                                    topper={topper} 
+                                    onDelete={handleDeleteTopper}
+                                    getRankIcon={getRankIcon}
+                                    getRankColor={getRankColor}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="space-y-3">
+                            {filteredToppers.map((topper) => (
+                                <ToListCard 
+                                    key={topper._id} 
+                                    topper={topper} 
+                                    onDelete={handleDeleteTopper}
+                                    getRankIcon={getRankIcon}
+                                />
+                            ))}
+                        </div>
+                    )
+                ) : (
+                    <div className="bg-white rounded-2xl p-12 text-center border border-gray-100">
+                        <div className="w-20 h-20 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <Award className="w-10 h-10 text-gray-300" />
+                        </div>
+                        <h3 className="text-lg font-bold text-gray-800 mb-1">No achievers found</h3>
+                        <p className="text-gray-400 text-sm">Try adjusting your search or add a new achiever</p>
                     </div>
                 )}
             </div>
 
-            {/* Add Topper Modal */}
+            {/* Add Modal */}
             {isAddModalOpen && (
-                <div className="fixed inset-0 z-60 flex items-center justify-center p-4">
-                    <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-300" onClick={() => setIsAddModalOpen(false)}></div>
-                    <div className="relative bg-white w-full max-w-xl rounded-[2.5rem] p-10 shadow-2xl animate-in zoom-in-95 duration-300">
-                        <div className="flex items-center justify-between mb-8">
-                            <h2 className="text-2xl font-bold text-slate-900">Add Achiever</h2>
-                            <button onClick={() => setIsAddModalOpen(false)} className="p-2 text-slate-400 hover:text-slate-900 bg-slate-50 rounded-xl transition-all"><X /></button>
-                        </div>
-
-                        <form onSubmit={handleAddTopper} className="space-y-5">
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <label className="text-sm font-bold text-slate-700 ml-1">Student Name</label>
-                                    <input 
-                                        type="text" 
-                                        placeholder="Full Name"
-                                        value={formData.name}
-                                        onChange={(e) => setFormData({...formData, name: e.target.value})}
-                                        className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-5 py-4 outline-none focus:bg-white focus:border-emerald-500 transition-all font-medium"
-                                        required 
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm font-bold text-slate-700 ml-1">Course/Program</label>
-                                    <input 
-                                        type="text" 
-                                        placeholder="e.g. IIT-JEE, NEET"
-                                        value={formData.course}
-                                        onChange={(e) => setFormData({...formData, course: e.target.value})}
-                                        className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-5 py-4 outline-none focus:bg-white focus:border-emerald-500 transition-all font-medium"
-                                        required 
-                                    />
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <label className="text-sm font-bold text-slate-700 ml-1">Rank/Score</label>
-                                    <input 
-                                        type="text" 
-                                        placeholder="e.g. AIR 15, 99.8%"
-                                        value={formData.rank}
-                                        onChange={(e) => setFormData({...formData, rank: e.target.value})}
-                                        className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-5 py-4 outline-none focus:bg-white focus:border-emerald-500 transition-all font-medium"
-                                        required 
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <label className="text-sm font-bold text-slate-700 ml-1">Batch Year</label>
-                                    <input 
-                                        type="text" 
-                                        placeholder="2024"
-                                        value={formData.year}
-                                        onChange={(e) => setFormData({...formData, year: e.target.value})}
-                                        className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-5 py-4 outline-none focus:bg-white focus:border-emerald-500 transition-all font-medium"
-                                        required 
-                                    />
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-bold text-slate-700 ml-1">Testimonial (Optional)</label>
-                                <textarea 
-                                    placeholder="Message from the student..."
-                                    value={formData.message}
-                                    onChange={(e) => setFormData({...formData, message: e.target.value})}
-                                    className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-5 py-4 outline-none focus:bg-white focus:border-emerald-500 transition-all font-medium h-24 resize-none"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-bold text-slate-700 ml-1">Image URL (Optional)</label>
-                                <input 
-                                    type="text" 
-                                    placeholder="https://example.com/image.jpg"
-                                    value={formData.image}
-                                    onChange={(e) => setFormData({...formData, image: e.target.value})}
-                                    className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-5 py-4 outline-none focus:bg-white focus:border-emerald-500 transition-all font-medium"
-                                />
-                            </div>
-
-                            <button 
-                                type="submit" 
-                                className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-5 rounded-4xl shadow-xl transform active:scale-[0.98] transition-all flex items-center justify-center gap-3 mt-6"
-                            >
-                                <span>Add to Hall of Fame</span>
-                                <ArrowRight className="w-5 h-5" />
-                            </button>
-                        </form>
-                    </div>
-                </div>
+                <AddTopperModal 
+                    formData={formData}
+                    setFormData={setFormData}
+                    onSubmit={handleAddTopper}
+                    onClose={() => setIsAddModalOpen(false)}
+                />
             )}
         </div>
     );
 };
 
-const X = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-    </svg>
+// Featured Topper Card Component
+const FeaturedTopperCard = ({ topper, onDelete, getRankIcon, getRankColor }) => (
+    <div className="group relative bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all">
+        <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${getRankColor(topper.rank)} opacity-10 rounded-full blur-2xl`}></div>
+        <div className="p-5">
+            <div className="flex justify-between items-start mb-4">
+                <div className="flex items-center gap-3">
+                    <div className={`w-14 h-14 bg-gradient-to-br ${getRankColor(topper.rank)} rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg`}>
+                        {topper.name?.charAt(0) || 'A'}
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-gray-800 text-lg">{topper.name}</h3>
+                        <p className="text-emerald-600 text-xs font-semibold flex items-center gap-1">
+                            <GraduationCap className="w-3 h-3" /> {topper.course}
+                        </p>
+                    </div>
+                </div>
+                <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button onClick={() => onDelete(topper._id)} className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all">
+                        <Trash2 className="w-4 h-4" />
+                    </button>
+                </div>
+            </div>
+            
+            {topper.image && (
+                <div className="mb-4 rounded-xl overflow-hidden h-40">
+                    <img src={topper.image} alt={topper.name} className="w-full h-full object-cover" />
+                </div>
+            )}
+            
+            <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                    {getRankIcon(topper.rank)}
+                    <span className="font-bold text-gray-800">{topper.rank}</span>
+                </div>
+                <div className="flex items-center gap-1 text-gray-400 text-xs">
+                    <Calendar className="w-3 h-3" />
+                    <span>{topper.year}</span>
+                </div>
+            </div>
+            
+            {topper.message && (
+                <div className="bg-white/60 backdrop-blur-sm rounded-xl p-3">
+                    <div className="flex gap-2">
+                        <MessageSquare className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                        <p className="text-xs text-gray-600 italic">"{topper.message}"</p>
+                    </div>
+                </div>
+            )}
+            
+            <div className="absolute top-3 right-3">
+                <div className="bg-amber-400 text-white p-1 rounded-full shadow-md">
+                    <Star className="w-3 h-3 fill-current" />
+                </div>
+            </div>
+        </div>
+    </div>
+);
+
+// Regular Topper Card Component
+const TopperCard = ({ topper, onDelete, getRankIcon, getRankColor }) => (
+    <div className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 overflow-hidden">
+        <div className={`h-1.5 bg-gradient-to-r ${getRankColor(topper.rank)}`}></div>
+        <div className="p-5">
+            <div className="flex justify-between items-start mb-4">
+                <div className="flex items-center gap-3">
+                    <div className={`w-12 h-12 bg-gradient-to-br ${getRankColor(topper.rank)} rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-md`}>
+                        {topper.name?.charAt(0) || 'S'}
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-gray-800">{topper.name}</h3>
+                        <p className="text-emerald-600 text-xs font-medium">{topper.course}</p>
+                    </div>
+                </div>
+                <button onClick={() => onDelete(topper._id)} className="p-1.5 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all opacity-0 group-hover:opacity-100">
+                    <Trash2 className="w-3.5 h-3.5" />
+                </button>
+            </div>
+            
+            {topper.image && (
+                <div className="mb-4 rounded-xl overflow-hidden h-36">
+                    <img src={topper.image} alt={topper.name} className="w-full h-full object-cover" />
+                </div>
+            )}
+            
+            <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-1.5">
+                    {getRankIcon(topper.rank)}
+                    <span className="font-semibold text-gray-800 text-sm">{topper.rank}</span>
+                </div>
+                <div className="text-gray-400 text-xs flex items-center gap-1">
+                    <Calendar className="w-3 h-3" />
+                    {topper.year}
+                </div>
+            </div>
+            
+            {topper.message && (
+                <p className="text-gray-500 text-xs italic line-clamp-2">"{topper.message}"</p>
+            )}
+        </div>
+    </div>
+);
+
+// List View Card Component
+const ToListCard = ({ topper, onDelete, getRankIcon }) => (
+    <div className="bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md transition-all">
+        <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center text-white font-bold shadow-md flex-shrink-0">
+                {topper.name?.charAt(0) || 'S'}
+            </div>
+            <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div>
+                        <h3 className="font-bold text-gray-800">{topper.name}</h3>
+                        <p className="text-emerald-600 text-xs">{topper.course}</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-1">
+                            {getRankIcon(topper.rank)}
+                            <span className="text-sm font-semibold text-gray-700">{topper.rank}</span>
+                        </div>
+                        <span className="text-xs text-gray-400">{topper.year}</span>
+                        <button onClick={() => onDelete(topper._id)} className="p-1.5 text-gray-300 hover:text-red-500 transition-colors">
+                            <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                    </div>
+                </div>
+                {topper.message && (
+                    <p className="text-gray-500 text-xs mt-1 truncate">"{topper.message}"</p>
+                )}
+            </div>
+        </div>
+    </div>
+);
+
+// Add Modal Component
+const AddTopperModal = ({ formData, setFormData, onSubmit, onClose }) => (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose}></div>
+        <div className="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
+                        <Trophy className="w-4 h-4 text-emerald-600" />
+                    </div>
+                    <h2 className="text-lg font-bold text-gray-800">Add New Achiever</h2>
+                </div>
+                <button onClick={onClose} className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all">
+                    <X className="w-4 h-4" />
+                </button>
+            </div>
+            
+            <form onSubmit={onSubmit} className="p-6 space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-xs font-semibold text-gray-700 mb-1">Full Name *</label>
+                        <input 
+                            type="text" 
+                            placeholder="Student name"
+                            value={formData.name}
+                            onChange={(e) => setFormData({...formData, name: e.target.value})}
+                            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all"
+                            required 
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-xs font-semibold text-gray-700 mb-1">Course/Program *</label>
+                        <input 
+                            type="text" 
+                            placeholder="e.g., IIT-JEE, NEET"
+                            value={formData.course}
+                            onChange={(e) => setFormData({...formData, course: e.target.value})}
+                            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all"
+                            required 
+                        />
+                    </div>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-xs font-semibold text-gray-700 mb-1">Rank/Score *</label>
+                        <input 
+                            type="text" 
+                            placeholder="e.g., AIR 15, 99.8%"
+                            value={formData.rank}
+                            onChange={(e) => setFormData({...formData, rank: e.target.value})}
+                            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all"
+                            required 
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-xs font-semibold text-gray-700 mb-1">Batch Year</label>
+                        <input 
+                            type="text" 
+                            placeholder="2024"
+                            value={formData.year}
+                            onChange={(e) => setFormData({...formData, year: e.target.value})}
+                            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all"
+                        />
+                    </div>
+                </div>
+                
+                <div>
+                    <label className="block text-xs font-semibold text-gray-700 mb-1">Testimonial</label>
+                    <textarea 
+                        placeholder="Inspirational message from the student..."
+                        value={formData.message}
+                        onChange={(e) => setFormData({...formData, message: e.target.value})}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all resize-none h-24"
+                    />
+                </div>
+                
+                <div>
+                    <label className="block text-xs font-semibold text-gray-700 mb-1">Image URL</label>
+                    <input 
+                        type="text" 
+                        placeholder="https://example.com/photo.jpg"
+                        value={formData.image}
+                        onChange={(e) => setFormData({...formData, image: e.target.value})}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all"
+                    />
+                </div>
+                
+                <div className="flex items-center gap-2 pt-2">
+                    <input
+                        type="checkbox"
+                        id="isFeatured"
+                        checked={formData.isFeatured}
+                        onChange={(e) => setFormData({...formData, isFeatured: e.target.checked})}
+                        className="w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                    />
+                    <label htmlFor="isFeatured" className="text-sm text-gray-700">
+                        Feature this achiever (highlighted section)
+                    </label>
+                </div>
+                
+                <button 
+                    type="submit" 
+                    className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold py-3 rounded-xl transition-all mt-4"
+                >
+                    Add to Hall of Fame
+                </button>
+            </form>
+        </div>
+    </div>
 );
 
 export default Toppers;

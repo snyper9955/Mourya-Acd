@@ -122,8 +122,14 @@ const Header = () => {
                 <div className="flex items-center gap-2">
                   <div className="h-9 w-px bg-slate-200 mx-2" />
                 
-                    <Link to={ user.role === 'admin' ? "/admin" : "/dashboard"}>
-                      <User className="w-8 h-8 bg-neutral-500 text-white rounded-full p-2" />
+                    <Link to={ user.role === 'admin' ? "/admin" : "/dashboard"} className="group flex items-center gap-3  p-1 rounded-full transition-colors pr-4 border border-transparent ">
+                      <div className="w-9 h-9 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center shrink-0 shadow-sm overflow-hidden">
+                        {user.image ? (
+                          <img src={user.image} alt="Profile" className="w-full h-full object-cover" />
+                        ) : (
+                          <User className="w-5 h-5" />
+                        )}
+                      </div>
                     </Link>
                  
                 </div>
@@ -188,16 +194,16 @@ const Header = () => {
           }`}
         >
           {/* Drawer Header */}
-          <div className="flex items-center justify-between p-6 border-b border-slate-100 bg-linear-to-r from-white to-slate-50/50">
+          <div className="flex items-center justify-between p-5 border-b border-emerald-50 bg-gradient-to-r from-emerald-50/50 to-white">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-linear-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
-                <BookOpen className="text-white w-5 h-5" />
+              <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 to-teal-600 rounded-lg flex items-center justify-center shadow-md shadow-emerald-500/20">
+                <BookOpen className="text-white w-4 h-4" />
               </div>
               <div>
-                <span className="text-lg font-bold text-slate-800 block">
+                <span className="text-base font-bold text-slate-800 block tracking-tight leading-tight">
                   EduManage
                 </span>
-                <span className="text-[10px] text-slate-400 tracking-wider">
+                <span className="text-[9px] text-slate-700 tracking-wider font-semibold">
                   EDUCATION PORTAL
                 </span>
               </div>
@@ -212,15 +218,15 @@ const Header = () => {
           </div>
 
           {/* Drawer Navigation */}
-          <nav className="flex flex-col p-6 gap-3 overflow-y-auto">
+          <nav className="flex flex-col p-5 gap-2 overflow-y-auto">
             {navLinks.map((link, index) => (
               <Link
                 key={link.name}
                 to={link.path}
-                className={`group relative px-5 py-3.5 rounded-xl text-base font-medium transition-all duration-300 overflow-hidden ${
+                className={`group relative px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 overflow-hidden ${
                   isActive(link.path)
-                    ? "bg-linear-to-r from-slate-800 to-slate-700 text-white shadow-lg"
-                    : "text-slate-700 hover:bg-slate-100"
+                    ? "bg-neutral-900 text-white shadow-md shadow-emerald-500/20"
+                    : "text-slate-700 hover:bg-emerald-50 hover:text-emerald-700"
                 }`}
                 style={{
                   transitionDelay: `${index * 50}ms`,
@@ -228,15 +234,15 @@ const Header = () => {
               >
                 <span className="relative z-10 flex items-center gap-3">
                   <link.icon
-                    className={`w-5 h-5 transition-all duration-300 ${isActive(link.path) ? "text-white" : "text-slate-400 group-hover:text-slate-600"}`}
+                    className={`w-4 h-4 transition-all duration-300 ${isActive(link.path) ? "text-white" : "text-slate-400 group-hover:text-emerald-600"}`}
                   />
                   {link.name}
                   {isActive(link.path) && (
-                    <ChevronRight className="w-4 h-4 ml-auto" />
+                    <ChevronRight className="w-3.5 h-3.5 ml-auto text-white" />
                   )}
                 </span>
                 {!isActive(link.path) && (
-                  <span className="absolute inset-0 bg-linear-to-r from-slate-100 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <span className="absolute inset-0 bg-gradient-to-r from-emerald-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 )}
               </Link>
             ))}
@@ -248,39 +254,39 @@ const Header = () => {
           </div>
 
           {/* Drawer Auth Actions */}
-          <div className="px-6 pb-6 space-y-3 mt-4">
+          <div className="px-5 pb-5 space-y-3 mt-2">
             {user ? (
               <button
                 onClick={() => {
                   setIsMenuOpen(false);
-                  navigate("/dashboard");
+                  navigate(user.role === 'admin' ? "/admin" : "/dashboard");
                 }}
-                className="w-full group flex items-center justify-between gap-2 bg-linear-to-r from-slate-800 to-slate-700 text-white font-medium py-4 px-5 rounded-xl shadow-lg active:scale-95 transition-all duration-300 hover:from-slate-700 hover:to-slate-600"
+                className="w-full group flex items-center justify-between gap-2 text-slate-700 text-sm font-medium py-3 px-4 active:scale-95 transition-all duration-30 "
               >
-                <span className="flex items-center gap-3">
-                  <User className="w-5 h-5" />
+                <span className="flex items-center gap-2">
+                  <User className="w-4 h-4" />
                   <span>Dashboard</span>
                 </span>
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
               </button>
             ) : (
               <>
                 <Link
                   to="/login"
                   onClick={() => setIsMenuOpen(false)}
-                  className="w-full flex items-center justify-center gap-2 text-slate-700 font-medium py-4 rounded-xl border border-slate-200 hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 active:scale-95"
+                  className="w-full flex items-center justify-center gap-2 text-slate-700 text-sm font-medium py-3 rounded-xl border border-slate-200 hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 active:scale-95"
                 >
-                  <LogIn className="w-5 h-5 text-emerald-500" />
+                  <LogIn className="w-4 h-4 text-emerald-500" />
                   <span>Sign In</span>
                 </Link>
                 <Link
                   to="/signup"
                   onClick={() => setIsMenuOpen(false)}
-                  className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-emerald-600 to-teal-600 text-white font-medium py-4 rounded-xl shadow-lg shadow-emerald-200 active:scale-95 transition-all duration-300"
+                  className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-sm font-medium py-3 rounded-xl shadow-md shadow-emerald-500/20 active:scale-95 transition-all duration-300 hover:from-emerald-500 hover:to-teal-500"
                 >
-                  <User className="w-5 h-5" />
+                  <User className="w-4 h-4" />
                   <span>Get Started</span>
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
               </>
             )}
