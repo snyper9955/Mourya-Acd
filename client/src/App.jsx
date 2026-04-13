@@ -33,6 +33,7 @@ const PublicToppers = lazy(() => import('./pages/PublicToppers'));
 const CourseDetail = lazy(() => import('./pages/CourseDetail'));
 const Checkout = lazy(() => import('./pages/Checkout'));
 const Profile = lazy(() => import('./pages/Profile'));
+const Gallery = lazy(() => import('./pages/Gallery'));
 const StudentDashboard = lazy(() => import('./pages/student/StudentDashboard'));
 const CourseContent = lazy(() => import('./pages/student/CourseContent'));
 
@@ -80,6 +81,7 @@ const AppContent = () => {
           <Route path="/toppers" element={<PublicToppers />} />
           <Route path="/course/:id" element={<CourseDetail />} />
           <Route path="/checkout/:courseId" element={<Checkout />} />
+          <Route path="/gallery" element={<Gallery />} />
           
           {/* Authenticated Admin Routes */}
           <Route path="/admin" element={<ProtectedRoute><AdminLayout><Dashboard /></AdminLayout></ProtectedRoute>} />

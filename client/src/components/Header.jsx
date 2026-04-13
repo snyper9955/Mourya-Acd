@@ -13,6 +13,7 @@ import {
   Trophy,
   Home,
   ChevronRight,
+  Image,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
@@ -53,8 +54,8 @@ const Header = () => {
 
   const navLinks = [
     { name: "Home", path: "/", icon: Home },
-  
     { name: "Courses", path: "/courses", icon: GraduationCap },
+    { name: "Gallery", path: "/gallery", icon: Image },
     { name: "Toppers", path: "/toppers", icon: Trophy },
     { name: "Notices", path: "/notices", icon: Megaphone },
   ];

@@ -123,22 +123,7 @@ const Footer = () => {
                 </li>
               </ul>
 
-              {/* Newsletter Subscription */}
-              <div className="mt-4">
-                <p className="text-[10px] sm:text-xs text-gray-400 mb-2 sm:mb-3 font-medium uppercase tracking-wider">Subscribe</p>
-                <div className="flex flex-row sm:flex-col gap-2">
-                  <input
-                    type="email"
-                    placeholder="Email address"
-                    className="flex-1 px-3 py-2 sm:px-4 sm:py-3 bg-gray-800/80 border border-gray-700 rounded-lg sm:rounded-xl text-xs sm:text-sm text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors min-w-0"
-                  />
-                  <button className="px-3 py-2 sm:px-4 sm:py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 sm:gap-2 group shrink-0">
-                    <span className="hidden sm:inline">Subscribe Now</span>
-                    <span className="sm:hidden">Send</span>
-                    <Send className="w-3 h-3 sm:w-3.5 sm:h-3.5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                  </button>
-                </div>
-              </div>
+
             </div>
           </div>
 

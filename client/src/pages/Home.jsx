@@ -24,6 +24,7 @@ import {
   ChevronRight as ChevronRightIcon,
   Pause,
   Play as PlayIcon,
+  Camera,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -451,15 +452,15 @@ const Home = () => {
             <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-2">
               <Users className="w-5 h-5 text-emerald-600" />
             </div>
-            <p className="text-xl font-bold text-gray-900">10K+</p>
+            <p className="text-xl font-bold text-gray-900">1000+</p>
             <p className="text-xs text-gray-500">Active Students</p>
           </div>
           <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 text-center">
             <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-2">
               <BookOpen className="w-5 h-5 text-blue-600" />
             </div>
-            <p className="text-xl font-bold text-gray-900">50+</p>
-            <p className="text-xs text-gray-500">Expert Courses</p>
+            <p className="text-xl font-bold text-gray-900">10+</p>
+            <p className="text-xs text-gray-500">diffrent courses</p>
           </div>
           <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 text-center">
             <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center mx-auto mb-2">
@@ -728,6 +729,69 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Quick Gallery Showcase */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-10">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 rounded-full mb-4 border border-emerald-100 shadow-sm">
+                <Camera className="w-4 h-4 text-emerald-600" />
+                <span className="text-sm font-semibold text-emerald-700 uppercase tracking-wide">Campus Life</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
+                Explore Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 tracking-tight">Gallery</span>
+              </h2>
+            </div>
+            <Link to="/gallery" className="group hidden md:flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-medium hover:bg-slate-800 transition-all shadow-md hover:shadow-lg active:scale-95">
+              <span>View Full Gallery</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="col-span-2 lg:row-span-2 rounded-3xl overflow-hidden relative group h-64 md:h-96 lg:h-full shadow-sm hover:shadow-xl transition-shadow duration-500">
+              <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=800" alt="Campus Life" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 md:p-8">
+                 <h3 className="text-white font-bold text-2xl md:text-3xl mb-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Modern University</h3>
+                 <p className="text-emerald-300 font-medium translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">Spacious & Vibrant</p>
+              </div>
+            </div>
+            <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500">
+               <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=400" alt="Classroom" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+               <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                 <span className="text-white font-bold">Classrooms</span>
+               </div>
+            </div>
+            <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500">
+               <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=400" alt="Students" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                 <span className="text-white font-bold">Group Studies</span>
+               </div>
+            </div>
+             <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500">
+               <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=400" alt="Activities" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                 <span className="text-white font-bold">Activities</span>
+               </div>
+            </div>
+            <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500">
+               <Link to="/gallery" className="absolute inset-0 bg-emerald-600/90 backdrop-blur-sm text-white flex flex-col items-center justify-center p-6 hover:bg-emerald-700 transition-colors z-10 group-hover:scale-105 duration-500">
+                 <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mb-3">
+                   <ArrowRight className="w-6 h-6" />
+                 </div>
+                 <span className="font-bold text-lg whitespace-nowrap">View All</span>
+               </Link>
+               <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=400" alt="More" className="w-full h-full object-cover" loading="lazy" />
+            </div>
+          </div>
+          
+          <Link to="/gallery" className="mt-8 md:hidden w-full flex items-center justify-center gap-2 px-6 py-4 bg-slate-900 text-white rounded-2xl font-bold shadow-lg active:scale-95 transition-transform">
+              <span>Explore Full Gallery</span>
+              <ArrowRight className="w-5 h-5" />
+          </Link>
+        </div>
+      </section>
+
       {/* Features Section */}
    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto">
@@ -777,7 +841,7 @@ const Home = () => {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-linear-to-r from-emerald-50 to-blue-50">
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-            Ready to Shape Your Future?
+            Ready to Change Your Future?
           </h2>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
             Join thousands of successful students who have achieved their
