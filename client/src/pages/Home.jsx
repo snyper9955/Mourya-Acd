@@ -749,39 +749,39 @@ const Home = () => {
           </div>
           
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            <div className="col-span-2 lg:row-span-2 rounded-3xl overflow-hidden relative group h-64 md:h-96 lg:h-full shadow-sm hover:shadow-xl transition-shadow duration-500">
-              <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=800" alt="Campus Life" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+            <div className="col-span-2 lg:row-span-2 rounded-3xl overflow-hidden relative group h-64 md:h-96 lg:h-full shadow-sm hover:shadow-xl transition-shadow duration-500 bg-slate-100">
+              <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=800" alt="Campus Life" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 md:p-8">
                  <h3 className="text-white font-bold text-2xl md:text-3xl mb-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Modern University</h3>
                  <p className="text-emerald-300 font-medium translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">Spacious & Vibrant</p>
               </div>
             </div>
-            <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500">
-               <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=400" alt="Classroom" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+            <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500 bg-slate-100">
+               <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=400" alt="Classroom" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                  <span className="text-white font-bold">Classrooms</span>
                </div>
             </div>
-            <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500">
-               <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=400" alt="Students" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+            <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500 bg-slate-100">
+               <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=400" alt="Students" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                  <span className="text-white font-bold">Group Studies</span>
                </div>
             </div>
-             <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500">
-               <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=400" alt="Activities" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+             <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500 bg-slate-100">
+               <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=400" alt="Activities" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                  <span className="text-white font-bold">Activities</span>
                </div>
             </div>
-            <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500">
+            <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500 bg-slate-100">
                <Link to="/gallery" className="absolute inset-0 bg-emerald-600/90 backdrop-blur-sm text-white flex flex-col items-center justify-center p-6 hover:bg-emerald-700 transition-colors z-10 group-hover:scale-105 duration-500">
                  <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mb-3">
                    <ArrowRight className="w-6 h-6" />
                  </div>
                  <span className="font-bold text-lg whitespace-nowrap">View All</span>
                </Link>
-               <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=400" alt="More" className="w-full h-full object-cover" loading="lazy" />
+               <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=400" alt="More" className="w-full h-full object-cover" />
             </div>
           </div>
           
