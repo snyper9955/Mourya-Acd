@@ -168,94 +168,103 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-800 mt-20">
-      {toppers.length > 0 && (
-        <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-20 overflow-hidden">
-          {/* Header Section */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-            <div className="space-y-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 rounded-full border border-amber-100/50 shadow-sm animate-bounce-subtle">
-                < Award className="w-4 h-4 text-amber-500" />
-                <span className="text-xs font-bold text-amber-700 uppercase tracking-widest">Academic Excellence</span>
+     {toppers.length > 0 && (
+  <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12 mb-12 sm:mb-20 overflow-hidden">
+    {/* Header Section */}
+    <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-10">
+      <div className="space-y-2 sm:space-y-3">
+        <div className="inline-flex items-center gap-2 px-2 sm:px-3 py-1 bg-amber-50 rounded-full border border-amber-100/50 shadow-sm animate-bounce-subtle">
+          <Award className="w-3 h-3 sm:w-4 sm:h-4 text-amber-500" />
+          <span className="text-[10px] sm:text-xs font-bold text-amber-700 uppercase tracking-widest">Academic Excellence</span>
+        </div>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-heading font-black text-gray-900 tracking-tight leading-tight sm:leading-none">
+          Our <span className="text-transparent bg-clip-text bg-gradient-to-tr from-amber-600 via-orange-500 to-yellow-600 uppercase">Top Performers</span>
+        </h2>
+        <p className="text-sm sm:text-base text-gray-500 font-medium">Inspiring academic excellence through dedication and hard work.</p>
+      </div>
+      <Link to="/toppers" className="group flex items-center justify-center md:justify-start gap-2 text-xs sm:text-sm font-bold text-gray-900 hover:text-amber-600 transition-all uppercase tracking-widest bg-gray-50 px-4 sm:px-6 py-2 sm:py-3 rounded-2xl border border-gray-100 hover:border-amber-200 w-full md:w-auto">
+        <span>Hall of Fame</span>
+        <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
+      </Link>
+    </div>
+
+    <div className="relative group/scroll">
+      <div className="topper-scroll-container flex gap-3 sm:gap-4 md:gap-6 lg:gap-8 overflow-x-auto pb-6 sm:pb-8 md:pb-10 snap-x snap-mandatory no-scrollbar scroll-smooth">
+        {toppers.map((topper, idx) => (
+          <div 
+            key={topper._id} 
+            className="flex-none w-[140px] sm:w-[180px] md:w-[220px] lg:w-[260px] aspect-[4/5.5] rounded-2xl sm:rounded-[2rem] md:rounded-[2.5rem] overflow-hidden relative group snap-start shadow-[0_20px_40px_-10px_rgba(0,0,0,0.3)] sm:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] border border-white/20 transition-all duration-500 hover:-translate-y-2"
+          >
+            {/* Background Image */}
+            {topper.image ? (
+              <img 
+                src={topper.image} 
+                alt={topper.name} 
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2000ms] ease-out"
+              />
+            ) : (
+              <div className="absolute inset-0 bg-neutral-900 flex items-center justify-center">
+                <span className="text-5xl sm:text-6xl md:text-7xl font-black text-white/5 uppercase select-none">{topper.name.charAt(0)}</span>
               </div>
-              <h2 className="text-4xl sm:text-5xl font-heading font-black text-gray-900 tracking-tight leading-none">
-                Our <span className="text-transparent bg-clip-text bg-gradient-to-tr from-amber-600 via-orange-500 to-yellow-600 uppercase">Top Performers</span>
-              </h2>
-              <p className="text-gray-500 font-medium">Inspiring academic excellence through dedication and hard work.</p>
+            )}
+
+            {/* Dynamic Overlays */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10" />
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black to-transparent" />
+            
+            {/* Rank Badge Indicator */}
+            <div className="absolute top-3 left-3 sm:top-4 sm:left-4 md:top-5 md:left-5 z-30">
+              {/* You can add rank badge content here if needed */}
             </div>
-            <Link to="/toppers" className="group flex items-center gap-2 text-sm font-bold text-gray-900 hover:text-amber-600 transition-all uppercase tracking-widest bg-gray-50 px-6 py-3 rounded-2xl border border-gray-100 hover:border-amber-200">
-               <span>Hall of Fame</span>
-               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
 
-          <div className="relative group/scroll">
-            <div className="topper-scroll-container flex gap-4 sm:gap-6 md:gap-8 overflow-x-auto pb-10 snap-x snap-mandatory no-scrollbar scroll-smooth">
-              {toppers.map((topper, idx) => (
-                <div 
-                  key={topper._id} 
-                  className="flex-none w-[180px] sm:w-[220px] md:w-[260px] aspect-[4/5.5] rounded-[2.5rem] overflow-hidden relative group snap-start shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] border border-white/20 transition-all duration-500 hover:-translate-y-2"
-                >
-                  {/* Background Image */}
-                  {topper.image ? (
-                    <img 
-                      src={topper.image} 
-                      alt={topper.name} 
-                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2000ms] ease-out"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 bg-neutral-900 flex items-center justify-center">
-                       <span className="text-7xl font-black text-white/5 uppercase select-none">{topper.name.charAt(0)}</span>
-                    </div>
-                  )}
-
-                  {/* Dynamic Overlays */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10" />
-                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black to-transparent" />
-                  
-                  {/* Rank Badge Indicator */}
-                  <div className="absolute top-5 left-5 z-30">
-                 
-                  </div>
-
-                  {/* Content Overlay */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
-                    <div className="mb-3 flex items-center justify-between">
-                       <span className="px-3 py-1 bg-amber-500/20 backdrop-blur-md text-amber-300 rounded-full text-[10px] font-black uppercase tracking-[0.2em] border border-amber-500/30">
-                         {topper.course}
-                       </span>
-                       <div className="text-white font-black text-xl sm:text-2xl px-2 py-1 bg-amber-500 rounded-lg  drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
-                          {topper.rank} <span className="text-[10px] uppercase opacity-60 font-medium">Marks</span>
-                       </div>
-                    </div>
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-heading font-black text-white leading-tight group-hover:text-amber-300 transition-colors">
-                      {topper.name}
-                    </h3>
-                  </div>
-                  
-                  {/* Subtle Border Glow */}
-                  <div className="absolute inset-0 ring-1 ring-inset ring-white/10 group-hover:ring-amber-400/50 rounded-[2.5rem] transition-all duration-500 z-30 pointer-events-none" />
+            {/* Content Overlay */}
+            <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-5 lg:p-6 z-20">
+              <div className="mb-2 sm:mb-3 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                <span className="px-2 sm:px-3 py-0.5 sm:py-1 bg-amber-500/20 backdrop-blur-md text-amber-300 rounded-full text-[8px] sm:text-[10px] font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] border border-amber-500/30 text-center sm:text-left w-fit">
+                  {topper.course}
+                </span>
+                <div className="text-white font-black text-xs sm:text-sm md:text-2xl px-1.5 sm:px-2 py-0.5 sm:py-1 bg-amber-500 rounded-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] text-center sm:text-left w-fit">
+                  {topper.rank} <span className="text-[8px] sm:text-[10px] uppercase opacity-60 font-medium">Marks</span>
                 </div>
-              ))}
+              </div>
+              <h3 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-heading font-black text-white leading-tight group-hover:text-amber-300 transition-colors break-words">
+                {topper.name}
+              </h3>
             </div>
+            
+            {/* Subtle Border Glow */}
+            <div className="absolute inset-0 ring-1 ring-inset ring-white/10 group-hover:ring-amber-400/50 rounded-2xl sm:rounded-[2rem] md:rounded-[2.5rem] transition-all duration-500 z-30 pointer-events-none" />
           </div>
+        ))}
+      </div>
+    </div>
 
-          <style dangerouslySetInnerHTML={{__html: `
-            .no-scrollbar::-webkit-scrollbar { display: none; }
-            .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-            
-            @keyframes bounce-subtle {
-              0%, 100% { transform: translateY(0); }
-              50% { transform: translateY(-3px); }
-            }
-            .animate-bounce-subtle { animation: bounce-subtle 3s ease-in-out infinite; }
-            
-            .topper-scroll-container {
-               mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
-               -webkit-mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
-            }
-          `}} />
-        </section>
-      )}
+    <style dangerouslySetInnerHTML={{__html: `
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      
+      @keyframes bounce-subtle {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
+      }
+      .animate-bounce-subtle { animation: bounce-subtle 3s ease-in-out infinite; }
+      
+      .topper-scroll-container {
+        mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+      }
+      
+      /* Better touch scrolling for mobile */
+      @media (max-width: 640px) {
+        .topper-scroll-container {
+          mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+          -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+          -webkit-overflow-scrolling: touch;
+        }
+      }
+    `}} />
+  </section>
+)}
 
       {notices.length > 0 && (
         <section className="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 mt-6 overflow-hidden">
