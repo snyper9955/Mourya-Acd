@@ -43,7 +43,7 @@ const Home = () => {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   // Featured courses for carousel (use first 5 active courses)
-  const featuredCourses = courses.filter(c => !c.isFinished).slice(0, 5);
+  const featuredCourses = courses.filter((c) => !c.isFinished).slice(0, 5);
 
   useEffect(() => {
     const fetchNotices = async () => {
@@ -102,7 +102,9 @@ const Home = () => {
 
   const prevSlide = () => {
     if (featuredCourses.length === 0) return;
-    setCurrentSlide((prev) => (prev - 1 + featuredCourses.length) % featuredCourses.length);
+    setCurrentSlide(
+      (prev) => (prev - 1 + featuredCourses.length) % featuredCourses.length,
+    );
     setIsAutoPlaying(false);
     setTimeout(() => setIsAutoPlaying(true), 3000);
   };
@@ -118,7 +120,8 @@ const Home = () => {
     {
       icon: BookOpen,
       title: "Expert Faculty",
-      description: "Learn from industry professionals with years of teaching experience",
+      description:
+        "Learn from industry professionals with years of teaching experience",
       gradient: "from-emerald-500 to-teal-600",
       bgGradient: "from-emerald-50/50 to-teal-50/50",
     },
@@ -166,226 +169,154 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-white font-sans text-gray-800 mt-20">
       {toppers.length > 0 && (
-        <section className="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 mt-6 overflow-hidden mb-6">
-          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
-            <div className="shrink-0 flex items-center gap-2 px-3 py-1.5 sm:py-2 bg-gradient-to-r from-amber-100 to-amber-50 border border-amber-200 rounded-full shadow-sm z-10 relative">
-              <Award className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-600 animate-pulse" />
-              <span className="text-[10px] sm:text-xs font-bold text-amber-800 uppercase tracking-wider">Top Achievers</span>
-            </div>
-            
-            <div className="marquee-container flex-1 w-full">
-              <div className="marquee-content">
-                {[...toppers, ...toppers, ...toppers, ...toppers].map((topper, idx) => (
-                  <Link 
-                    to="/toppers" 
-                    key={`${topper._id}-${idx}`} 
-                    className="shrink-0 flex items-center gap-3 bg-white border border-gray-100 rounded-full p-1.5 pr-5 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] hover:shadow-md hover:border-amber-200 transition-all cursor-pointer group"
-                  >
-                    <div className="w-9 h-9 rounded-full bg-gray-50 overflow-hidden shrink-0 border border-amber-200 shadow-inner">
-                      {topper.image ? (
-                        <img src={topper.image} alt={topper.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center font-bold text-sm text-gray-400 bg-gray-100">{topper.name.charAt(0)}</div>
-                      )}
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-gray-800 leading-none group-hover:text-amber-600 transition-colors">{topper.name}</h4>
-                      <div className="flex items-center gap-1 mt-1">
-                        <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
-                        <span className="text-[11px] font-medium text-gray-500">Rank {topper.rank}</span>
-                        {topper.course && (
-                           <>
-                             <span className="w-1 h-1 rounded-full bg-gray-300 mx-0.5"></span>
-                             <span className="text-[10px] text-gray-400 truncate max-w-[100px]">{topper.course}</span>
-                           </>
-                        )}
-                      </div>
-                    </div>
-                  </Link>
-                ))}
+        <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-20 overflow-hidden">
+          {/* Header Section */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 rounded-full border border-amber-100/50 shadow-sm animate-bounce-subtle">
+                < Award className="w-4 h-4 text-amber-500" />
+                <span className="text-xs font-bold text-amber-700 uppercase tracking-widest">Academic Excellence</span>
               </div>
+              <h2 className="text-4xl sm:text-5xl font-heading font-black text-gray-900 tracking-tight leading-none">
+                Our <span className="text-transparent bg-clip-text bg-gradient-to-tr from-amber-600 via-orange-500 to-yellow-600 uppercase">Top Performers</span>
+              </h2>
+              <p className="text-gray-500 font-medium">Inspiring academic excellence through dedication and hard work.</p>
+            </div>
+            <Link to="/toppers" className="group flex items-center gap-2 text-sm font-bold text-gray-900 hover:text-amber-600 transition-all uppercase tracking-widest bg-gray-50 px-6 py-3 rounded-2xl border border-gray-100 hover:border-amber-200">
+               <span>Hall of Fame</span>
+               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+
+          <div className="relative group/scroll">
+            <div className="topper-scroll-container flex gap-4 sm:gap-6 md:gap-8 overflow-x-auto pb-10 snap-x snap-mandatory no-scrollbar scroll-smooth">
+              {toppers.map((topper, idx) => (
+                <div 
+                  key={topper._id} 
+                  className="flex-none w-[180px] sm:w-[220px] md:w-[260px] aspect-[4/5.5] rounded-[2.5rem] overflow-hidden relative group snap-start shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] border border-white/20 transition-all duration-500 hover:-translate-y-2"
+                >
+                  {/* Background Image */}
+                  {topper.image ? (
+                    <img 
+                      src={topper.image} 
+                      alt={topper.name} 
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-[2000ms] ease-out"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-neutral-900 flex items-center justify-center">
+                       <span className="text-7xl font-black text-white/5 uppercase select-none">{topper.name.charAt(0)}</span>
+                    </div>
+                  )}
+
+                  {/* Dynamic Overlays */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-10" />
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black to-transparent" />
+                  
+                  {/* Rank Badge Indicator */}
+                  <div className="absolute top-5 left-5 z-30">
+                 
+                  </div>
+
+                  {/* Content Overlay */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
+                    <div className="mb-3 flex items-center justify-between">
+                       <span className="px-3 py-1 bg-amber-500/20 backdrop-blur-md text-amber-300 rounded-full text-[10px] font-black uppercase tracking-[0.2em] border border-amber-500/30">
+                         {topper.course}
+                       </span>
+                       <div className="text-white font-black text-xl sm:text-2xl px-2 py-1 bg-amber-500 rounded-lg  drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                          {topper.rank} <span className="text-[10px] uppercase opacity-60 font-medium">Marks</span>
+                       </div>
+                    </div>
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-heading font-black text-white leading-tight group-hover:text-amber-300 transition-colors">
+                      {topper.name}
+                    </h3>
+                  </div>
+                  
+                  {/* Subtle Border Glow */}
+                  <div className="absolute inset-0 ring-1 ring-inset ring-white/10 group-hover:ring-amber-400/50 rounded-[2.5rem] transition-all duration-500 z-30 pointer-events-none" />
+                </div>
+              ))}
             </div>
           </div>
-          
+
           <style dangerouslySetInnerHTML={{__html: `
-            .marquee-container {
-                display: flex;
-                overflow: hidden;
-                white-space: nowrap;
-                width: 100%;
-                mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
-                -webkit-mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
+            .no-scrollbar::-webkit-scrollbar { display: none; }
+            .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+            
+            @keyframes bounce-subtle {
+              0%, 100% { transform: translateY(0); }
+              50% { transform: translateY(-3px); }
             }
-            .marquee-content {
-                display: flex;
-                gap: 1.5rem;
-                animation: scrollMarquee 40s linear infinite;
-            }
-            .marquee-content:hover {
-                animation-play-state: paused;
-            }
-            @keyframes scrollMarquee {
-                0% { transform: translateX(0); }
-                100% { transform: translateX(-50%); }
+            .animate-bounce-subtle { animation: bounce-subtle 3s ease-in-out infinite; }
+            
+            .topper-scroll-container {
+               mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+               -webkit-mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
             }
           `}} />
         </section>
       )}
-      {/* Hero Carousel Section - Pixabay Style */}
-      <div className="text-center text-2xl font-extrabold">Our Courses</div>
-      <section className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div className="relative rounded-xl overflow-hidden bg-gray-900 min-h-[180px] sm:min-h-[320px] md:min-h-[320px] lg:min-h-[320px]">
-          {featuredCourses.length > 0 ? (
-            featuredCourses.map((course, index) => (
-              <div
-                key={course._id}
-                className={`absolute inset-0 transition-opacity duration-700 ${
-                  index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
-                }`}
-              >
-                <Link
-                  to={`/course/${course._id}`}
-                  className="absolute inset-0 cursor-pointer group"
-                >
-                  {/* Background Image */}
-                  {course.image ? (
-                    <img
-                      src={course.image}
-                      alt={course.title}
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-700 to-emerald-900 flex items-center justify-center">
-                      <BookOpen className="w-20 h-20 text-white/20" />
-                    </div>
-                  )}
-
-                  {/* Dark Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/50 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/80 opacity-10 via-black/50 to-transparent" />
-
-                  {/* Content */}
-                  <div className="relative z-20 h-full flex flex-col items-end justify-end p-6 sm:p-10 md:p-14 text-right">
-                    <div className="max-w-2xl text-white">
-                      <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-3 leading-tight tracking-tight drop-shadow-md">
-                        {course.title}
-                      </h2>
-
-                      <h3 className="text-sm sm:text-xl md:text-2xl lg:text-3xl font-medium text-white/90 mb-6 drop-shadow-sm">
-                        {course.duration}
-                      </h3>
-
-                      <div className="inline-block font-medium bg-emerald-600 hover:bg-emerald-700 px-8 py-3 rounded-full text-sm sm:text-lg font-bold transition-all duration-300 shadow-xl hover:scale-105 active:scale-95">
-                        View Details
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            ))
-          ) : loadingCourses ? (
-            <div className="absolute inset-0 bg-slate-100 flex items-center justify-center">
-              <div className="w-full h-full flex flex-col items-center justify-center gap-4 px-10">
-                <Skeleton className="h-12 w-3/4 max-w-lg mb-4" />
-                <Skeleton className="h-6 w-1/2 max-w-sm mb-8" />
-                <Skeleton className="h-12 w-40 rounded-full" />
-              </div>
-            </div>
-          ) : (
-            <div className="absolute inset-0 bg-gradient-to-br from-emerald-700 to-blue-800 flex items-center justify-center">
-              <div className="text-center text-white px-4">
-                <BookOpen className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                <h2 className="text-2xl sm:text-3xl font-bold mb-2">Learn from the Best</h2>
-                <p className="text-sm sm:text-lg opacity-80">Discover our amazing courses</p>
-              </div>
-            </div>
-          )}
-
-          {/* Navigation Arrows */}
-          {featuredCourses.length > 1 && (
-            <>
-              <button
-                onClick={prevSlide}
-                className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 backdrop-blur transition"
-              >
-                <ChevronLeftIcon className="w-5 h-5" />
-              </button>
-              <button
-                onClick={nextSlide}
-                className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 backdrop-blur transition"
-              >
-                <ChevronRightIcon className="w-5 h-5" />
-              </button>
-            </>
-          )}
-
-          {/* Indicators */}
-          {featuredCourses.length > 1 && (
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex gap-2">
-              {featuredCourses.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToSlide(index)}
-                  className={`transition-all rounded-full ${
-                    index === currentSlide
-                      ? "w-8 h-2 bg-white"
-                      : "w-2 h-2 bg-white/50"
-                  }`}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
 
       {notices.length > 0 && (
         <section className="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 mt-6 overflow-hidden">
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
             <div className="shrink-0 flex items-center gap-2 px-3 py-1.5 sm:py-2 bg-gradient-to-r from-blue-100 to-blue-50 border border-blue-200 rounded-full shadow-sm z-10 relative">
               <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600 animate-pulse" />
-              <span className="text-[10px] sm:text-xs font-bold text-blue-800 uppercase tracking-wider">Latest Notices</span>
+              <span className="text-[10px] sm:text-xs font-bold text-blue-800 uppercase tracking-wider">
+                Latest Notices
+              </span>
             </div>
-            
+
             <div className="marquee-container flex-1 w-full">
-              <div className="marquee-content" style={{ animationDuration: '35s' }}>
-                {[...notices, ...notices, ...notices, ...notices].map((notice, idx) => (
-                  <Link 
-                    to="/notices" 
-                    key={`${notice._id}-${idx}`} 
-                    className="shrink-0 flex items-center gap-3 bg-white border border-gray-100 rounded-full p-1.5 pr-5 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] hover:shadow-md hover:border-blue-200 transition-all cursor-pointer group"
-                  >
-                    <span
-                      className={`text-[10px] font-bold px-2.5 py-1 rounded-full shrink-0 ${
-                        notice.category === "Urgent"
-                          ? "bg-red-50 text-red-600 border border-red-100"
-                          : notice.category === "Event"
-                          ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
-                          : "bg-blue-50 text-blue-600 border border-blue-100"
-                      }`}
+              <div
+                className="marquee-content"
+                style={{ animationDuration: "35s" }}
+              >
+                {[...notices, ...notices, ...notices, ...notices].map(
+                  (notice, idx) => (
+                    <Link
+                      to="/notices"
+                      key={`${notice._id}-${idx}`}
+                      className="shrink-0 flex items-center gap-3 bg-white border border-gray-100 rounded-full p-1.5 pr-5 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] hover:shadow-md hover:border-blue-200 transition-all cursor-pointer group"
                     >
-                      {notice.category || "Notice"}
-                    </span>
-                    <h4 className="text-sm font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">{notice.content}</h4>
-                    {notice.createdAt && (
-                       <div className="flex items-center gap-1 shrink-0">
-                         <span className="w-1 h-1 rounded-full bg-gray-300 mx-1"></span>
-                         <span className="text-[11px] font-medium text-gray-500">
-                            {new Date(notice.createdAt).toLocaleDateString("en-IN", {
-                               day: "numeric",
-                               month: "short",
-                            })}
-                         </span>
-                       </div>
-                    )}
-                  </Link>
-                ))}
+                      <span
+                        className={`text-[10px] font-bold px-2.5 py-1 rounded-full shrink-0 ${
+                          notice.category === "Urgent"
+                            ? "bg-red-50 text-red-600 border border-red-100"
+                            : notice.category === "Event"
+                              ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
+                              : "bg-blue-50 text-blue-600 border border-blue-100"
+                        }`}
+                      >
+                        {notice.category || "Notice"}
+                      </span>
+                      <h4 className="text-sm font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
+                        {notice.content}
+                      </h4>
+                      {notice.createdAt && (
+                        <div className="flex items-center gap-1 shrink-0">
+                          <span className="w-1 h-1 rounded-full bg-gray-300 mx-1"></span>
+                          <span className="text-[11px] font-medium text-gray-500">
+                            {new Date(notice.createdAt).toLocaleDateString(
+                              "en-IN",
+                              {
+                                day: "numeric",
+                                month: "short",
+                              },
+                            )}
+                          </span>
+                        </div>
+                      )}
+                    </Link>
+                  ),
+                )}
               </div>
             </div>
           </div>
         </section>
       )}
 
-      {/* Compact Toppers Marquee Slide */}
+      {/* Hero Intro Section */}
       <section className="relative w-full bg-white overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-100/20 rounded-full blur-3xl -mr-48 -mt-48" />
 
@@ -400,12 +331,12 @@ const Home = () => {
                 >
                   Explore Courses <ArrowRight className="w-4 h-4" />
                 </button>
-                
+
                 <Link
                   to="tel:+919835958271"
                   className="bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-emerald-700 transition-all shadow-sm hover:shadow-md"
                 >
-                  <Phone className="w-4 h-4" /> call us 
+                  <Phone className="w-4 h-4" /> call us
                 </Link>
 
                 {!user && (
@@ -542,7 +473,10 @@ const Home = () => {
                 {loadingNotices ? (
                   <div className="space-y-4">
                     {[1, 2, 3, 4].map((i) => (
-                      <div key={i} className="flex flex-col gap-2 p-4 rounded-xl border border-gray-50">
+                      <div
+                        key={i}
+                        className="flex flex-col gap-2 p-4 rounded-xl border border-gray-50"
+                      >
                         <Skeleton className="h-3 w-16" />
                         <Skeleton className="h-4 w-full" />
                         <Skeleton className="h-3 w-3/4" />
@@ -562,8 +496,8 @@ const Home = () => {
                             notice.category === "Urgent"
                               ? "bg-red-50 text-red-600"
                               : notice.category === "Event"
-                              ? "bg-emerald-50 text-emerald-600"
-                              : "bg-blue-50 text-blue-600"
+                                ? "bg-emerald-50 text-emerald-600"
+                                : "bg-blue-50 text-blue-600"
                           }`}
                         >
                           {notice.category || "Notice"}
@@ -574,7 +508,7 @@ const Home = () => {
                             {
                               day: "numeric",
                               month: "short",
-                            }
+                            },
                           )}
                         </span>
                       </div>
@@ -635,39 +569,42 @@ const Home = () => {
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 gap-4">
-                    {courses.filter(c => !c.isFinished).slice(0, 4).map((course) => (
-                      <Link
-                        to={`/course/${course._id}`}
-                        key={course._id}
-                        className="group flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors"
-                      >
-                        <div className="w-16 h-16 rounded-xl bg-linear-to-br from-emerald-50 to-blue-50 flex items-center justify-center overflow-hidden shrink-0">
-                          {course.image ? (
-                            <img
-                              src={course.image}
-                              alt={course.title}
-                              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                            />
-                          ) : (
-                            <BookOpen className="w-6 h-6 text-emerald-500 transition-transform duration-300 group-hover:scale-110" />
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h4 className="font-semibold text-gray-800 truncate">
-                            {course.title || "New Course"}
-                          </h4>
-                          <div className="flex items-center gap-3 mt-1">
-                            <span className="text-sm font-bold text-emerald-600">
-                              ₹{course.fee?.toLocaleString()}
-                            </span>
-                            <span className="text-xs text-gray-400">
-                              {course.duration}
-                            </span>
+                    {courses
+                      .filter((c) => !c.isFinished)
+                      .slice(0, 4)
+                      .map((course) => (
+                        <Link
+                          to={`/course/${course._id}`}
+                          key={course._id}
+                          className="group flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors"
+                        >
+                          <div className="w-16 h-16 rounded-xl bg-linear-to-br from-emerald-50 to-blue-50 flex items-center justify-center overflow-hidden shrink-0">
+                            {course.image ? (
+                              <img
+                                src={course.image}
+                                alt={course.title}
+                                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                              />
+                            ) : (
+                              <BookOpen className="w-6 h-6 text-emerald-500 transition-transform duration-300 group-hover:scale-110" />
+                            )}
                           </div>
-                        </div>
-                        <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-emerald-500 transition-colors" />
-                      </Link>
-                    ))}
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-semibold text-gray-800 truncate">
+                              {course.title || "New Course"}
+                            </h4>
+                            <div className="flex items-center gap-3 mt-1">
+                              <span className="text-sm font-bold text-emerald-600">
+                                ₹{course.fee?.toLocaleString()}
+                              </span>
+                              <span className="text-xs text-gray-400">
+                                {course.duration}
+                              </span>
+                            </div>
+                          </div>
+                          <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-emerald-500 transition-colors" />
+                        </Link>
+                      ))}
                   </div>
                 )}
               </div>
@@ -704,7 +641,10 @@ const Home = () => {
                 {loadingToppers ? (
                   <div className="space-y-4">
                     {[1, 2, 3, 4, 5].map((i) => (
-                      <div key={i} className="flex items-center gap-4 p-3 rounded-xl bg-white/5">
+                      <div
+                        key={i}
+                        className="flex items-center gap-4 p-3 rounded-xl bg-white/5"
+                      >
                         <Skeleton className="w-12 h-12 shrink-0 bg-white/10" />
                         <div className="flex-1 space-y-2">
                           <Skeleton className="h-4 w-3/4 bg-white/10" />
@@ -779,58 +719,98 @@ const Home = () => {
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 rounded-full mb-4 border border-emerald-100 shadow-sm">
                 <Camera className="w-4 h-4 text-emerald-600" />
-                <span className="text-sm font-semibold text-emerald-700 uppercase tracking-wide">Campus Life</span>
+                <span className="text-sm font-semibold text-emerald-700 uppercase tracking-wide">
+                  Campus Life
+                </span>
               </div>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
-                Explore Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 tracking-tight">Gallery</span>
+                Explore Our{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 tracking-tight">
+                  Gallery
+                </span>
               </h2>
             </div>
-            <Link to="/gallery" className="group hidden md:flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-medium hover:bg-slate-800 transition-all shadow-md hover:shadow-lg active:scale-95">
+            <Link
+              to="/gallery"
+              className="group hidden md:flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-medium hover:bg-slate-800 transition-all shadow-md hover:shadow-lg active:scale-95"
+            >
               <span>View Full Gallery</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             <div className="col-span-2 lg:row-span-2 rounded-3xl overflow-hidden relative group h-64 md:h-96 lg:h-full shadow-sm hover:shadow-xl transition-shadow duration-500 bg-slate-100">
-              <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=800" alt="Campus Life" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <img
+                src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=800"
+                alt="Campus Life"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 md:p-8">
-                 <h3 className="text-white font-bold text-2xl md:text-3xl mb-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Modern University</h3>
-                 <p className="text-emerald-300 font-medium translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">Spacious & Vibrant</p>
+                <h3 className="text-white font-bold text-2xl md:text-3xl mb-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                  Modern University
+                </h3>
+                <p className="text-emerald-300 font-medium translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
+                  Spacious & Vibrant
+                </p>
               </div>
             </div>
             <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500 bg-slate-100">
-               <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=400" alt="Classroom" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-               <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                 <span className="text-white font-bold">Classrooms</span>
-               </div>
+              <img
+                src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=400"
+                alt="Classroom"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <span className="text-white font-bold">Classrooms</span>
+              </div>
             </div>
             <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500 bg-slate-100">
-               <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=400" alt="Students" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                 <span className="text-white font-bold">Group Studies</span>
-               </div>
-            </div>
-             <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500 bg-slate-100">
-               <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=400" alt="Activities" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                 <span className="text-white font-bold">Activities</span>
-               </div>
+              <img
+                src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=400"
+                alt="Students"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <span className="text-white font-bold">Group Studies</span>
+              </div>
             </div>
             <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500 bg-slate-100">
-               <Link to="/gallery" className="absolute inset-0 bg-emerald-600/90 backdrop-blur-sm text-white flex flex-col items-center justify-center p-6 hover:bg-emerald-700 transition-colors z-10 group-hover:scale-105 duration-500">
-                 <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mb-3">
-                   <ArrowRight className="w-6 h-6" />
-                 </div>
-                 <span className="font-bold text-lg whitespace-nowrap">View All</span>
-               </Link>
-               <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=400" alt="More" className="w-full h-full object-cover" />
+              <img
+                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=400"
+                alt="Activities"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <span className="text-white font-bold">Activities</span>
+              </div>
+            </div>
+            <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500 bg-slate-100">
+              <Link
+                to="/gallery"
+                className="absolute inset-0 bg-emerald-600/90 backdrop-blur-sm text-white flex flex-col items-center justify-center p-6 hover:bg-emerald-700 transition-colors z-10 group-hover:scale-105 duration-500"
+              >
+                <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mb-3">
+                  <ArrowRight className="w-6 h-6" />
+                </div>
+                <span className="font-bold text-lg whitespace-nowrap">
+                  View All
+                </span>
+              </Link>
+              <img
+                src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=400"
+                alt="More"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
-          
-          <Link to="/gallery" className="mt-8 md:hidden w-full flex items-center justify-center gap-2 px-6 py-4 bg-slate-900 text-white rounded-2xl font-bold shadow-lg active:scale-95 transition-transform">
-              <span>Explore Full Gallery</span>
-              <ArrowRight className="w-5 h-5" />
+
+          <Link
+            to="/gallery"
+            className="mt-8 md:hidden w-full flex items-center justify-center gap-2 px-6 py-4 bg-slate-900 text-white rounded-2xl font-bold shadow-lg active:scale-95 transition-transform"
+          >
+            <span>Explore Full Gallery</span>
+            <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
       </section>
@@ -862,9 +842,13 @@ const Home = () => {
                 key={index}
                 className="group relative p-6 rounded-2xl bg-white border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
-                <div className={`absolute inset-0 bg-linear-to-r ${feature.bgGradient} opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-300`} />
+                <div
+                  className={`absolute inset-0 bg-linear-to-r ${feature.bgGradient} opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-300`}
+                />
                 <div className="relative z-10">
-                  <div className={`w-14 h-14 bg-linear-to-r ${feature.gradient} rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
+                  <div
+                    className={`w-14 h-14 bg-linear-to-r ${feature.gradient} rounded-xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform`}
+                  >
                     <feature.icon className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2">
