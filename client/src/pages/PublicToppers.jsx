@@ -11,6 +11,12 @@ const PublicToppers = () => {
     const [selectedCourse, setSelectedCourse] = useState('all');
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [visibleCount, setVisibleCount] = useState(8);
+    const getImageUrl = (imagePath) => {
+        if (!imagePath) return null;
+        if (imagePath.startsWith('http')) return imagePath;
+        const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+        return `${baseUrl.replace(/\/$/, '')}${imagePath}`;
+    };
 
     useEffect(() => {
         const fetchToppers = async () => {
@@ -99,33 +105,6 @@ const PublicToppers = () => {
                             Achievers
                         </span>
                     </h1>
-                </div>
-
-                {/* Compact Stats Cards - Horizontal scroll on mobile */}
-                <div className="grid grid-cols-4 gap-2 mb-6">
-                    <div className="bg-white rounded-lg p-2 shadow-sm border border-gray-100 text-center">
-                        <Trophy className="w-4 h-4 text-emerald-600 mx-auto mb-1" />
-                        <p className="text-lg font-bold text-gray-900">{totalAchievers}</p>
-                        <p className="text-[10px] text-gray-500">Achievers</p>
-                    </div>
-                    
-                    <div className="bg-white rounded-lg p-2 shadow-sm border border-gray-100 text-center">
-                        <BookOpen className="w-4 h-4 text-purple-600 mx-auto mb-1" />
-                        <p className="text-lg font-bold text-gray-900">{uniqueCourses}</p>
-                        <p className="text-[10px] text-gray-500">Courses</p>
-                    </div>
-                    
-                    <div className="bg-white rounded-lg p-2 shadow-sm border border-gray-100 text-center">
-                        <Crown className="w-4 h-4 text-amber-600 mx-auto mb-1" />
-                        <p className="text-lg font-bold text-gray-900">{topRankers}</p>
-                        <p className="text-[10px] text-gray-500">Top 3</p>
-                    </div>
-                    
-                    <div className="bg-white rounded-lg p-2 shadow-sm border border-gray-100 text-center">
-                        <Users className="w-4 h-4 text-blue-600 mx-auto mb-1" />
-                        <p className="text-lg font-bold text-gray-900">100%</p>
-                        <p className="text-[10px] text-gray-500">Success</p>
-                    </div>
                 </div>
 
                 {/* Compact Search and Filter */}
@@ -229,18 +208,14 @@ const PublicToppers = () => {
                                         className="group bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden hover:-translate-y-0.5"
                                     >
                                         <div className="p-3">
-                                            {/* Rank Badge - Small */}
-                                            <div className={`inline-flex items-center gap-1 px-2 py-0.5 ${rankConfig.bg} rounded-full text-[10px] font-bold mb-2 ${rankConfig.text}`}>
-                                                {rankConfig.icon}
-                                                #{topper.rank}
-                                            </div>
+                                           
                                             
                                             {/* Avatar - Square and compact */}
                                             <div className="relative mb-2">
-                                                <div className="w-20 h-20 rounded-lg bg-gray-50 flex items-center justify-center overflow-hidden mx-auto shadow-sm">
+                                                <div className="w-full h-full rounded-lg bg-gray-50 flex items-center justify-center overflow-hidden mx-auto shadow-sm">
                                                     {topper.image ? (
                                                         <img 
-                                                            src={topper.image} 
+                                                            src={getImageUrl(topper.image)} 
                                                             alt={topper.name} 
                                                             className="w-full h-full object-cover"
                                                         />
@@ -252,15 +227,6 @@ const PublicToppers = () => {
                                                 </div>
                                             </div>
 
-                                            <h3 className="text-sm font-bold text-gray-900 text-center truncate group-hover:text-emerald-600 transition-colors">
-                                                {topper.name}
-                                            </h3>
-                                            
-                                            <p className="text-[11px] text-gray-500 text-center truncate">{topper.course}</p>
-
-                                            {topper.year && (
-                                                <p className="text-[10px] text-gray-400 text-center mt-1">{topper.year}</p>
-                                            )}
                                         </div>
                                     </div>
                                 );

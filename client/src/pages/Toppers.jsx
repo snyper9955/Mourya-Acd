@@ -18,7 +18,9 @@ import {
   Sparkles,
   Calendar,
   MessageSquare,
-  ExternalLink
+  ExternalLink,
+  Pencil,
+  Upload
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -30,6 +32,10 @@ const Toppers = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedYear, setSelectedYear] = useState('all');
     const [viewMode, setViewMode] = useState('grid');
+    
+    const [editingTopper, setEditingTopper] = useState(null);
+    const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -40,6 +46,13 @@ const Toppers = () => {
         image: '',
         isFeatured: false
     });
+
+    const getImageUrl = (imagePath) => {
+        if (!imagePath) return null;
+        if (imagePath.startsWith('http')) return imagePath;
+        const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+        return `${baseUrl.replace(/\/$/, '')}${imagePath}`;
+    };
 
     useEffect(() => {
         fetchToppers();
@@ -56,31 +69,96 @@ const Toppers = () => {
         }
     };
 
-    const handleAddTopper = async (e) => {
+    const handleOpenAddModal = () => {
+        setEditingTopper(null);
+        setFormData({ name: '', course: '', rank: '', year: new Date().getFullYear().toString(), message: '', image: '', isFeatured: false });
+        setImageFile(null);
+        setImagePreview(null);
+        setIsAddModalOpen(true);
+    };
+
+    const handleEdit = (topper) => {
+        setEditingTopper(topper);
+        setFormData({
+            name: topper.name,
+            course: topper.course,
+            rank: topper.rank,
+            year: topper.year,
+            message: topper.message || '',
+            image: topper.image || '',
+            isFeatured: topper.isFeatured
+        });
+        setImageFile(null);
+        setImagePreview(topper.image ? getImageUrl(topper.image) : null);
+        setIsAddModalOpen(true);
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.name || !formData.course || !formData.rank) {
             toast.error('Please fill in all required fields');
             return;
         }
+
+        const data = new FormData();
+        data.append('name', formData.name);
+        data.append('course', formData.course);
+        data.append('rank', formData.rank);
+        data.append('year', formData.year);
+        data.append('message', formData.message);
+        data.append('isFeatured', formData.isFeatured);
+        if (imageFile) {
+            data.append('image', imageFile);
+        } else {
+            data.append('image', formData.image);
+        }
+
         try {
-            await api.post('/api/toppers', formData);
-            toast.success('Topper added to the gallery! 🎉');
+            const topperId = editingTopper?._id || editingTopper?.id;
+            
+            if (editingTopper) {
+                if (!topperId) {
+                    toast.error('Cannot identify topper for update');
+                    return;
+                }
+                const response = await api.put(`/api/toppers/${topperId}`, data, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
+                if (response.data.success) {
+                    toast.success('Achiever details updated! ✨');
+                }
+            } else {
+                const response = await api.post('/api/toppers', data, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
+                if (response.data.success) {
+                    toast.success('Topper added to the gallery! 🎉');
+                }
+            }
             setIsAddModalOpen(false);
-            setFormData({ name: '', course: '', rank: '', year: new Date().getFullYear().toString(), message: '', image: '', isFeatured: false });
             fetchToppers();
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Failed to add topper');
+            console.error('Submit error:', error);
+            toast.error(error.response?.data?.message || 'Failed to save topper');
         }
     };
 
     const handleDeleteTopper = async (id) => {
+        if (!id) {
+            toast.error('Invalid ID');
+            return;
+        }
         if (!window.confirm('Are you sure you want to remove this achiever?')) return;
+        
         try {
-            await api.delete(`/api/toppers/${id}`);
-            toast.success('Achiever removed');
-            fetchToppers();
+            const response = await api.delete(`/api/toppers/${id}`);
+            if (response.data.success) {
+                toast.success('Achiever removed! 🗑️');
+                fetchToppers();
+            }
         } catch (error) {
-            toast.error('Failed to remove achiever');
+            console.error('Delete error:', error);
+            toast.error(error.response?.data?.message || 'Failed to remove achiever');
         }
     };
 
@@ -108,8 +186,10 @@ const Toppers = () => {
 
     const years = ['all', ...new Set(toppers.map(t => t.year))].sort().reverse();
     const filteredToppers = toppers.filter(topper => {
-        const matchesSearch = topper.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            topper.course.toLowerCase().includes(searchTerm.toLowerCase());
+        const name = topper.name || '';
+        const course = topper.course || '';
+        const matchesSearch = name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                             course.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesYear = selectedYear === 'all' || topper.year === selectedYear;
         return matchesSearch && matchesYear;
     });
@@ -152,7 +232,7 @@ const Toppers = () => {
                         </p>
                     </div>
                     <button 
-                        onClick={() => setIsAddModalOpen(true)}
+                        onClick={handleOpenAddModal}
                         className="inline-flex items-center gap-2 bg-white text-emerald-700 hover:bg-emerald-50 px-5 py-2.5 rounded-xl font-bold shadow-lg transition-all active:scale-95"
                     >
                         <Plus className="w-4 h-4" />
@@ -238,8 +318,10 @@ const Toppers = () => {
                                 key={topper._id} 
                                 topper={topper} 
                                 onDelete={handleDeleteTopper}
+                                onEdit={handleEdit}
                                 getRankIcon={getRankIcon}
                                 getRankColor={getRankColor}
+                                getImageUrl={getImageUrl}
                             />
                         ))}
                     </div>
@@ -256,8 +338,10 @@ const Toppers = () => {
                                     key={topper._id} 
                                     topper={topper} 
                                     onDelete={handleDeleteTopper}
+                                    onEdit={handleEdit}
                                     getRankIcon={getRankIcon}
                                     getRankColor={getRankColor}
+                                    getImageUrl={getImageUrl}
                                 />
                             ))}
                         </div>
@@ -268,6 +352,7 @@ const Toppers = () => {
                                     key={topper._id} 
                                     topper={topper} 
                                     onDelete={handleDeleteTopper}
+                                    onEdit={handleEdit}
                                     getRankIcon={getRankIcon}
                                 />
                             ))}
@@ -286,10 +371,15 @@ const Toppers = () => {
 
             {/* Add Modal */}
             {isAddModalOpen && (
-                <AddTopperModal 
+                <TopperModal 
                     formData={formData}
                     setFormData={setFormData}
-                    onSubmit={handleAddTopper}
+                    editingTopper={editingTopper}
+                    imageFile={imageFile}
+                    imagePreview={imagePreview}
+                    setImagePreview={setImagePreview}
+                    setImageFile={setImageFile}
+                    onSubmit={handleSubmit}
                     onClose={() => setIsAddModalOpen(false)}
                 />
             )}
@@ -298,7 +388,7 @@ const Toppers = () => {
 };
 
 // Featured Topper Card Component
-const FeaturedTopperCard = ({ topper, onDelete, getRankIcon, getRankColor }) => (
+const FeaturedTopperCard = ({ topper, onDelete, onEdit, getRankIcon, getRankColor, getImageUrl }) => (
     <div className="group relative bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all">
         <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${getRankColor(topper.rank)} opacity-10 rounded-full blur-2xl`}></div>
         <div className="p-5">
@@ -314,16 +404,19 @@ const FeaturedTopperCard = ({ topper, onDelete, getRankIcon, getRankColor }) => 
                         </p>
                     </div>
                 </div>
-                <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button onClick={() => onDelete(topper._id)} className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all">
+                <div className="flex gap-1 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                    <button onClick={() => onEdit(topper)} className="p-1.5 text-gray-400 hover:text-blue-500 hover:bg-white rounded-lg transition-all shadow-sm">
+                        <Pencil className="w-4 h-4" />
+                    </button>
+                    <button onClick={() => onDelete(topper._id || topper.id)} className="p-1.5 text-gray-400 hover:text-white hover:bg-red-500 rounded-lg transition-all shadow-sm">
                         <Trash2 className="w-4 h-4" />
                     </button>
                 </div>
             </div>
             
-            {topper.image && (
+            {(topper.image) && (
                 <div className="mb-4 rounded-xl overflow-hidden h-40">
-                    <img src={topper.image} alt={topper.name} className="w-full h-full object-cover" />
+                    <img src={getImageUrl(topper.image)} alt={topper.name} className="w-full h-full object-cover" />
                 </div>
             )}
             
@@ -357,7 +450,7 @@ const FeaturedTopperCard = ({ topper, onDelete, getRankIcon, getRankColor }) => 
 );
 
 // Regular Topper Card Component
-const TopperCard = ({ topper, onDelete, getRankIcon, getRankColor }) => (
+const TopperCard = ({ topper, onDelete, onEdit, getRankIcon, getRankColor, getImageUrl }) => (
     <div className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 overflow-hidden">
         <div className={`h-1.5 bg-gradient-to-r ${getRankColor(topper.rank)}`}></div>
         <div className="p-5">
@@ -371,14 +464,19 @@ const TopperCard = ({ topper, onDelete, getRankIcon, getRankColor }) => (
                         <p className="text-emerald-600 text-xs font-medium">{topper.course}</p>
                     </div>
                 </div>
-                <button onClick={() => onDelete(topper._id)} className="p-1.5 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all opacity-0 group-hover:opacity-100">
-                    <Trash2 className="w-3.5 h-3.5" />
-                </button>
+                <div className="flex gap-1 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                    <button onClick={() => onEdit(topper)} className="p-1.5 text-gray-300 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-all">
+                        <Pencil className="w-3.5 h-3.5" />
+                    </button>
+                    <button onClick={() => onDelete(topper._id || topper.id)} className="p-1.5 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all">
+                        <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                </div>
             </div>
             
             {topper.image && (
                 <div className="mb-4 rounded-xl overflow-hidden h-36">
-                    <img src={topper.image} alt={topper.name} className="w-full h-full object-cover" />
+                    <img src={getImageUrl(topper.image)} alt={topper.name} className="w-full h-full object-cover" />
                 </div>
             )}
             
@@ -401,7 +499,7 @@ const TopperCard = ({ topper, onDelete, getRankIcon, getRankColor }) => (
 );
 
 // List View Card Component
-const ToListCard = ({ topper, onDelete, getRankIcon }) => (
+const ToListCard = ({ topper, onDelete, onEdit, getRankIcon }) => (
     <div className="bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md transition-all">
         <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl flex items-center justify-center text-white font-bold shadow-md flex-shrink-0">
@@ -419,9 +517,14 @@ const ToListCard = ({ topper, onDelete, getRankIcon }) => (
                             <span className="text-sm font-semibold text-gray-700">{topper.rank}</span>
                         </div>
                         <span className="text-xs text-gray-400">{topper.year}</span>
-                        <button onClick={() => onDelete(topper._id)} className="p-1.5 text-gray-300 hover:text-red-500 transition-colors">
-                            <Trash2 className="w-3.5 h-3.5" />
-                        </button>
+                        <div className="flex items-center gap-1">
+                            <button onClick={() => onEdit(topper)} className="p-1.5 text-gray-300 hover:text-blue-500 transition-colors">
+                                <Pencil className="w-3.5 h-3.5" />
+                            </button>
+                            <button onClick={() => onDelete(topper._id || topper.id)} className="p-1.5 text-gray-300 hover:text-red-500 transition-colors">
+                                <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                        </div>
                     </div>
                 </div>
                 {topper.message && (
@@ -432,116 +535,162 @@ const ToListCard = ({ topper, onDelete, getRankIcon }) => (
     </div>
 );
 
-// Add Modal Component
-const AddTopperModal = ({ formData, setFormData, onSubmit, onClose }) => (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose}></div>
-        <div className="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
-                        <Trophy className="w-4 h-4 text-emerald-600" />
+// Topper Modal Component
+const TopperModal = ({ formData, setFormData, editingTopper, imageFile, imagePreview, setImagePreview, setImageFile, onSubmit, onClose }) => {
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImageFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose}></div>
+            <div className="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+                <div className="sticky top-0 bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
+                            <Trophy className="w-4 h-4 text-emerald-600" />
+                        </div>
+                        <h2 className="text-lg font-bold text-gray-800">{editingTopper ? 'Edit Achiever' : 'Add New Achiever'}</h2>
                     </div>
-                    <h2 className="text-lg font-bold text-gray-800">Add New Achiever</h2>
+                    <button onClick={onClose} className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all">
+                        <X className="w-4 h-4" />
+                    </button>
                 </div>
-                <button onClick={onClose} className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all">
-                    <X className="w-4 h-4" />
-                </button>
+                
+                <form onSubmit={onSubmit} className="p-6 space-y-4">
+                    {/* Image Preview / Upload */}
+                    <div className="flex flex-col items-center gap-4 p-4 border-2 border-dashed border-gray-200 rounded-2xl bg-gray-50 hover:bg-white transition-all">
+                        {imagePreview ? (
+                            <div className="relative w-32 h-32 rounded-xl overflow-hidden shadow-md">
+                                <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                                <button 
+                                    type="button"
+                                    onClick={() => { setImagePreview(null); setImageFile(null); }}
+                                    className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-600 transition-colors"
+                                >
+                                    <X className="w-3 h-3" />
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center text-gray-400">
+                                <ImageIcon className="w-8 h-8" />
+                            </div>
+                        )}
+                        <div className="text-center">
+                            <label className="cursor-pointer">
+                                <span className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-all shadow-sm">
+                                    <Upload className="w-4 h-4" />
+                                    {imagePreview ? 'Change Photo' : 'Upload photo'}
+                                </span>
+                                <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
+                            </label>
+                            <p className="text-[10px] text-gray-400 mt-2">JPG, PNG or WEBP. Max 5MB.</p>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-xs font-semibold text-gray-700 mb-1">Full Name *</label>
+                            <input 
+                                type="text" 
+                                placeholder="Student name"
+                                value={formData.name}
+                                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all"
+                                required 
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-semibold text-gray-700 mb-1">Course/Program *</label>
+                            <input 
+                                type="text" 
+                                placeholder="e.g., IIT-JEE, NEET"
+                                value={formData.course}
+                                onChange={(e) => setFormData({...formData, course: e.target.value})}
+                                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all"
+                                required 
+                            />
+                        </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-xs font-semibold text-gray-700 mb-1">Rank/Score *</label>
+                            <input 
+                                type="text" 
+                                placeholder="e.g., AIR 15, 99.8%"
+                                value={formData.rank}
+                                onChange={(e) => setFormData({...formData, rank: e.target.value})}
+                                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all"
+                                required 
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-semibold text-gray-700 mb-1">Batch Year</label>
+                            <input 
+                                type="text" 
+                                placeholder="2024"
+                                value={formData.year}
+                                onChange={(e) => setFormData({...formData, year: e.target.value})}
+                                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all"
+                            />
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label className="block text-xs font-semibold text-gray-700 mb-1">Testimonial (Optional)</label>
+                        <textarea 
+                            placeholder="Inspirational message from the student..."
+                            value={formData.message}
+                            onChange={(e) => setFormData({...formData, message: e.target.value})}
+                            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all resize-none h-20"
+                        />
+                    </div>
+
+                    {!imageFile && (
+                        <div>
+                            <label className="block text-xs font-semibold text-gray-700 mb-1">Or Image URL</label>
+                            <input 
+                                type="text" 
+                                placeholder="https://example.com/photo.jpg"
+                                value={formData.image}
+                                onChange={(e) => setFormData({...formData, image: e.target.value})}
+                                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all"
+                            />
+                        </div>
+                    )}
+                    
+                    <div className="flex items-center gap-2 pt-2">
+                        <input
+                            type="checkbox"
+                            id="isFeatured"
+                            checked={formData.isFeatured}
+                            onChange={(e) => setFormData({...formData, isFeatured: e.target.checked})}
+                            className="w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                        />
+                        <label htmlFor="isFeatured" className="text-sm text-gray-700">
+                            Feature this achiever (highlighted section)
+                        </label>
+                    </div>
+                    
+                    <button 
+                        type="submit" 
+                        className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold py-3 rounded-xl transition-all mt-4 shadow-lg shadow-emerald-200"
+                    >
+                        {editingTopper ? 'Save Changes' : 'Add to Hall of Fame'}
+                    </button>
+                </form>
             </div>
-            
-            <form onSubmit={onSubmit} className="p-6 space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-xs font-semibold text-gray-700 mb-1">Full Name *</label>
-                        <input 
-                            type="text" 
-                            placeholder="Student name"
-                            value={formData.name}
-                            onChange={(e) => setFormData({...formData, name: e.target.value})}
-                            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all"
-                            required 
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-xs font-semibold text-gray-700 mb-1">Course/Program *</label>
-                        <input 
-                            type="text" 
-                            placeholder="e.g., IIT-JEE, NEET"
-                            value={formData.course}
-                            onChange={(e) => setFormData({...formData, course: e.target.value})}
-                            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all"
-                            required 
-                        />
-                    </div>
-                </div>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-xs font-semibold text-gray-700 mb-1">Rank/Score *</label>
-                        <input 
-                            type="text" 
-                            placeholder="e.g., AIR 15, 99.8%"
-                            value={formData.rank}
-                            onChange={(e) => setFormData({...formData, rank: e.target.value})}
-                            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all"
-                            required 
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-xs font-semibold text-gray-700 mb-1">Batch Year</label>
-                        <input 
-                            type="text" 
-                            placeholder="2024"
-                            value={formData.year}
-                            onChange={(e) => setFormData({...formData, year: e.target.value})}
-                            className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all"
-                        />
-                    </div>
-                </div>
-                
-                <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-1">Testimonial</label>
-                    <textarea 
-                        placeholder="Inspirational message from the student..."
-                        value={formData.message}
-                        onChange={(e) => setFormData({...formData, message: e.target.value})}
-                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all resize-none h-24"
-                    />
-                </div>
-                
-                <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-1">Image URL</label>
-                    <input 
-                        type="text" 
-                        placeholder="https://example.com/photo.jpg"
-                        value={formData.image}
-                        onChange={(e) => setFormData({...formData, image: e.target.value})}
-                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-emerald-500 focus:bg-white transition-all"
-                    />
-                </div>
-                
-                <div className="flex items-center gap-2 pt-2">
-                    <input
-                        type="checkbox"
-                        id="isFeatured"
-                        checked={formData.isFeatured}
-                        onChange={(e) => setFormData({...formData, isFeatured: e.target.checked})}
-                        className="w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                    />
-                    <label htmlFor="isFeatured" className="text-sm text-gray-700">
-                        Feature this achiever (highlighted section)
-                    </label>
-                </div>
-                
-                <button 
-                    type="submit" 
-                    className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold py-3 rounded-xl transition-all mt-4"
-                >
-                    Add to Hall of Fame
-                </button>
-            </form>
         </div>
-    </div>
-);
+    );
+};
 
 export default Toppers;

@@ -5,7 +5,15 @@ const Topper = require('../models/Topper');
 // @access  Private/Admin
 exports.createTopper = async (req, res) => {
     try {
-        const topper = await Topper.create(req.body);
+        const topperData = { ...req.body };
+        
+        // Handle file upload
+        if (req.file) {
+            // Store relative path for frontend access
+            topperData.image = `/uploads/toppers/${req.file.filename}`;
+        }
+
+        const topper = await Topper.create(topperData);
         res.status(201).json({ success: true, data: topper });
     } catch (error) {
         res.status(400).json({ success: false, message: error.message });
@@ -29,7 +37,14 @@ exports.getToppers = async (req, res) => {
 // @access  Private/Admin
 exports.updateTopper = async (req, res) => {
     try {
-        const topper = await Topper.findByIdAndUpdate(req.params.id, req.body, {
+        const topperData = { ...req.body };
+
+        // Handle file upload
+        if (req.file) {
+            topperData.image = `/uploads/toppers/${req.file.filename}`;
+        }
+
+        const topper = await Topper.findByIdAndUpdate(req.params.id, topperData, {
             new: true,
             runValidators: true
         });

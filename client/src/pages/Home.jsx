@@ -41,6 +41,13 @@ const Home = () => {
   const [loadingToppers, setLoadingToppers] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return null;
+    if (imagePath.startsWith("http")) return imagePath;
+    const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    return `${baseUrl.replace(/\/$/, "")}${imagePath}`;
+  };
 
   // Featured courses for carousel (use first 5 active courses)
   const featuredCourses = courses.filter((c) => !c.isFinished).slice(0, 5);
@@ -173,12 +180,8 @@ const Home = () => {
     {/* Header Section */}
     <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-10">
       <div className="space-y-2 sm:space-y-3">
-        <div className="inline-flex items-center gap-2 px-2 sm:px-3 py-1 bg-amber-50 rounded-full border border-amber-100/50 shadow-sm animate-bounce-subtle">
-          <Award className="w-3 h-3 sm:w-4 sm:h-4 text-amber-500" />
-          <span className="text-[10px] sm:text-xs font-bold text-amber-700 uppercase tracking-widest">Academic Excellence</span>
-        </div>
         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-heading font-black text-gray-900 tracking-tight leading-tight sm:leading-none">
-          Our <span className="text-transparent bg-clip-text bg-gradient-to-tr from-amber-600 via-orange-500 to-yellow-600 uppercase">Top Performers</span>
+          Our <span className="text-transparent bg-clip-text bg-gradient-to-tr from-green-600 via-green-500 to-green-600 ">Top Performers</span>
         </h2>
         <p className="text-sm sm:text-base text-gray-500 font-medium">Inspiring academic excellence through dedication and hard work.</p>
       </div>
@@ -197,9 +200,9 @@ const Home = () => {
           >
             {/* Optimized Background Image */}
             {topper.image ? (
-              <div className="absolute inset-0 w-full h-full">
+              <div className="absolute inset-0 w-full h-full rounded-xl sm:rounded-2xl md:rounded-3xl">
                 <img 
-                  src={topper.image} 
+                  src={getImageUrl(topper.image)} 
                   alt={topper.name} 
                   className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-1000 ease-out"
                   loading="lazy"
@@ -212,26 +215,8 @@ const Home = () => {
               </div>
             )}
 
-            {/* Dark Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent z-10" />
-            
-            {/* Content Overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-2.5 md:p-3 z-20">
-              <div className="mb-1 flex flex-wrap items-center gap-1 sm:gap-1.5">
-                <span className="px-1.5 py-0.5 bg-amber-500/40 backdrop-blur-sm text-amber-100 rounded text-[8px] sm:text-[9px] font-bold uppercase tracking-wide border border-amber-400/30 w-fit">
-                  {topper.course}
-                </span>
-                <div className="text-white font-black text-[9px] sm:text-[10px] px-1.5 py-0.5 bg-amber-500/90 backdrop-blur-sm rounded shadow-md">
-                  {topper.rank}
-                </div>
-              </div>
-              <h3 className="text-[10px] sm:text-xs md:text-sm font-heading font-bold text-white leading-tight group-hover:text-amber-200 transition-colors break-words line-clamp-2">
-                {topper.name}
-              </h3>
-            </div>
             
             {/* Subtle Border */}
-            <div className="absolute inset-0 ring-1 ring-inset ring-white/5 group-hover:ring-amber-400/30 rounded-lg sm:rounded-xl md:rounded-2xl transition-all duration-300 z-30 pointer-events-none" />
           </div>
         ))}
       </div>
@@ -700,7 +685,7 @@ const Home = () => {
                         <div className="w-12 h-12 bg-gray-700 rounded-xl flex items-center justify-center font-bold text-lg text-white overflow-hidden">
                           {topper.image ? (
                             <img
-                              src={topper.image}
+                              src={getImageUrl(topper.image)}
                               alt={topper.name}
                               className="w-full h-full object-cover"
                             />
