@@ -5,11 +5,34 @@
   --font-heading: "Plus Jakarta Sans", "Inter", sans-serif;
 }
 
+:root {
+  color-scheme: light;
+}
+
 @layer base {
+  :root {
+    --background: white;
+    --foreground: #0f172a;
+  }
+
+  /* Force light mode even if system prefers dark */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: light;
+    }
+  }
+
+  html {
+    background-color: white;
+    color: #0f172a;
+  }
+
   body {
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: white;
+    color: #0f172a;
   }
 }
 
