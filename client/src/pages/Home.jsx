@@ -499,7 +499,7 @@ const Home = () => {
     ].map((item, i) => (
       <div
         key={i}
-        className={`group relative bg-${item.color} backdrop-blur-xl border  border-${item.border} rounded-2xl p-4 sm:p-6 text-center shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 overflow-hidden`}
+        className={`group relative bg-${item.color} backdrop-blur-xl  rounded-2xl p-4 sm:p-6 text-center shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 overflow-hidden`}
       >
         {/* Glow Effect */}
         <div className={`absolute -top-10 -right-10 w-24 h-24 ${item.glowColor} opacity-20 rounded-full blur-2xl group-hover:scale-150 transition-all duration-700`} />
@@ -928,7 +928,7 @@ const Home = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className={`group relative p-6 rounded-2xl bg-${feature.color} border border-${feature.borderColor} shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}
+                className={`group relative p-6 rounded-2xl bg-${feature.color}  shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}
               >
                 <div
                   className={`absolute inset-0 bg-linear-to-r ${feature.bgGradient} opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-300`}
