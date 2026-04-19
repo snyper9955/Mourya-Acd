@@ -4,8 +4,6 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { ApiProvider } from './context/ApiContext';
 
 // Layouts and components that should be loaded immediately
-import AdminLayout from './components/AdminLayout';
-import StudentLayout from './components/StudentLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 import PublicOnlyRoute from './components/PublicOnlyRoute';
 import Header from './components/Header';
@@ -43,7 +41,7 @@ const LoadingSpinner = () => (
       <div className="h-16 w-16 rounded-full border-4 border-slate-100"></div>
       <div className="absolute top-0 left-0 h-16 w-16 rounded-full border-4 border-emerald-500 border-t-transparent animate-spin"></div>
     </div>
-    <p className="mt-4 text-slate-500 font-medium animate-pulse text-sm">Preparing everything...</p>
+    <p className="mt-4 text-slate-500 font-medium animate-pulse text-sm">Preparing Mourya Accadmy Darbhanga everything...</p>
   </div>
 );
 
@@ -54,8 +52,16 @@ const FullPageLoading = () => (
       <div className="absolute top-0 left-0 h-20 w-20 rounded-full border-4 border-emerald-600 border-t-transparent animate-spin"></div>
     </div>
     <div className="mt-6 flex flex-col items-center gap-1">
-      <span className="text-xl font-bold text-slate-900 tracking-tight">EduManage</span>
-      <span className="text-xs text-slate-400 font-semibold tracking-widest uppercase">Initializing Portal</span>
+      <span className="text-xl font-bold text-slate-900 tracking-tight">Mourya Accadmy Darbhanga</span>
+      <span className="text-xs text-slate-400 font-semibold tracking-widest uppercase">Initializing Education Portal</span>
+    </div>
+  </div>
+);
+
+const DashboardWrapper = ({ children }) => (
+  <div className="pt-24 min-h-screen bg-slate-50/50">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      {children}
     </div>
   </div>
 );
@@ -77,7 +83,7 @@ const AppContent = () => {
     <ApiProvider>
       <SocketProvider>
         <Toaster />
-        {!['/admin', '/student', '/login', '/register', '/forgot-password', '/reset-password', '/dashboard'].some(path => location.pathname.startsWith(path)) && <Header />}
+        {!['/login', '/register', '/forgot-password', '/reset-password'].some(path => location.pathname.startsWith(path)) && <Header />}
         <Suspense fallback={<LoadingSpinner />}>
           <Routes>
             <Route path="/login" element={<PublicOnlyRoute><Login /></PublicOnlyRoute>} />
@@ -95,23 +101,23 @@ const AppContent = () => {
           <Route path="/gallery" element={<Gallery />} />
           
           {/* Authenticated Admin Routes */}
-          <Route path="/admin" element={<ProtectedRoute><AdminLayout><Dashboard /></AdminLayout></ProtectedRoute>} />
-          <Route path="/admin/students" element={<ProtectedRoute><AdminLayout><Students /></AdminLayout></ProtectedRoute>} />
-          <Route path="/admin/courses" element={<ProtectedRoute><AdminLayout><Courses /></AdminLayout></ProtectedRoute>} />
-          <Route path="/admin/inquiries" element={<ProtectedRoute><AdminLayout><Inquiries /></AdminLayout></ProtectedRoute>} />
-          <Route path="/admin/payments" element={<ProtectedRoute><AdminLayout><Payments /></AdminLayout></ProtectedRoute>} />
-          <Route path="/admin/notices" element={<ProtectedRoute><AdminLayout><Notices /></AdminLayout></ProtectedRoute>} />
-          <Route path="/admin/toppers" element={<ProtectedRoute><AdminLayout><Toppers /></AdminLayout></ProtectedRoute>} />
-          <Route path="/admin/profile" element={<ProtectedRoute><AdminLayout><Profile /></AdminLayout></ProtectedRoute>} />
+          <Route path="/admin" element={<ProtectedRoute><DashboardWrapper><Dashboard /></DashboardWrapper></ProtectedRoute>} />
+          <Route path="/admin/students" element={<ProtectedRoute><DashboardWrapper><Students /></DashboardWrapper></ProtectedRoute>} />
+          <Route path="/admin/courses" element={<ProtectedRoute><DashboardWrapper><Courses /></DashboardWrapper></ProtectedRoute>} />
+          <Route path="/admin/inquiries" element={<ProtectedRoute><DashboardWrapper><Inquiries /></DashboardWrapper></ProtectedRoute>} />
+          <Route path="/admin/payments" element={<ProtectedRoute><DashboardWrapper><Payments /></DashboardWrapper></ProtectedRoute>} />
+          <Route path="/admin/notices" element={<ProtectedRoute><DashboardWrapper><Notices /></DashboardWrapper></ProtectedRoute>} />
+          <Route path="/admin/toppers" element={<ProtectedRoute><DashboardWrapper><Toppers /></DashboardWrapper></ProtectedRoute>} />
+          <Route path="/admin/profile" element={<ProtectedRoute><DashboardWrapper><Profile /></DashboardWrapper></ProtectedRoute>} />
 
           {/* Authenticated Student Routes */}
-          <Route path="/student/dashboard" element={<ProtectedRoute><StudentLayout><StudentDashboard /></StudentLayout></ProtectedRoute>} />
-          <Route path="/student/profile" element={<ProtectedRoute><StudentLayout><Profile /></StudentLayout></ProtectedRoute>} />
+          <Route path="/student/dashboard" element={<ProtectedRoute><DashboardWrapper><StudentDashboard /></DashboardWrapper></ProtectedRoute>} />
+          <Route path="/student/profile" element={<ProtectedRoute><DashboardWrapper><Profile /></DashboardWrapper></ProtectedRoute>} />
           <Route path="/student/course/:courseId/learn" element={<ProtectedRoute><CourseContent /></ProtectedRoute>} />
           {/* These pages could be implemented as student-specific views later */}
-          <Route path="/student/courses" element={<ProtectedRoute><StudentLayout><Courses /></StudentLayout></ProtectedRoute>} />
-          <Route path="/student/notices" element={<ProtectedRoute><StudentLayout><Notices /></StudentLayout></ProtectedRoute>} />
-          <Route path="/student/payments" element={<ProtectedRoute><StudentLayout><Payments /></StudentLayout></ProtectedRoute>} />
+          <Route path="/student/courses" element={<ProtectedRoute><DashboardWrapper><Courses /></DashboardWrapper></ProtectedRoute>} />
+          <Route path="/student/notices" element={<ProtectedRoute><DashboardWrapper><Notices /></DashboardWrapper></ProtectedRoute>} />
+          <Route path="/student/payments" element={<ProtectedRoute><DashboardWrapper><Payments /></DashboardWrapper></ProtectedRoute>} />
 
           {/* Role-based Redirect for /landing or authenticated users */}
           <Route path="/dashboard" element={
@@ -124,7 +130,7 @@ const AppContent = () => {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         </Suspense>
-        {!['/admin', '/student', '/login', '/register', '/forgot-password', '/reset-password', '/dashboard'].some(path => location.pathname.startsWith(path)) && <Footer />}
+        {!['/login', '/register', '/forgot-password', '/reset-password'].some(path => location.pathname.startsWith(path)) && <Footer />}
       </SocketProvider>
     </ApiProvider>
   );

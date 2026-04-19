@@ -29,14 +29,14 @@ const Footer = () => {
             <div className="flex flex-col text-left lg:col-span-1">
               <div className="flex items-center justify-start gap-2 mb-3 sm:mb-4">
                 <div className="bg-emerald-500/20 p-2 sm:p-2.5 rounded-xl">
-                  <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-400" />
+                <img src="/logo.jpeg" alt="" className='w-10 h-10 rounded-full' />
                 </div>
                 <span className="font-bold text-xl sm:text-2xl text-white tracking-tight">
-                  EduManage
+                  Mourya Accadmy
                 </span>
               </div>
               <p className="text-xs sm:text-sm text-gray-400 leading-relaxed mb-4 sm:mb-6 max-w-sm">
-                Empowering students with world-class education and personalized guidance since 2010.
+                 teaching , guidence, and give best result from 2017.
               </p>
               <div className="flex items-center justify-start gap-2 sm:gap-3">
                 {[Facebook, Twitter, Linkedin, Instagram].map((Icon, idx) => (
@@ -60,7 +60,7 @@ const Footer = () => {
                   <span className="absolute -bottom-1.5 sm:-bottom-2 left-0 w-6 sm:w-8 h-0.5 bg-emerald-500 rounded-full"></span>
                 </h4>
                 <ul className="space-y-2 sm:space-y-3 text-xs sm:text-sm">
-                  {['About Us', 'Courses', 'Contact', 'Blog'].map((item, idx) => (
+                  {['About Us', 'Contact', 'Blog'].map((item, idx) => (
                     <li key={idx}>
                       <Link
                         to={`/${item.toLowerCase().replace(' ', '')}`}
@@ -107,19 +107,19 @@ const Footer = () => {
                   <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-800/80 border border-gray-700 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
                     <Phone className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-400" />
                   </div>
-                  <span className="text-gray-300 sm:mt-1">+91 12345 67890</span>
+                  <span className="text-gray-300 sm:mt-1">+91 8809193796</span>
                 </li>
                 <li className="flex items-start justify-start gap-2 sm:gap-3">
                   <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-800/80 border border-gray-700 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
                     <Mail className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-400" />
                   </div>
-                  <span className="text-gray-300 break-all sm:mt-1">support@edumanage.com</span>
+                  <span className="text-gray-300 break-all sm:mt-1">MouryAcc@gmail.com</span>
                 </li>
                 <li className="flex items-start justify-start gap-2 sm:gap-3">
                   <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gray-800/80 border border-gray-700 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
                     <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-emerald-400" />
                   </div>
-                  <span className="text-gray-300 leading-relaxed max-w-[200px]">123 Education Hub, City, State 123456</span>
+                  <span className="text-gray-300 leading-relaxed max-w-[200px]">Mourya Accadmy,Darbhanga, Bihar 846001</span>
                 </li>
               </ul>
 
@@ -131,7 +131,7 @@ const Footer = () => {
           <div className="pt-6 sm:pt-8 border-t border-gray-800/80 flex flex-col items-center">
             <div className="w-full flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4 text-center md:text-left">
               <p className="text-[10px] sm:text-xs text-gray-500 tracking-wider">
-                © {currentYear} EduManage Coaching Hub • Built for Success
+                © {currentYear} Mourya Accadmy Darbhanga • Built for Success
               </p>
               <div className="flex flex-wrap justify-center gap-3 sm:gap-4 text-[10px] sm:text-xs">
                 <Link to="/sitemap" className="text-gray-500 hover:text-emerald-400 transition-colors">

@@ -22,7 +22,12 @@ const PublicToppers = () => {
         const fetchToppers = async () => {
             try {
                 const { data } = await api.get('/api/toppers');
-                setToppers(data.data || []);
+                const sortedToppers = (data.data || []).sort((a, b) => {
+                    const scoreA = parseFloat(a.rank?.match(/(\d+(\.\d+)?)/)?.[0]) || 0;
+                    const scoreB = parseFloat(b.rank?.match(/(\d+(\.\d+)?)/)?.[0]) || 0;
+                    return scoreB - scoreA;
+                });
+                setToppers(sortedToppers);
             } catch (error) {
                 console.error('Failed to fetch toppers', error);
             } finally {
@@ -95,86 +100,18 @@ const PublicToppers = () => {
             <div className="max-w-7xl mx-auto">
                 {/* Compact Header */}
                 <div className="text-center mb-6">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white rounded-full shadow-sm border border-gray-100 mb-3">
-                        <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
-                        <span className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">Hall of Fame</span>
-                    </div>
+                   
                     <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
-                        Academic{' '}
+                        Mourya Academy {' '}
                         <span className="bg-linear-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                            Achievers
+                             Toppers
                         </span>
                     </h1>
                 </div>
 
                 {/* Compact Search and Filter */}
                 <div className="mb-6">
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-2">
-                        <div className="flex gap-2">
-                            <div className="flex-1 relative">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-                                <input 
-                                    type="text" 
-                                    placeholder="Search..." 
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-9 pr-3 py-2 bg-transparent border-0 rounded-lg outline-none focus:ring-2 focus:ring-emerald-100 text-sm text-gray-700 placeholder:text-gray-400"
-                                />
-                            </div>
-                            
-                            <button
-                                onClick={() => setIsFilterOpen(!isFilterOpen)}
-                                className="px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-lg transition-all duration-200 flex items-center gap-1 text-gray-700 text-sm"
-                            >
-                                <Filter className="w-3.5 h-3.5" />
-                                <span className="hidden sm:inline">Filter</span>
-                            </button>
-                        </div>
-                        
-                        {isFilterOpen && (
-                            <div className="mt-3 pt-3 border-t border-gray-100">
-                                <div className="grid grid-cols-2 gap-2">
-                                    <select
-                                        value={selectedYear}
-                                        onChange={(e) => setSelectedYear(e.target.value)}
-                                        className="px-2 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                                    >
-                                        {years.map(year => (
-                                            <option key={year} value={year}>
-                                                {year === 'all' ? 'All Years' : year}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    
-                                    <select
-                                        value={selectedCourse}
-                                        onChange={(e) => setSelectedCourse(e.target.value)}
-                                        className="px-2 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                                    >
-                                        {courses.map(course => (
-                                            <option key={course} value={course}>
-                                                {course === 'all' ? 'All Courses' : course}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                                
-                                {(selectedYear !== 'all' || selectedCourse !== 'all' || searchTerm) && (
-                                    <button
-                                        onClick={() => {
-                                            setSearchTerm('');
-                                            setSelectedYear('all');
-                                            setSelectedCourse('all');
-                                        }}
-                                        className="mt-2 text-xs text-emerald-600 hover:text-emerald-700 flex items-center gap-1 mx-auto"
-                                    >
-                                        <X className="w-3 h-3" />
-                                        Clear
-                                    </button>
-                                )}
-                            </div>
-                        )}
-                    </div>
+                   
                 </div>
 
                 {/* Results Count */}
@@ -182,7 +119,8 @@ const PublicToppers = () => {
                     <p className="text-xs text-gray-500 mb-3">
                         {filteredToppers.length} achiever{filteredToppers.length !== 1 ? 's' : ''}
                     </p>
-                )}
+                )}  
+                <h1 className="text-center text-xl font-bold text-gray-900 tracking-tight bg-green-200 border border-green-400 p-2 rounded-lg">All Toppers List coming soon ...</h1>
 
                 {/* Compact Toppers Grid - 4 columns on desktop */}
                 {loading ? (

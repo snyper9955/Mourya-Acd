@@ -67,7 +67,12 @@ const Home = () => {
     const fetchToppers = async () => {
       try {
         const res = await api.get("/api/toppers");
-        setToppers(res.data.data);
+        const sortedToppers = (res.data.data || []).sort((a, b) => {
+          const scoreA = parseFloat(a.rank?.match(/(\d+(\.\d+)?)/)?.[0]) || 0;
+          const scoreB = parseFloat(b.rank?.match(/(\d+(\.\d+)?)/)?.[0]) || 0;
+          return scoreB - scoreA;
+        });
+        setToppers(sortedToppers);
       } catch (err) {
         console.error("Error fetching toppers:", err);
       } finally {
@@ -132,13 +137,7 @@ const Home = () => {
       gradient: "from-emerald-500 to-teal-600",
       bgGradient: "from-emerald-50/50 to-teal-50/50",
     },
-    {
-      icon: Clock,
-      title: "Flexible Learning",
-      description: "Online & offline classes to fit your schedule",
-      gradient: "from-blue-500 to-indigo-600",
-      bgGradient: "from-blue-50/50 to-indigo-50/50",
-    },
+  
     {
       icon: Users,
       title: "Small Batches",
@@ -175,20 +174,106 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-800 mt-20">
+    {notices.length > 0 && (
+  <section className="w-full bg-slate-50 border-b border-blue-100 overflow-hidden py-1">
+    <div className="w-full px-3 sm:px-6 lg:px-8 flex items-center gap-3">
+      {/* Static Label Badge */}
+   
+
+      {/* Horizontal Sliding Marquee */}
+      <div className="marquee-container flex-1 w-full relative overflow-hidden bg-transparent">
+        <div className="marquee-track absolute inset-0 flex items-center">
+          <div className="marquee-content inline-flex items-center gap-4">
+            {/* Double the notices for seamless loop */}
+            {[...notices, ...notices, ...notices].map((notice, idx) => (
+              <Link
+                to="/notices"
+                key={`${notice._id}-${idx}`}
+                className="inline-flex items-center gap-3 bg-green-100 border text-green-900 border-green-400 rounded-full p-1 pr-5 shadow-sm hover:shadow-md hover:border-green-600 transition-all cursor-pointer group shrink-0"
+              >
+                {/* Category Badge */}
+            
+
+                {/* Notice Content */}
+                <h4 className="text-sm font-semibold text-green-900 group-hover:text-green-900 transition-colors whitespace-nowrap">
+                  {notice.content}
+                </h4>
+
+                {/* Date */}
+                {notice.createdAt && (
+                  <div className="flex items-center gap-1 shrink-0">
+                    <span className="w-1 h-1 rounded-full bg-gray-300 mx-1"></span>
+                    <span className="text-[10px] font-medium text-gray-700">
+                      {new Date(notice.createdAt).toLocaleDateString("en-IN", {
+                        day: "numeric",
+                        month: "short",
+                      })}
+                    </span>
+                  </div>
+                )}
+              </Link>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+)}
+
+{/* Styles for horizontal sliding animation */}
+<style jsx>{`
+  .marquee-container {
+    height: 48px;
+    position: relative;
+  }
+
+  .marquee-track {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .marquee-content {
+    display: inline-flex;
+    gap: 1.5rem;
+    padding-left: 2rem;
+    animation: slideHorizontal 40s linear infinite;
+    will-change: transform;
+  }
+
+  .marquee-container:hover .marquee-content {
+    animation-play-state: paused;
+  }
+
+  @keyframes slideHorizontal {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-33.33%);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .marquee-container {
+      height: 44px;
+    }
+    
+    .marquee-content {
+      gap: 1rem;
+    }
+  }
+`}</style>
  {toppers.length > 0 && (
-  <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12 mb-12 sm:mb-20 overflow-hidden">
+  <section className="w-full mx-auto px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12 mb-12 sm:mb-20 overflow-hidden">
     {/* Header Section */}
     <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-10">
       <div className="space-y-2 sm:space-y-3">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-heading font-black text-gray-900 tracking-tight leading-tight sm:leading-none">
-          Our <span className="text-transparent bg-clip-text bg-gradient-to-tr from-green-600 via-green-500 to-green-600 ">Top Performers</span>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-heading font-black text-gray-900 tracking-tight leading-tight sm:leading-none">
+          Mourya Accadmy <span className="text-transparent bg-clip-text bg-gradient-to-tr from-green-600 via-green-500 to-green-600 ">Toppers</span>
         </h2>
-        <p className="text-sm sm:text-base text-gray-500 font-medium">Inspiring academic excellence through dedication and hard work.</p>
       </div>
-      <Link to="/toppers" className="group flex items-center justify-center md:justify-start gap-2 text-xs sm:text-sm font-bold text-gray-900 hover:text-amber-600 transition-all uppercase tracking-widest bg-gray-50 px-4 sm:px-6 py-2 sm:py-3 rounded-2xl border border-gray-100 hover:border-amber-200 w-full md:w-auto">
-        <span>Hall of Fame</span>
-        <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
-      </Link>
+     
     </div>
 
     <div className="relative group/scroll">
@@ -196,9 +281,9 @@ const Home = () => {
         {toppers.map((topper, idx) => (
           <div 
             key={topper._id} 
-            className="flex-none w-[110px] sm:w-[125px] md:w-[140px] lg:w-[150px] aspect-[3/4] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden relative group snap-start shadow-md sm:shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+            className="flex-none w-[110px] sm:w-[125px] md:w-[140px] lg:w-[150px] aspect-[3/4.5] rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden relative group snap-start shadow-md sm:shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
           >
-            {/* Optimized Background Image */}
+            {/* Optimized Background Image */}``
             {topper.image ? (
               <div className="absolute inset-0 w-full h-full rounded-xl sm:rounded-2xl md:rounded-3xl">
                 <img 
@@ -219,7 +304,9 @@ const Home = () => {
             {/* Subtle Border */}
           </div>
         ))}
+       
       </div>
+      
     </div>
 
     <style dangerouslySetInnerHTML={{__html: `
@@ -233,7 +320,7 @@ const Home = () => {
       .animate-bounce-subtle { animation: bounce-subtle 3s ease-in-out infinite; }
       
       .topper-scroll-container {
-        /* No mask-image to remove "white fog" effect */
+        /* Fog effect removed */
       }
       
       /* Line clamp utility */
@@ -279,83 +366,32 @@ const Home = () => {
   </section>
 )}
 
-      {notices.length > 0 && (
-        <section className="w-full max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 mt-6 overflow-hidden">
-          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
-            <div className="shrink-0 flex items-center gap-2 px-3 py-1.5 sm:py-2 bg-gradient-to-r from-blue-100 to-blue-50 border border-blue-200 rounded-full shadow-sm z-10 relative">
-              <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600 animate-pulse" />
-              <span className="text-[10px] sm:text-xs font-bold text-blue-800 uppercase tracking-wider">
-                Latest Notices
-              </span>
-            </div>
-
-            <div className="marquee-container flex-1 w-full">
-              <div
-                className="marquee-content"
-                style={{ animationDuration: "35s" }}
-              >
-                {[...notices, ...notices, ...notices, ...notices].map(
-                  (notice, idx) => (
-                    <Link
-                      to="/notices"
-                      key={`${notice._id}-${idx}`}
-                      className="shrink-0 flex items-center gap-3 bg-white border border-gray-100 rounded-full p-1.5 pr-5 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] hover:shadow-md hover:border-blue-200 transition-all cursor-pointer group"
-                    >
-                      <span
-                        className={`text-[10px] font-bold px-2.5 py-1 rounded-full shrink-0 ${
-                          notice.category === "Urgent"
-                            ? "bg-red-50 text-red-600 border border-red-100"
-                            : notice.category === "Event"
-                              ? "bg-emerald-50 text-emerald-600 border border-emerald-100"
-                              : "bg-blue-50 text-blue-600 border border-blue-100"
-                        }`}
-                      >
-                        {notice.category || "Notice"}
-                      </span>
-                      <h4 className="text-sm font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
-                        {notice.content}
-                      </h4>
-                      {notice.createdAt && (
-                        <div className="flex items-center gap-1 shrink-0">
-                          <span className="w-1 h-1 rounded-full bg-gray-300 mx-1"></span>
-                          <span className="text-[11px] font-medium text-gray-500">
-                            {new Date(notice.createdAt).toLocaleDateString(
-                              "en-IN",
-                              {
-                                day: "numeric",
-                                month: "short",
-                              },
-                            )}
-                          </span>
-                        </div>
-                      )}
-                    </Link>
-                  ),
-                )}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Hero Intro Section */}
       <section className="relative w-full bg-white overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-100/20 rounded-full blur-3xl -mr-48 -mt-48" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+        <div className="relative z-10 mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
           <div className="grid md:grid-cols-2 gap-10 items-center">
             {/* LEFT SIDE - TEXT */}
             <div className="text-center md:text-left">
               <div className="flex flex-col sm:flex-row gap-4">
-                <button
+                {/* <button
                   onClick={() => navigate("/courses")}
                   className="bg-neutral-900 text-white px-8 py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 transition-all shadow-sm hover:shadow-md"
                 >
                   Explore Courses <ArrowRight className="w-4 h-4" />
-                </button>
+                </button> */}
 
-                <Link
-                  to="tel:+919835958271"
+               
+                 <Link
+                  to="/toppers"
+                  className="bg-neutral-900 text-white px-8 py-3.5 rounded-xl font-semibold hover:bg-neutral-800 transition-colors shadow-sm"
+                >
+                  View All Topers
+                </Link>
+                 <Link
+                  to="tel:+918809193796"
                   className="bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-emerald-700 transition-all shadow-sm hover:shadow-md"
                 >
                   <Phone className="w-4 h-4" /> call us
@@ -364,21 +400,16 @@ const Home = () => {
                 {!user && (
                   <button
                     onClick={() => navigate("/register")}
-                    className="bg-white text-gray-700 px-8 py-3.5 rounded-xl font-semibold border border-gray-200 hover:bg-gray-50 transition-all"
+                    className="bg-neutral-900 text-white px-8 py-3.5 rounded-xl font-semibold border border-neutral-900 hover:bg-neutral-800 transition-all"
                   >
                     Get Started Free
                   </button>
                 )}
               </div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 rounded-full border border-emerald-100 mt-6">
-                <Sparkles className="w-4 h-4 text-emerald-600" />
-                <span className="text-sm font-semibold text-emerald-700">
-                  India's Leading Learning Platform
-                </span>
-              </div>
+           
 
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 leading-tight mb-6">
-                Learn from the{" "}
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 leading-tight mt-2">
+                Mourya Academy {" "}
                 <span className="text-emerald-600 relative inline-block">
                   Best
                   <svg
@@ -395,20 +426,20 @@ const Home = () => {
                     />
                   </svg>
                 </span>{" "}
-                Teachers.
+                Coaching Institute in Darbhanga
               </h1>
 
-              <p className="text-lg sm:text-xl text-gray-600 max-w-xl mb-8 leading-relaxed ">
-                Join 10,000+ successful students mastering technology,
-                management, and more with our industry-leading mentors.
+              <p className="text-[14px] sm:text-xl text-gray-600 max-w-xl mt-4  leading-relaxed font-semibold bg-green-100 rounded-full px-1 py-1 border border-green-400 ">
+                <span className="text-green-800 ">📍</span>
+              Located near Shivdhara Chowk, Darbhanga,Bihar
               </p>
             </div>
 
             {/* RIGHT SIDE - IMAGE */}
-            <div className="flex justify-center md:justify-end">
+            <div className="flex justify-center md:justify-end ">
               <img
-                className="w-72 md:w-96 lg:w-[420px] drop-shadow-xl"
-                src="https://static.vecteezy.com/system/resources/previews/025/003/257/non_2x/3d-cute-cartoon-male-teacher-character-on-transparent-background-generative-ai-png.png"
+                className="w-72 md:w-96 lg:w-[420px] drop-shadow-xl rounded-md"
+                src="/sir.jpeg"
                 alt="Teacher"
               />
             </div>
@@ -417,151 +448,187 @@ const Home = () => {
       </section>
 
       {/* Stats Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 text-center">
-            <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center mx-auto mb-2">
-              <Users className="w-5 h-5 text-emerald-600" />
-            </div>
-            <p className="text-xl font-bold text-gray-900">1000+</p>
-            <p className="text-xs text-gray-500">Active Students</p>
-          </div>
-          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 text-center">
-            <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-2">
-              <BookOpen className="w-5 h-5 text-blue-600" />
-            </div>
-            <p className="text-xl font-bold text-gray-900">10+</p>
-            <p className="text-xs text-gray-500">different courses</p>
-          </div>
-          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 text-center">
-            <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center mx-auto mb-2">
-              <Award className="w-5 h-5 text-amber-600" />
-            </div>
-            <p className="text-xl font-bold text-gray-900">98%</p>
-            <p className="text-xs text-gray-500">Success Rate</p>
-          </div>
-          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 text-center">
-            <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-2">
-              <Star className="w-5 h-5 text-purple-600" />
-            </div>
-            <p className="text-xl font-bold text-gray-900">4.9</p>
-            <p className="text-xs text-gray-500">Student Rating</p>
-          </div>
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
+  <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+    
+    {/* Card */}
+    {[
+      {
+        icon: <Users className="w-5 h-5" />,
+        number: "1000+",
+        label: "Students",
+        bgColor: "bg-emerald-100",
+        textColor: "text-emerald-600",
+        glowColor: "bg-emerald-200"
+      },
+      {
+        icon: <BookOpen className="w-5 h-5" />,
+        number: "10+",
+        label: "Courses",
+        bgColor: "bg-blue-100",
+        textColor: "text-blue-600",
+        glowColor: "bg-blue-200"
+      },
+      {
+        icon: <Award className="w-5 h-5" />,
+        number: "Top",
+        label: "Success Rate",
+        bgColor: "bg-amber-100",
+        textColor: "text-amber-600",
+        glowColor: "bg-amber-200"
+      },
+      {
+        icon: <Star className="w-5 h-5" />,
+        number: "4.9",
+        label: "Rating",
+        bgColor: "bg-purple-100",
+        textColor: "text-purple-600",
+        glowColor: "bg-purple-200"
+      }
+    ].map((item, i) => (
+      <div
+        key={i}
+        className="group relative bg-white/70 backdrop-blur-xl border border-gray-100 rounded-2xl p-4 sm:p-6 text-center shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 overflow-hidden"
+      >
+        {/* Glow Effect */}
+        <div className={`absolute -top-10 -right-10 w-24 h-24 ${item.glowColor} opacity-20 rounded-full blur-2xl group-hover:scale-150 transition-all duration-700`} />
+
+        {/* Icon */}
+        <div
+          className={`w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-3 flex items-center justify-center rounded-xl ${item.bgColor} ${item.textColor} transition-all duration-500 group-hover:scale-110`}
+        >
+          {item.icon}
         </div>
+
+        {/* Number */}
+        <p className="text-xl sm:text-2xl font-extrabold text-gray-900 tracking-tight transition-transform duration-300">
+          {item.number}
+        </p>
+
+        {/* Label */}
+        <p className="text-[10px] sm:text-xs text-gray-500 mt-0.5 sm:mt-1 font-medium uppercase tracking-wider">
+          {item.label}
+        </p>
       </div>
+    ))}
+  </div>
+</div>
 
       {/* Information Hub - Notices, Courses, Toppers */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
+        <div className=" mx-auto">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white rounded-full shadow-sm border border-gray-100 mb-4">
-              <Bell className="w-3.5 h-3.5 text-emerald-500" />
-              <span className="text-xs font-semibold text-emerald-600 uppercase tracking-wide">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-100 rounded-full shadow-sm border border-green-200 mb-4">
+              <Bell className="w-3.5 h-3.5 text-emerald-600" />
+              <span className="text-[10px] sm:text-xs font-bold text-green-800 uppercase tracking-wide">
                 Stay Informed
               </span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
-              Information Hub
-            </h2>
+          
             <p className="mt-3 text-gray-500 max-w-2xl mx-auto">
               Stay updated with the latest announcements, programs, and
               achievements
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
             {/* Column 1: Notices */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-[480px] transition-shadow hover:shadow-md">
-              <div className="p-6 pb-4 border-b border-gray-100">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center">
-                      <Bell className="w-5 h-5 text-amber-600" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-gray-900 text-lg">
-                        Notices
-                      </h3>
-                      <p className="text-xs text-gray-400 uppercase tracking-wide">
-                        Latest Updates
-                      </p>
-                    </div>
-                  </div>
-                  <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
-                </div>
-              </div>
+           <div className="relative rounded-3xl border border-gray-200 bg-white/70 backdrop-blur-xl shadow-xl overflow-hidden flex flex-col h-[480px]">
 
-              <div className="flex-1 overflow-y-auto p-6 pt-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-200">
-                {loadingNotices ? (
-                  <div className="space-y-4">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div
-                        key={i}
-                        className="flex flex-col gap-2 p-4 rounded-xl border border-gray-50"
-                      >
-                        <Skeleton className="h-3 w-16" />
-                        <Skeleton className="h-4 w-full" />
-                        <Skeleton className="h-3 w-3/4" />
-                        <Skeleton className="h-3 w-1/2" />
-                      </div>
-                    ))}
-                  </div>
-                ) : notices.length > 0 ? (
-                  notices.map((notice) => (
-                    <div
-                      key={notice._id}
-                      className="p-4 rounded-xl bg-gray-50 hover:bg-white hover:shadow-sm transition-all cursor-pointer border border-transparent hover:border-gray-100"
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <span
-                          className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                            notice.category === "Urgent"
-                              ? "bg-red-50 text-red-600"
-                              : notice.category === "Event"
-                                ? "bg-emerald-50 text-emerald-600"
-                                : "bg-blue-50 text-blue-600"
-                          }`}
-                        >
-                          {notice.category || "Notice"}
-                        </span>
-                        <span className="text-xs text-gray-400">
-                          {new Date(notice.createdAt).toLocaleDateString(
-                            "en-IN",
-                            {
-                              day: "numeric",
-                              month: "short",
-                            },
-                          )}
-                        </span>
-                      </div>
-                      <h4 className="font-semibold text-gray-800 line-clamp-2">
-                        {notice.title}
-                      </h4>
-                      <p className="text-sm text-gray-500 line-clamp-2 mt-1">
-                        {notice.content}
-                      </p>
-                    </div>
-                  ))
-                ) : (
-                  <div className="h-full flex flex-col items-center justify-center text-gray-400">
-                    <Bell className="w-12 h-12 mb-2 opacity-30" />
-                    <p className="text-sm font-medium">No notices yet</p>
-                  </div>
-                )}
-              </div>
+  {/* Header */}
+  <div className="p-6 pb-5 border-b border-gray-100 bg-gradient-to-r from-amber-50/60 to-transparent">
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-4">
+        <div className="w-11 h-11 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center shadow-sm">
+          <Bell className="w-5 h-5" />
+        </div>
+        <div>
+          <h3 className="font-bold text-gray-900 text-xl tracking-tight">
+            Notices
+          </h3>
+          <p className="text-xs text-gray-400 uppercase tracking-widest">
+            Latest Updates
+          </p>
+        </div>
+      </div>
+      <div className="w-2.5 h-2.5 bg-amber-500 rounded-full animate-pulse"></div>
+    </div>
+  </div>
 
-              <div className="p-4 pt-0">
-                <Link
-                  to="/notices"
-                  className="block w-full py-3 bg-gray-50 hover:bg-amber-50 text-amber-600 rounded-xl text-sm font-semibold text-center transition-colors"
-                >
-                  View All Notices
-                </Link>
-              </div>
-            </div>
+  {/* Body */}
+  <div className="flex-1 overflow-y-auto px-6 py-5 space-y-4 scrollbar-thin scrollbar-thumb-gray-200">
+
+    {loadingNotices ? (
+      <div className="space-y-4">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="p-5 rounded-2xl border border-gray-100 bg-white">
+            <Skeleton className="h-3 w-20 mb-2" />
+            <Skeleton className="h-4 w-full mb-2" />
+            <Skeleton className="h-3 w-3/4" />
+          </div>
+        ))}
+      </div>
+    ) : notices.length > 0 ? (
+      notices.map((notice) => (
+        <div
+          key={notice._id}
+          className="group p-5 rounded-2xl bg-white border border-gray-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+        >
+          <div className="flex items-center justify-between mb-3">
+            <span
+              className={`text-[11px] font-semibold px-3 py-1 rounded-full tracking-wide ${
+                notice.category === "Urgent"
+                  ? "bg-red-50 text-red-600"
+                  : notice.category === "Event"
+                  ? "bg-emerald-50 text-emerald-600"
+                  : "bg-blue-50 text-blue-600"
+              }`}
+            >
+              {notice.category || "Notice"}
+            </span>
+
+            <span className="text-xs text-gray-400">
+              {new Date(notice.createdAt).toLocaleDateString("en-IN", {
+                day: "numeric",
+                month: "short",
+              })}
+            </span>
+          </div>
+
+          <h4 className="font-semibold text-gray-900 line-clamp-2 group-hover:text-amber-600 transition-colors">
+            {notice.title}
+          </h4>
+
+          <p className="text-sm text-gray-500 line-clamp-2 mt-1">
+            {notice.content}
+          </p>
+        </div>
+      ))
+    ) : (
+      <div className="h-full flex flex-col items-center justify-center text-gray-400">
+        <Bell className="w-14 h-14 mb-3 opacity-20" />
+        <p className="text-sm font-medium">No notices yet</p>
+      </div>
+    )}
+
+  </div>
+
+  {/* Footer CTA */}
+  <div className="p-5 pt-0">
+    <Link
+      to="/notices"
+      className="block w-full py-3 rounded-2xl text-sm font-semibold text-center 
+                 bg-gradient-to-r from-amber-500 to-amber-600 text-white
+                 hover:shadow-lg hover:from-amber-600 hover:to-amber-700 
+                 transition-all duration-300"
+    >
+      View All Notices
+    </Link>
+  </div>
+</div>
 
             {/* Column 2: Courses */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-[480px] transition-shadow hover:shadow-md">
+            {/* <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-[480px] transition-shadow hover:shadow-md">
               <div className="p-6 pb-4 border-b border-gray-100">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
@@ -639,7 +706,7 @@ const Home = () => {
                   Browse All Courses
                 </Link>
               </div>
-            </div>
+            </div> */}
 
             {/* Column 3: Toppers */}
             <div className="bg-linear-to-br from-gray-900 to-gray-800 rounded-2xl shadow-xl overflow-hidden flex flex-col h-[480px] text-white">
@@ -693,9 +760,7 @@ const Home = () => {
                             topper.name.charAt(0)
                           )}
                         </div>
-                        <div className="absolute -top-1 -right-1 w-5 h-5 bg-amber-400 rounded-lg flex items-center justify-center text-gray-900 text-[10px] font-bold">
-                          #{index + 1}
-                        </div>
+                       
                       </div>
                       <div className="flex-1 min-w-0">
                         <h4 className="font-semibold text-white truncate">
@@ -735,7 +800,7 @@ const Home = () => {
       </section>
 
       {/* Quick Gallery Showcase */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
+      {/* <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-10">
             <div>
@@ -835,11 +900,11 @@ const Home = () => {
             <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
-      </section>
+      </section> */}
 
       {/* Features Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto">
+        <div className=" mx-auto">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 rounded-full mb-4">
               <Sparkles className="w-4 h-4 text-emerald-600" />
@@ -888,7 +953,7 @@ const Home = () => {
 
       {/* CTA Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-linear-to-r from-emerald-50 to-blue-50">
-        <div className="max-w-5xl mx-auto text-center">
+        <div className=" mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
             Ready to Change Your Future?
           </h2>
@@ -909,15 +974,15 @@ const Home = () => {
                   to="/login"
                   className="bg-white text-gray-700 px-8 py-3.5 rounded-xl font-semibold border border-gray-200 hover:bg-gray-50 transition-colors"
                 >
-                  Student Login
+                  Login
                 </Link>
               </>
             ) : (
               <Link
-                to="/dashboard"
+                to="tel:+919876543210"
                 className="bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
               >
-                Go to Dashboard
+                Call Now to Enroll
               </Link>
             )}
           </div>

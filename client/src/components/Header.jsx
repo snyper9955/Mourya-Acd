@@ -14,16 +14,32 @@ import {
   Home,
   ChevronRight,
   Image,
+  LogOut,
+  Bell,
+  MessageSquare,
+  Users,
+  Award,
+  CreditCard,
+  Globe
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   // Handle scroll effect
   useEffect(() => {
@@ -52,13 +68,39 @@ const Header = () => {
     };
   }, [isMenuOpen]);
 
-  const navLinks = [
+  const publicLinks = [
     { name: "Home", path: "/", icon: Home },
-    { name: "Courses", path: "/courses", icon: GraduationCap },
+    // { name: "Courses", path: "/courses", icon: GraduationCap },
     { name: "Gallery", path: "/gallery", icon: Image },
     { name: "Toppers", path: "/toppers", icon: Trophy },
     { name: "Notices", path: "/notices", icon: Megaphone },
   ];
+
+  const studentLinks = [
+    { name: "Home", path: "/", icon: Home },
+    // { name: "Dashboard", path: "/student/dashboard", icon: LayoutDashboard },
+    { name: "Toppers", path: "/toppers", icon: Trophy },
+    // { name: "Courses", path: "/courses", icon: BookOpen },
+    { name: "Notices", path: "/notices", icon: Bell },
+    // { name: "My Profile", path: "/student/profile", icon: User },
+    
+  ];
+
+  const adminLinks = [
+    { name: "Home", path: "/", icon: Home },
+    { name: "Dashboard", path: "/admin", icon: LayoutDashboard },
+    { name: "Students", path: "/admin/students", icon: Users },
+    { name: "Courses", path: "/admin/courses", icon: BookOpen },
+    { name: "Notices", path: "/admin/notices", icon: Bell },
+    { name: "Toppers", path: "/admin/toppers", icon: Award },
+    { name: "Inquiries", path: "/admin/inquiries", icon: MessageSquare },
+    { name: "Payments", path: "/admin/payments", icon: CreditCard },
+    // { name: "Profile", path: "/admin/profile", icon: User },
+  ];
+
+  const navLinks = user 
+    ? (user.role === 'admin' ? adminLinks : studentLinks)
+    : publicLinks;
 
   const isActive = (path) => location.pathname === path;
 
@@ -71,7 +113,7 @@ const Header = () => {
             : "bg-white/90 backdrop-blur-md border-b border-slate-100"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className=" mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
             <Link
@@ -81,7 +123,7 @@ const Header = () => {
               <div className="relative">
                 <div className="absolute inset-0 bg-linear-to-r from-green-600 to-green-800 rounded-xl blur-lg opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
                 <div className="relative w-9 h-9 lg:w-11 lg:h-11 bg-linear-to-br from-green-600 via-green-600 to-green-700 rounded-xl flex items-center justify-center shadow-lg shadow-green-500/20 group-hover:scale-105 transition-all duration-500 group-hover:shadow-xl group-hover:shadow-green-500/30">
-                  <BookOpen className="text-white w-5 h-5 lg:w-6 lg:h-6" />
+                <img src="/logo.jpeg" alt="Logo" className="w-full h-full object-cover rounded-xl" />
                 </div>
               </div>
               <div className="flex flex-col">
@@ -123,7 +165,7 @@ const Header = () => {
                 <div className="flex items-center gap-2">
                   <div className="h-9 w-px bg-slate-200 mx-2" />
                 
-                    <Link to={ user.role === 'admin' ? "/admin" : "/dashboard"} className="group flex items-center gap-3  p-1 rounded-full transition-colors pr-4 border border-transparent ">
+                    <Link to={ user.role === 'admin' ? "/admin" : "/student/profile"} className="group flex items-center gap-3  p-1 rounded-full transition-colors pr-4 border border-transparent ">
                       <div className="w-9 h-9 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center shrink-0 shadow-sm overflow-hidden">
                         {user.image ? (
                           <img src={user.image} alt="Profile" className="w-full h-full object-cover" />
@@ -132,6 +174,13 @@ const Header = () => {
                         )}
                       </div>
                     </Link>
+                  
+                    <button 
+                      onClick={handleLogout}
+                      className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-all"
+                      title="Sign Out"
+                    >
+                    </button>
                  
                 </div>
               ) : (
@@ -197,15 +246,17 @@ const Header = () => {
           {/* Drawer Header */}
           <div className="flex items-center justify-between p-5 border-b border-emerald-50 bg-gradient-to-r from-emerald-50/50 to-white">
             <div className="flex items-center gap-3">
+             <Link to="/">
               <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 to-teal-600 rounded-lg flex items-center justify-center shadow-md shadow-emerald-500/20">
-                <BookOpen className="text-white w-4 h-4" />
+              <img src="/logo.jpeg" alt="Logo" className="w-full h-full object-cover rounded-xl" />
               </div>
+             </Link>
               <div>
                 <span className="text-base font-bold text-slate-800 block tracking-tight leading-tight">
-                  EduManage
+                  Mourya Accadmy
                 </span>
                 <span className="text-[9px] text-slate-700 tracking-wider font-semibold">
-                  EDUCATION PORTAL
+                  Darbhanga
                 </span>
               </div>
             </div>
@@ -215,6 +266,7 @@ const Header = () => {
               aria-label="Close menu"
             >
               <X className="w-5 h-5" />
+              
             </button>
           </div>
 
@@ -257,19 +309,7 @@ const Header = () => {
           {/* Drawer Auth Actions */}
           <div className="px-5 pb-5 space-y-3 mt-2">
             {user ? (
-              <button
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  navigate(user.role === 'admin' ? "/admin" : "/dashboard");
-                }}
-                className="w-full group flex items-center justify-between gap-2 text-slate-700 text-sm font-medium py-3 px-4 active:scale-95 transition-all duration-30 "
-              >
-                <span className="flex items-center gap-2">
-                  <User className="w-4 h-4" />
-                  <span>Dashboard</span>
-                </span>
-                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
-              </button>
+           <></>
             ) : (
               <>
                 <Link
