@@ -82,7 +82,7 @@ const Header = () => {
     { name: "Toppers", path: "/toppers", icon: Trophy },
     // { name: "Courses", path: "/courses", icon: BookOpen },
     { name: "Notices", path: "/notices", icon: Bell },
-    // { name: "My Profile", path: "/student/profile", icon: User },
+     { name: "My Profile", path: "/student/profile", icon: User },
     
   ];
 
@@ -299,6 +299,7 @@ const Header = () => {
                 )}
               </Link>
             ))}
+
           </nav>
 
           {/* Drawer Divider */}
@@ -320,15 +321,7 @@ const Header = () => {
                   <LogIn className="w-4 h-4 text-emerald-500" />
                   <span>Sign In</span>
                 </Link>
-                <Link
-                  to="/signup"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-sm font-medium py-3 rounded-xl shadow-md shadow-emerald-500/20 active:scale-95 transition-all duration-300 hover:from-emerald-500 hover:to-teal-500"
-                >
-                  <User className="w-4 h-4" />
-                  <span>Get Started</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
-                </Link>
+             
               </>
             )}
           </div>
