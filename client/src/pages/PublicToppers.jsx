@@ -123,7 +123,7 @@ const PublicToppers = () => {
 
                 {/* Compact Toppers Grid - 4 columns on desktop */}
                 {loading ? (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
                         {[...Array(8)].map((_, i) => (
                             <div key={i} className="bg-white rounded-xl overflow-hidden border border-gray-100 animate-pulse">
                                 <div className="p-3">
@@ -136,41 +136,36 @@ const PublicToppers = () => {
                     </div>
                 ) : filteredToppers.length > 0 ? (
                     <>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
                             {displayedToppers.map((topper, index) => {
                                 const rankConfig = getRankConfig(topper.rank);
                                 return (
                                     <div 
                                         key={topper._id} 
-                                        className="group bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden hover:-translate-y-0.5"
+                                        className="group bg-white rounded-xl overflow-hidden relative aspect-[3/4.5] shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5"
                                     >
-                                        <div className="p-3">
-                                           
-                                            
-                                            {/* Avatar - Square and compact */}
-                                            <div className="relative mb-2">
-                                                <div className="w-full h-full rounded-lg bg-gray-50 flex items-center justify-center overflow-hidden mx-auto shadow-sm">
-                                                    {topper.image ? (
-                                                        <img 
-                                                            src={getImageUrl(topper.image)} 
-                                                            alt={topper.name} 
-                                                            className="w-full h-full object-cover"
-                                                        />
-                                                    ) : (
-                                                        <div className="w-full h-full bg-linear-to-br from-emerald-100 to-teal-100 flex items-center justify-center">
-                                                            <User className="w-8 h-8 text-emerald-600" />
-                                                        </div>
-                                                    )}
-                                                </div>
+                                        {/* Topper Image */}
+                                        {topper.image ? (
+                                            <img 
+                                                src={getImageUrl(topper.image)} 
+                                                alt={topper.name} 
+                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full bg-linear-to-br from-emerald-100 to-teal-100 flex items-center justify-center">
+                                                <User className="w-12 h-12 text-emerald-600" />
                                             </div>
+                                        )}
 
-                                        </div>
+                                    
+
+                                   
                                     </div>
                                 );
                             })}
                             
                         </div>
-                <h1 className="text-center text-xl font-bold text-green-950 tracking-tight bg-green-200 border border-green-400 p-2 rounded-lg">All Toppers List coming soon ...</h1>
+                <h1 className="text-center mt-10 text-xl font-bold text-green-950 tracking-tight bg-green-200 border border-green-400 p-2 rounded-lg">All Toppers List coming soon ...</h1>
 
                         
                         {/* Load More Button - Only if needed */}
