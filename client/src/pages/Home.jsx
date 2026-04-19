@@ -136,7 +136,7 @@ const Home = () => {
         "Learn from industry professionals with years of teaching experience",
       gradient: "from-emerald-500 to-teal-600",
       bgGradient: "from-emerald-50/50 to-teal-50/50",
-      color: "green-200",
+      color: "green-100",
       borderColor: "green-600",
     },
   
@@ -147,7 +147,7 @@ const Home = () => {
       gradient: "from-purple-500 to-fuchsia-600",
       bgGradient: "from-purple-50/50 to-fuchsia-50/50",
       color: "purple-200",
-      borderColor: "purple-600",
+      borderColor: "purple-100",
     },
     {
       icon: Award,
@@ -155,7 +155,7 @@ const Home = () => {
       description: "Consistent track record of academic excellence",
       gradient: "from-amber-400 to-orange-500",
       bgGradient: "from-amber-50/50 to-orange-50/50",
-      color: "amber-200",
+      color: "amber-100",
       borderColor: "amber-600",
     },
     {
@@ -164,8 +164,8 @@ const Home = () => {
       description: "Weekly assessments to track your progress",
       gradient: "from-rose-500 to-pink-600",
       bgGradient: "from-rose-50/50 to-pink-50/50",
-      color: "pink-200",
-      borderColor: "pink-600",
+      color: "red-200",
+      borderColor: "red-600",
     },
     {
       icon: MessageCircle,
@@ -173,7 +173,7 @@ const Home = () => {
       description: "Doubt clearing sessions anytime you need",
       gradient: "from-cyan-500 to-blue-600",
       bgGradient: "from-cyan-50/50 to-blue-50/50",
-      color: "blue-200",
+      color: "blue-100",
       borderColor: "blue-600",
     },
   ];

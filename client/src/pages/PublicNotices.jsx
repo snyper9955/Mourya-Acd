@@ -64,22 +64,22 @@ const PublicNotices = () => {
         {loading ? (
           <div className="h-40 bg-white border border-gray-100 rounded-2xl animate-pulse mb-8" />
         ) : latestNotice && (
-          <div className="bg-emerald-200 border border-emerald-600 rounded-2xl p-6 mb-10 shadow-sm">
+          <div className="bg-emerald-100 border border-emerald-600 rounded-2xl p-6 mb-10 shadow-sm">
             <span className="text-xs font-bold text-emerald-950 uppercase">
               Latest Notice
             </span>
 
-            <h2 className="text-xl font-bold text-gray-900 mt-2 mb-2">
+            <h2 className="text-xl font-extrabold text-gray-900 mt-2 mb-2">
               {latestNotice.title}
             </h2>
 
-            <p className="text-gray-700 text-sm mb-4">
+            <p className="text-gray-700 font-semibold text-md mb-4">
               {latestNotice.content}
             </p>
 
             <div className="flex items-center gap-3 text-xs text-gray-500">
               
-              <div className="flex items-center gap-1 text-gray-900">
+              <div className="flex items-center gap-1 text-gray-900 font-semibold text-md">
                 <Calendar className="w-3 h-3" />
                 {new Date(latestNotice.createdAt).toLocaleDateString("en-IN")}
               </div>
@@ -108,11 +108,11 @@ const PublicNotices = () => {
                 </div>
               </div>
 
-              <h3 className="text-lg font-bold text-gray-900 mb-2">
+              <h3 className="text-lg font-extrabold text-gray-900 mb-2">
                 {notice.title}
               </h3>
 
-              <p className="text-gray-600 text-sm mb-4">
+              <p className="text-gray-600 font-semibold text-md mb-4">
                 {notice.content}
               </p>
 
