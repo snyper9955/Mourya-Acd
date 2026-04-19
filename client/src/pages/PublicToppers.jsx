@@ -120,7 +120,6 @@ const PublicToppers = () => {
                         {filteredToppers.length} achiever{filteredToppers.length !== 1 ? 's' : ''}
                     </p>
                 )}  
-                <h1 className="text-center text-xl font-bold text-gray-900 tracking-tight bg-green-200 border border-green-400 p-2 rounded-lg">All Toppers List coming soon ...</h1>
 
                 {/* Compact Toppers Grid - 4 columns on desktop */}
                 {loading ? (
@@ -169,7 +168,10 @@ const PublicToppers = () => {
                                     </div>
                                 );
                             })}
+                            
                         </div>
+                <h1 className="text-center text-xl font-bold text-green-950 tracking-tight bg-green-200 border border-green-400 p-2 rounded-lg">All Toppers List coming soon ...</h1>
+
                         
                         {/* Load More Button - Only if needed */}
                         {hasMore && (

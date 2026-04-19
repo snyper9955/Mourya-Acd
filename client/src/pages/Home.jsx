@@ -136,6 +136,8 @@ const Home = () => {
         "Learn from industry professionals with years of teaching experience",
       gradient: "from-emerald-500 to-teal-600",
       bgGradient: "from-emerald-50/50 to-teal-50/50",
+      color: "green-200",
+      borderColor: "green-600",
     },
   
     {
@@ -144,6 +146,8 @@ const Home = () => {
       description: "Personalized attention with limited students per batch",
       gradient: "from-purple-500 to-fuchsia-600",
       bgGradient: "from-purple-50/50 to-fuchsia-50/50",
+      color: "purple-200",
+      borderColor: "purple-600",
     },
     {
       icon: Award,
@@ -151,6 +155,8 @@ const Home = () => {
       description: "Consistent track record of academic excellence",
       gradient: "from-amber-400 to-orange-500",
       bgGradient: "from-amber-50/50 to-orange-50/50",
+      color: "amber-200",
+      borderColor: "amber-600",
     },
     {
       icon: BarChart3,
@@ -158,6 +164,8 @@ const Home = () => {
       description: "Weekly assessments to track your progress",
       gradient: "from-rose-500 to-pink-600",
       bgGradient: "from-rose-50/50 to-pink-50/50",
+      color: "pink-200",
+      borderColor: "pink-600",
     },
     {
       icon: MessageCircle,
@@ -165,6 +173,8 @@ const Home = () => {
       description: "Doubt clearing sessions anytime you need",
       gradient: "from-cyan-500 to-blue-600",
       bgGradient: "from-cyan-50/50 to-blue-50/50",
+      color: "blue-200",
+      borderColor: "blue-600",
     },
   ];
 
@@ -185,17 +195,17 @@ const Home = () => {
         <div className="marquee-track absolute inset-0 flex items-center">
           <div className="marquee-content inline-flex items-center gap-4">
             {/* Double the notices for seamless loop */}
-            {[...notices, ...notices, ...notices].map((notice, idx) => (
+            {[...notices, ...notices, ...notices, ...notices, ...notices, ...notices].map((notice, idx) => (
               <Link
                 to="/notices"
                 key={`${notice._id}-${idx}`}
-                className="inline-flex items-center gap-3 bg-green-100 border text-green-900 border-green-400 rounded-full p-1 pr-5 shadow-sm hover:shadow-md hover:border-green-600 transition-all cursor-pointer group shrink-0"
+                className="inline-flex items-center justify-center gap-3 bg-green-200 border text-green-950 border-green-600 text-center rounded-full px-2 py-1 pr-5 shadow-sm hover:shadow-md hover:border-green-600 transition-all cursor-pointer group shrink-0"
               >
                 {/* Category Badge */}
             
 
                 {/* Notice Content */}
-                <h4 className="text-sm font-semibold text-green-900 group-hover:text-green-900 transition-colors whitespace-nowrap">
+                <h4 className="text-sm text-center font-semibold text-green-950 group-hover:text-green-900 transition-colors whitespace-nowrap">
                   {notice.content}
                 </h4>
 
@@ -265,12 +275,12 @@ const Home = () => {
   }
 `}</style>
  {toppers.length > 0 && (
-  <section className="w-full mx-auto px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12 mb-12 sm:mb-20 overflow-hidden">
+  <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12 mb-12 sm:mb-20 overflow-hidden">
     {/* Header Section */}
     <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-10">
       <div className="space-y-2 sm:space-y-3">
         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-heading font-black text-gray-900 tracking-tight leading-tight sm:leading-none">
-          Mourya Accadmy <span className="text-transparent bg-clip-text bg-gradient-to-tr from-green-600 via-green-500 to-green-600 ">Toppers</span>
+          Mourya Accadmy <span className="text-transparent bg-clip-text bg-emerald-600 ">Toppers</span>
         </h2>
       </div>
      
@@ -368,8 +378,8 @@ const Home = () => {
 
 
       {/* Hero Intro Section */}
-      <section className="relative w-full bg-white overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-100/20 rounded-full blur-3xl -mr-48 -mt-48" />
+      <section className="relative max-w-7xl mx-auto w-full bg-white overflow-hidden">
+        <div className="absolute   top-0 right-0 w-96 h-96 bg-emerald-100/20 rounded-full blur-3xl -mr-48 -mt-48" />
 
         <div className="relative z-10 mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
           <div className="grid md:grid-cols-2 gap-10 items-center">
@@ -397,14 +407,7 @@ const Home = () => {
                   <Phone className="w-4 h-4" /> call us
                 </Link>
 
-                {!user && (
-                  <button
-                    onClick={() => navigate("/register")}
-                    className="bg-neutral-900 text-white px-8 py-3.5 rounded-xl font-semibold border border-neutral-900 hover:bg-neutral-800 transition-all"
-                  >
-                    Get Started Free
-                  </button>
-                )}
+               
               </div>
            
 
@@ -429,7 +432,7 @@ const Home = () => {
                 Coaching Institute in Darbhanga
               </h1>
 
-              <p className="text-[14px] sm:text-xl text-gray-600 max-w-xl mt-4  leading-relaxed font-semibold bg-green-100 rounded-full px-1 py-1 border border-green-400 ">
+              <p className="text-[14px] text-center sm:text-xl text-green-950 max-w-xl mt-4  leading-relaxed font-semibold bg-green-200 rounded-full px-1 py-1 border border-green-600 ">
                 <span className="text-green-800 ">📍</span>
               Located near Shivdhara Chowk, Darbhanga,Bihar
               </p>
@@ -448,7 +451,7 @@ const Home = () => {
       </section>
 
       {/* Stats Section */}
-      <div className=" mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
   <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
     
     {/* Card */}
@@ -516,7 +519,7 @@ const Home = () => {
 
       {/* Information Hub - Notices, Courses, Toppers */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className=" mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-100 rounded-full shadow-sm border border-green-200 mb-4">
               <Bell className="w-3.5 h-3.5 text-emerald-600" />
@@ -536,22 +539,22 @@ const Home = () => {
            <div className="relative rounded-3xl border border-gray-200 bg-white/70 backdrop-blur-xl shadow-xl overflow-hidden flex flex-col h-[480px]">
 
   {/* Header */}
-  <div className="p-6 pb-5 border-b border-gray-100 bg-gradient-to-r from-amber-50/60 to-transparent">
+  <div className="p-6 pb-5 border-b border-gray-100 bg-gradient-to-r from-emerald-50/60 to-transparent">
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-4">
-        <div className="w-11 h-11 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center shadow-sm">
+        <div className="w-11 h-11 bg-emerald-100 border border-emerald-600 text-emerald-600 rounded-2xl flex items-center justify-center shadow-sm">
           <Bell className="w-5 h-5" />
         </div>
         <div>
           <h3 className="font-bold text-gray-900 text-xl tracking-tight">
             Notices
           </h3>
-          <p className="text-xs text-gray-400 uppercase tracking-widest">
+          <p className="text-xs text-gray-800 uppercase tracking-widest">
             Latest Updates
           </p>
         </div>
       </div>
-      <div className="w-2.5 h-2.5 bg-amber-500 rounded-full animate-pulse"></div>
+      <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></div>
     </div>
   </div>
 
@@ -572,37 +575,27 @@ const Home = () => {
       notices.map((notice) => (
         <div
           key={notice._id}
-          className="group p-5 rounded-2xl bg-white border border-gray-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+          className="group p-5 rounded-2xl bg-green-200 border border-green-600 hover:shadow-md hover:-translate-y-1 transition-all duration-300 cursor-pointer"
         >
-          <div className="flex items-center justify-between mb-3">
-            <span
-              className={`text-[11px] font-semibold px-3 py-1 rounded-full tracking-wide ${
-                notice.category === "Urgent"
-                  ? "bg-red-50 text-red-600"
-                  : notice.category === "Event"
-                  ? "bg-emerald-50 text-emerald-600"
-                  : "bg-blue-50 text-blue-600"
-              }`}
-            >
-              {notice.category || "Notice"}
-            </span>
+        
 
-            <span className="text-xs text-gray-400">
+          <h4 className="font-bold text-green-950 line-clamp-2  transition-colors">
+            {notice.title}
+          </h4>
+
+          <p className="text-md text-gray-950 line-clamp-2 mt-1">
+            {notice.content}
+          </p>
+          <div className="flex items-center justify-end">
+        <span className="text-xs text-gray-900">
               {new Date(notice.createdAt).toLocaleDateString("en-IN", {
                 day: "numeric",
                 month: "short",
               })}
             </span>
-          </div>
-
-          <h4 className="font-semibold text-gray-900 line-clamp-2 group-hover:text-amber-600 transition-colors">
-            {notice.title}
-          </h4>
-
-          <p className="text-sm text-gray-500 line-clamp-2 mt-1">
-            {notice.content}
-          </p>
+            </div>
         </div>
+        
       ))
     ) : (
       <div className="h-full flex flex-col items-center justify-center text-gray-400">
@@ -618,8 +611,8 @@ const Home = () => {
     <Link
       to="/notices"
       className="block w-full py-3 rounded-2xl text-sm font-semibold text-center 
-                 bg-gradient-to-r from-amber-500 to-amber-600 text-white
-                 hover:shadow-lg hover:from-amber-600 hover:to-amber-700 
+                 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white
+                 hover:shadow-lg hover:from-emerald-600 hover:to-emerald-700 
                  transition-all duration-300"
     >
       View All Notices
@@ -904,11 +897,11 @@ const Home = () => {
 
       {/* Features Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-gray-50 to-white">
-        <div className=" mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 rounded-full mb-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-200 border border-green-600 rounded-full mb-4">
               <Sparkles className="w-4 h-4 text-emerald-600" />
-              <span className="text-sm font-semibold text-emerald-700 uppercase tracking-wide">
+              <span className="text-sm font-semibold text-green-950 uppercase tracking-wide">
                 Why Choose Us
               </span>
             </div>
@@ -923,11 +916,11 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 bg">
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="group relative p-6 rounded-2xl bg-white border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                className={`group relative p-6 rounded-2xl bg-${feature.color} border border-${feature.borderColor} shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}
               >
                 <div
                   className={`absolute inset-0 bg-linear-to-r ${feature.bgGradient} opacity-0 group-hover:opacity-100 rounded-2xl transition-opacity duration-300`}
@@ -953,7 +946,7 @@ const Home = () => {
 
       {/* CTA Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-linear-to-r from-emerald-50 to-blue-50">
-        <div className=" mx-auto text-center">
+        <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
             Ready to Change Your Future?
           </h2>
