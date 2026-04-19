@@ -969,19 +969,7 @@ const Home = () => {
                 Call Now to Enroll
               </Link>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {!user ? (
-              <>
-           
-                <Link
-                  to="/login"
-                  className="bg-white text-gray-700 px-8 py-3.5 rounded-xl font-semibold border border-gray-200 hover:bg-gray-50 transition-colors"
-                >
-                  Login
-                </Link>
-              </>
-            ) : (
-             <></>
-            )}
+        
           </div>
         </div>
       </section>
