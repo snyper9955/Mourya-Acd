@@ -962,15 +962,16 @@ const Home = () => {
             Join thousands of successful students who have achieved their
             academic goals with our platform. Start your journey today.
           </p>
+           <Link
+                to="tel:+919876543210"
+                className="bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+              >
+                Call Now to Enroll
+              </Link>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             {!user ? (
               <>
-                <Link
-                  to="/register"
-                  className="bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
-                >
-                  Get Started Free
-                </Link>
+           
                 <Link
                   to="/login"
                   className="bg-white text-gray-700 px-8 py-3.5 rounded-xl font-semibold border border-gray-200 hover:bg-gray-50 transition-colors"
@@ -979,12 +980,7 @@ const Home = () => {
                 </Link>
               </>
             ) : (
-              <Link
-                to="tel:+919876543210"
-                className="bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
-              >
-                Call Now to Enroll
-              </Link>
+             <></>
             )}
           </div>
         </div>
