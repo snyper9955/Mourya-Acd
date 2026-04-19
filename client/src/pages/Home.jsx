@@ -462,7 +462,9 @@ const Home = () => {
         label: "Students",
         bgColor: "bg-emerald-100",
         textColor: "text-emerald-600",
-        glowColor: "bg-emerald-200"
+        glowColor: "bg-emerald-200",
+        color:"emerald-100",
+        border:"emerald-400"
       },
       {
         icon: <BookOpen className="w-5 h-5" />,
@@ -470,7 +472,9 @@ const Home = () => {
         label: "Courses",
         bgColor: "bg-blue-100",
         textColor: "text-blue-600",
-        glowColor: "bg-blue-200"
+        glowColor: "bg-blue-200",
+        color:"blue-100",
+        border:"blue-400"
       },
       {
         icon: <Award className="w-5 h-5" />,
@@ -478,7 +482,9 @@ const Home = () => {
         label: "Success Rate",
         bgColor: "bg-amber-100",
         textColor: "text-amber-600",
-        glowColor: "bg-amber-200"
+        glowColor: "bg-amber-200",
+        color:"amber-100",
+        border:"amber-300"
       },
       {
         icon: <Star className="w-5 h-5" />,
@@ -486,12 +492,14 @@ const Home = () => {
         label: "Rating",
         bgColor: "bg-purple-100",
         textColor: "text-purple-600",
-        glowColor: "bg-purple-200"
+        glowColor: "bg-purple-200",
+        color:"purple-100",
+        border:"purple-400"
       }
     ].map((item, i) => (
       <div
         key={i}
-        className="group relative bg-white/70 backdrop-blur-xl border border-gray-100 rounded-2xl p-4 sm:p-6 text-center shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 overflow-hidden"
+        className={`group relative bg-${item.color} backdrop-blur-xl border  border-${item.border} rounded-2xl p-4 sm:p-6 text-center shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 overflow-hidden`}
       >
         {/* Glow Effect */}
         <div className={`absolute -top-10 -right-10 w-24 h-24 ${item.glowColor} opacity-20 rounded-full blur-2xl group-hover:scale-150 transition-all duration-700`} />
