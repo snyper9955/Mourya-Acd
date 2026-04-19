@@ -432,8 +432,8 @@ const Home = () => {
                 Coaching Institute in Darbhanga
               </h1>
 
-              <p className="text-[14px] text-center sm:text-xl text-green-950 max-w-xl mt-4  leading-relaxed font-semibold bg-green-200 rounded-full px-1 py-1 border border-green-600 ">
-                <span className="text-green-800 ">📍</span>
+              <p className="text-[14px] text-center sm:text-xl text-green-950 max-w-xl mt-4  leading-relaxed font-semibold bg-green-100 rounded-full px-1 py-1 border border-green-600 ">
+                <span className="text-green-950 ">📍</span>
               Located near Shivdhara Chowk, Darbhanga,Bihar
               </p>
             </div>
