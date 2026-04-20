@@ -411,7 +411,7 @@ const Home = () => {
               </div>
            
 
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 leading-tight mt-2">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900 leading-tight mt-2">
                 Mourya Academy {" "}
                 <span className="text-emerald-600 relative inline-block">
                   Best
@@ -436,10 +436,12 @@ const Home = () => {
                 <span className="text-green-950 ">📍</span>
               Located near Shivdhara Chowk, Darbhanga,Bihar
               </p>
+              <h2 className='text-center text-pink-950 mt-4 text-xl font-semibold bg-pink-200 rounded-full px-1 py-1 border border-pink-600 '> All courses available for CBSE V to XII</h2>
+            
             </div>
 
             {/* RIGHT SIDE - IMAGE */}
-            <div className="flex justify-center md:justify-end ">
+            <div className="flex justify-center md:justify-end "> {/*y-flip*/}
               <img
                 className="w-72 md:w-96 lg:w-[420px] drop-shadow-xl rounded-md"
                 src="/sir.jpeg"
@@ -450,7 +452,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
   <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
     
@@ -536,8 +537,8 @@ const Home = () => {
               </span>
             </div>
           
-            <p className="mt-3 text-gray-500 max-w-2xl mx-auto">
-              Stay updated with the latest announcements, programs, and
+            <p className="mt-3 text-gray-800 max-w-2xl mx-auto  text-xl font-semibold">
+              Latest announcements, programs, and
               achievements
             </p>
           </div>
@@ -557,7 +558,7 @@ const Home = () => {
           <h3 className="font-bold text-gray-900 text-xl tracking-tight">
             Notices
           </h3>
-          <p className="text-xs text-gray-800 uppercase tracking-widest">
+          <p className="text-xs text-gray-800 font-semibold uppercase tracking-widest">
             Latest Updates
           </p>
         </div>
