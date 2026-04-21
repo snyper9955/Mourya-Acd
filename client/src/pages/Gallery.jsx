@@ -9,54 +9,20 @@ const Gallery = () => {
   const galleryItems = [
     {
       id: 1,
-      url: "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=800",
-      category: "classroom",
+      url: "./g1.webp",
+      category: "events",
       title: "Interactive Smart Class"
     },
     {
       id: 2,
-      url: "https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=800",
+      url: "./g2.webp",
       category: "students",
       title: "Group Discussion"
     },
 
  
-    {
-      id: 4,
-      url: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=800",
-      category: "classroom",
-      title: "Science Laboratory"
-    },
-    {
-      id: 5,
-      url: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=800",
-      category: "students",
-      title: "Exam Preparation"
-    },
-    {
-      id: 6,
-      url: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&q=80&w=800",
-      category: "campus",
-      title: "Reading Hall"
-    },
-    {
-      id: 7,
-      url: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=800",
-      category: "events",
-      title: "Annual Seminar"
-    },
-    {
-      id: 8,
-      url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=800",
-      category: "classroom",
-      title: "Modern Lecture Room"
-    },
-    {
-      id: 9,
-      url: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800",
-      category: "students",
-      title: "Student Projects"
-    }
+  
+  
   ];
 
   const categories = [

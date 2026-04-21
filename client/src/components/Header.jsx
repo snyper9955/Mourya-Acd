@@ -71,13 +71,14 @@ const Header = () => {
   const publicLinks = [
     { name: "Home", path: "/", icon: Home },
     // { name: "Courses", path: "/courses", icon: GraduationCap },
-    // { name: "Gallery", path: "/gallery", icon: Image },
+    { name: "Gallery", path: "/gallery", icon: Image },
     { name: "Toppers", path: "/toppers", icon: Trophy },
     { name: "Notices", path: "/notices", icon: Megaphone },
   ];
 
   const studentLinks = [
     { name: "Home", path: "/", icon: Home },
+    { name: "Gallery", path: "/gallery", icon: Image },
     // { name: "Dashboard", path: "/student/dashboard", icon: LayoutDashboard },
     { name: "Toppers", path: "/toppers", icon: Trophy },
     // { name: "Courses", path: "/courses", icon: BookOpen },

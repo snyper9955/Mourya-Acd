@@ -436,17 +436,19 @@ const Home = () => {
                 <span className="text-green-950 ">📍</span>
               Located near Shivdhara Chowk, Darbhanga,Bihar
               </p>
-              <h2 className='text-center text-pink-950 mt-4 text-xl font-semibold bg-pink-200 rounded-full px-1 py-1 border border-pink-600 '> All courses available for CBSE V to XII</h2>
+              <h2 className='text-center text-pink-950 mt-4 text-md sm:text-2xl font-semibold bg-pink-200 rounded-full px-1 py-1 border border-pink-600 '> All courses available for CBSE VI to XII</h2>
             
             </div>
 
             {/* RIGHT SIDE - IMAGE */}
-            <div className="flex justify-center md:justify-end "> {/*y-flip*/}
+            <div className="flex flex-col justify-center items-center md:justify-end "> {/*y-flip*/}
               <img
                 className="w-72 md:w-96 lg:w-[420px] drop-shadow-xl rounded-md"
                 src="/sir.jpeg"
                 alt="Teacher"
               />
+              <h1 className="text-center text-neutral-950 mt-4 text-md sm:text-2xl font-bold "> Mr. Shambhu Kumar Singh</h1>
+              <p className="text-center text-green-950  text-sm sm:text-xl font-semibold bg-green-200 rounded-lg px-2 py-1 border border-green-600 "> Teaching Since 2017</p>
             </div>
           </div>
         </div>
@@ -556,7 +558,7 @@ const Home = () => {
         </div>
         <div>
           <h3 className="font-bold text-gray-900 text-xl tracking-tight">
-            Notices
+            Notices 
           </h3>
           <p className="text-xs text-gray-800 font-semibold uppercase tracking-widest">
             Latest Updates
@@ -802,7 +804,7 @@ const Home = () => {
       </section>
 
       {/* Quick Gallery Showcase */}
-      {/* <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-10">
             <div>
@@ -831,49 +833,25 @@ const Home = () => {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             <div className="col-span-2 lg:row-span-2 rounded-3xl overflow-hidden relative group h-64 md:h-96 lg:h-full shadow-sm hover:shadow-xl transition-shadow duration-500 bg-slate-100">
               <img
-                src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=800"
+                src="./g2.webp"
                 alt="Campus Life"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 md:p-8">
-                <h3 className="text-white font-bold text-2xl md:text-3xl mb-1 translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                  Modern University
-                </h3>
-                <p className="text-emerald-300 font-medium translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
-                  Spacious & Vibrant
-                </p>
+               
+                
               </div>
             </div>
             <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500 bg-slate-100">
               <img
-                src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=400"
+                src="./g1.webp"
                 alt="Classroom"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span className="text-white font-bold">Classrooms</span>
-              </div>
+              
             </div>
-            <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500 bg-slate-100">
-              <img
-                src="https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=400"
-                alt="Students"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span className="text-white font-bold">Group Studies</span>
-              </div>
-            </div>
-            <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500 bg-slate-100">
-              <img
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=400"
-                alt="Activities"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <span className="text-white font-bold">Activities</span>
-              </div>
-            </div>
+          
+          
             <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500 bg-slate-100">
               <Link
                 to="/gallery"
@@ -902,7 +880,7 @@ const Home = () => {
             <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
-      </section> */}
+      </section>
 
       {/* Features Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-gray-50 to-white">
