@@ -256,7 +256,7 @@ const Header = () => {
                 <span className="text-base font-bold text-slate-800 block tracking-tight leading-tight">
                   Mourya Accadmy
                 </span>
-                <span className="text-[9px] text-slate-700 tracking-wider font-semibold">
+                <span className="text-[12px] text-slate-700 tracking-wider font-semibold">
                   Darbhanga
                 </span>
               </div>
@@ -280,7 +280,7 @@ const Header = () => {
                 className={`group relative px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 overflow-hidden ${
                   isActive(link.path)
                     ? "bg-neutral-900 text-white shadow-md shadow-emerald-500/20"
-                    : "text-slate-700 hover:bg-emerald-50 hover:text-emerald-700"
+                    : "text-neutral-900 hover:text-emerald-700 font-semibold"
                 }`}
                 style={{
                   transitionDelay: `${index * 50}ms`,
@@ -288,7 +288,7 @@ const Header = () => {
               >
                 <span className="relative z-10 flex items-center gap-3">
                   <link.icon
-                    className={`w-4 h-4 transition-all duration-300 ${isActive(link.path) ? "text-white" : "text-slate-400 group-hover:text-emerald-600"}`}
+                    className={`w-4 h-4 transition-all duration-300 ${isActive(link.path) ? "text-white" : "text-slate-900 group-hover:text-emerald-600"}`}
                   />
                   {link.name}
                   {isActive(link.path) && (
@@ -296,7 +296,7 @@ const Header = () => {
                   )}
                 </span>
                 {!isActive(link.path) && (
-                  <span className="absolute inset-0 bg-gradient-to-r from-emerald-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <span className="absolute inset-0  opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 )}
               </Link>
             ))}

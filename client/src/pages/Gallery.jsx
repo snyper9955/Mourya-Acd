@@ -16,7 +16,7 @@ const Gallery = () => {
     {
       id: 2,
       url: "./g2.webp",
-      category: "students",
+      category: "events",
       title: "Group Discussion"
     },
 
@@ -43,14 +43,11 @@ const Gallery = () => {
         
         {/* Header Section */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 text-emerald-700 font-medium text-sm mb-4 animate-fade-in">
-            <Camera className="w-4 h-4" />
-            <span>Discover Our Environment</span>
-          </div>
+         <h1 className="text-4xl font-bold text-gray-900 mb-3">
+            Mourya Accadmy <span className="text-emerald-600 ">Gallery</span>
+          </h1>
       
-          <p className="text-lg text-slate-600">
-            Take a visual journey through our state-of-the-art facilities, vibrant student community, and memorable learning experiences.
-          </p>
+        
         </div>
 
         {/* Filter Buttons */}
@@ -93,7 +90,6 @@ const Gallery = () => {
                         <span className="inline-block px-3 py-1 bg-emerald-500 text-white text-xs font-semibold rounded-lg mb-2 uppercase tracking-wide">
                           {image.category}
                         </span>
-                        <h3 className="text-white font-bold text-xl">{image.title}</h3>
                       </div>
                       <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-white hover:text-slate-900 transition-colors">
                         <Maximize2 className="w-5 h-5" />

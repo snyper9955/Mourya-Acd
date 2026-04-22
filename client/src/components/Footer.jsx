@@ -80,6 +80,15 @@ const Footer = () => {
                   <MapPin className="w-4 h-4 text-emerald-400" />
                   <span>Mourya Accadmy, Darbhanga, Bihar 846001</span>
                 </li>
+                <li className="flex gap-3">
++              <Link
+                to="#contact"
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                Contact
+              </Link>
+              </li>
+              
               </ul>
             </div>
 
@@ -91,9 +100,7 @@ const Footer = () => {
               <p className="text-xs text-gray-500">
                 © {currentYear} Mourya Accadmy Darbhanga • Built for Success
               </p>
-              <div className="flex gap-4 text-xs">
-              
-              </div>
+       
             </div>
           </div>
         </div>

@@ -65,7 +65,7 @@ const PublicNotices = () => {
           <div className="h-40 bg-white border border-gray-100 rounded-2xl animate-pulse mb-8" />
         ) : latestNotice && (
           <div className="bg-emerald-100 border border-emerald-600 rounded-2xl p-6 mb-10 shadow-sm">
-            <span className="text-xs font-bold text-emerald-950 uppercase">
+            <span className="text-xs font-extrabold text-neutral-950 bg-red-300 border-2 border-green-600 px-2 py-1 rounded-full uppercase">
               Latest Notice
             </span>
 

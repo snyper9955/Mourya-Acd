@@ -146,7 +146,7 @@ const Home = () => {
       description: "Personalized attention with limited students per batch",
       gradient: "from-purple-500 to-fuchsia-600",
       bgGradient: "from-purple-50/50 to-fuchsia-50/50",
-      color: "purple-200",
+      color: "purple-100",
       borderColor: "purple-100",
     },
     {
@@ -532,9 +532,9 @@ const Home = () => {
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-100 rounded-full shadow-sm border border-green-200 mb-4">
-              <Bell className="w-3.5 h-3.5 text-emerald-600" />
-              <span className="text-[10px] sm:text-xs font-bold text-green-800 uppercase tracking-wide">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-100 rounded-full shadow-sm border border-green-600 mb-4">
+              <Bell className="w-3.5 h-3.5 text-green-950" />
+              <span className="text-[10px] sm:text-xs font-bold text-green-950 uppercase tracking-wide">
                 Stay Informed
               </span>
             </div>
@@ -806,11 +806,11 @@ const Home = () => {
       {/* Quick Gallery Showcase */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-10">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-50 rounded-full mb-4 border border-emerald-100 shadow-sm">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-10">
+            <div className="flex flex-col items-center justify-center">
+              <div className="inline-flex  items-center gap-2 px-3 py-1.5 bg-emerald-100 rounded-full mb-4 border border-emerald-600 shadow-sm">
                 <Camera className="w-4 h-4 text-emerald-600" />
-                <span className="text-sm font-semibold text-emerald-700 uppercase tracking-wide">
+                <span className="text-sm font-semibold text-emerald-950 uppercase tracking-wide">
                   Campus Life
                 </span>
               </div>
@@ -821,13 +821,7 @@ const Home = () => {
                 </span>
               </h2>
             </div>
-            <Link
-              to="/gallery"
-              className="group hidden md:flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-medium hover:bg-slate-800 transition-all shadow-md hover:shadow-lg active:scale-95"
-            >
-              <span>View Full Gallery</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+        
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
@@ -852,33 +846,18 @@ const Home = () => {
             </div>
           
           
-            <div className="rounded-3xl overflow-hidden relative group h-32 md:h-44 lg:h-[220px] shadow-sm hover:shadow-xl transition-shadow duration-500 bg-slate-100">
-              <Link
-                to="/gallery"
-                className="absolute inset-0 bg-emerald-600/90 backdrop-blur-sm text-white flex flex-col items-center justify-center p-6 hover:bg-emerald-700 transition-colors z-10 group-hover:scale-105 duration-500"
-              >
-                <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mb-3">
-                  <ArrowRight className="w-6 h-6" />
-                </div>
-                <span className="font-bold text-lg whitespace-nowrap">
-                  View All
-                </span>
-              </Link>
-              <img
-                src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80&w=400"
-                alt="More"
-                className="w-full h-full object-cover"
-              />
-            </div>
+           
+               <Link
+              to="/gallery"
+              className="group hidden md:flex items-center gap-2 px-6 py-3 justify-center bg-slate-900 text-white rounded-xl font-medium hover:bg-slate-800 transition-all shadow-md hover:shadow-lg active:scale-95"
+            >
+              <span>View Full Gallery</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
+           
 
-          <Link
-            to="/gallery"
-            className="mt-8 md:hidden w-full flex items-center justify-center gap-2 px-6 py-4 bg-slate-900 text-white rounded-2xl font-bold shadow-lg active:scale-95 transition-transform"
-          >
-            <span>Explore Full Gallery</span>
-            <ArrowRight className="w-5 h-5" />
-          </Link>
+         
         </div>
       </section>
 
@@ -932,7 +911,7 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-linear-to-r from-emerald-50 to-blue-50">
+      <section className="contact py-16 px-4 sm:px-6 lg:px-8 ">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
             Ready to Change Your Future?
@@ -941,12 +920,22 @@ const Home = () => {
             Join thousands of successful students who have achieved their
             academic goals with our platform. Start your journey today.
           </p>
-           <Link
+           <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
                 to="tel:+919876543210"
-                className="bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+                className="bg-emerald-600 flex items-center justify-center gap-2 text-white px-8 py-3.5 rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
               >
-                Call Now to Enroll
+                <Phone className="w-4 h-4" />
+                Call Now to admission
               </Link>
+              <Link
+                to="https://wa.me/919876543210"
+                className="text-neutral-100 flex items-center justify-center gap-2  bg-neutral-900 px-8 py-3.5 rounded-xl font-semibold  border border-neutral-200 transition-colors shadow-sm"
+              >
+                <MessageCircle className="w-4 h-4" />
+                Text Us for Admission
+              </Link>
+           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
         
           </div>
