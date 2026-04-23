@@ -180,9 +180,10 @@ const Header = () => {
                   
                     <button 
                       onClick={handleLogout}
-                      className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-all"
+                      className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-all flex items-center justify-center"
                       title="Sign Out"
                     >
+                      <LogOut className="w-5 h-5" />
                     </button>
                  
                 </div>

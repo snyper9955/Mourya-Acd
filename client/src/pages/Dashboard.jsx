@@ -9,6 +9,7 @@ import {
   Calendar,
   Clock,
   ArrowRight,
+  LogOut,
   Zap,
   CheckCircle2,
   CalendarDays
@@ -18,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 const Dashboard = () => {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
     const api = useApi();
     const [stats, setStats] = useState({
@@ -93,6 +94,17 @@ const Dashboard = () => {
                             <Calendar className="w-3.5 h-3.5 text-emerald-600" />
                             <span className="text-xs font-semibold text-slate-700">Live</span>
                         </div>
+                        <button 
+                            onClick={async () => {
+                                await logout();
+                                navigate('/login');
+                                toast.success('Logged out successfully');
+                            }}
+                            className="flex items-center gap-2 bg-red-50 text-red-600 px-3 py-1.5 rounded-xl border border-red-100 hover:bg-red-100 transition-colors"
+                        >
+                            <LogOut className="w-3.5 h-3.5" />
+                            <span className="text-xs font-semibold">Logout</span>
+                        </button>
                     </div>
                 </div>
 

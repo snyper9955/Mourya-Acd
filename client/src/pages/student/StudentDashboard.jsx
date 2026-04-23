@@ -14,6 +14,7 @@ import {
   FileText,
   ClipboardList,
   Zap,
+  LogOut,
   ArrowRight,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
@@ -21,7 +22,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const StudentDashboard = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const api = useApi();
   const [studentData, setStudentData] = useState(null);
@@ -139,6 +140,17 @@ const StudentDashboard = () => {
             Browse Courses
             <ChevronRight className="w-4 h-4" />
           </Link>
+          <button 
+            onClick={async () => {
+              await logout();
+              navigate('/login');
+              toast.success('Logged out successfully');
+            }}
+            className="bg-white/10 backdrop-blur-sm px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-white/20 text-white transition-colors inline-flex items-center gap-2 w-fit border border-white/20"
+          >
+            <LogOut className="w-4 h-4" />
+            Logout
+          </button>
         </div>
       </div>
 
