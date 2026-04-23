@@ -25,6 +25,8 @@ import {
   Pause,
   Play as PlayIcon,
   Camera,
+  ChevronDown,
+  HelpCircle as HelpCircleIcon
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -177,6 +179,27 @@ const Home = () => {
       borderColor: "blue-600",
     },
   ];
+  
+  const homeFaqs = [
+    {
+      question: "Aap kis exam ke liye coaching dete hain?",
+      answer: "CBSE Class VI to XII ke sabhi subjects ke liye coaching provides karte hain."
+    },
+    {
+      question: "Class 10th result?",
+      answer: "district topper"
+    },
+    {
+      question: "Demo class available hai kya?",
+      answer: "Haan, hum naye students ke liye 3 din ki bilkul FREE demo classes pradan karte hain."
+    },
+    {
+      question: "Online + offline dono hai kya?",
+      answer: "offline only + online (upcoming)"
+    }
+  ];
+
+  const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
   const Skeleton = ({ className }) => (
     <div className={`animate-pulse bg-slate-200 rounded-lg ${className}`}></div>
@@ -906,6 +929,59 @@ const Home = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-200 border border-green-600 rounded-full mb-4">
+              <HelpCircleIcon className="w-4 h-4 text-emerald-600" />
+              <span className="text-sm font-semibold text-green-950 uppercase tracking-wide">
+                FAQ
+              </span>
+            </div>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Common <span className="bg-linear-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Questions</span>
+            </h2>
+          </div>
+
+          <div className="space-y-4 mb-10">
+            {homeFaqs.map((faq, index) => (
+              <div 
+                key={index} 
+                className={`border border-slate-200 rounded-2xl overflow-hidden transition-all duration-300 ${openFaqIndex === index ? 'shadow-lg shadow-emerald-500/5 ring-1 ring-emerald-500/20' : 'hover:border-emerald-200'}`}
+              >
+                <button
+                  onClick={() => setOpenFaqIndex(openFaqIndex === index ? null : index)}
+                  className="w-full flex items-center justify-between p-5 text-left bg-white hover:bg-slate-50/50 transition-colors"
+                >
+                  <span className="text-lg font-semibold text-slate-800 pr-8">{faq.question}</span>
+                  <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${openFaqIndex === index ? 'bg-emerald-100 text-emerald-600 rotate-180' : 'bg-slate-100 text-slate-400'}`}>
+                    <ChevronDown className="w-5 h-5" />
+                  </div>
+                </button>
+                <div 
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${openFaqIndex === index ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}
+                >
+                  <div className="p-5 pt-0 text-slate-600 leading-relaxed font-bold bg-green-200">
+                    <div className="h-px w-full bg-slate-100 mb-4" />
+                    {faq.answer}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Link
+              to="/faq"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-slate-900 text-white rounded-xl font-semibold hover:bg-slate-800 transition-all shadow-md hover:shadow-lg active:scale-95"
+            >
+              More FAQ <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
