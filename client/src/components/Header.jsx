@@ -20,7 +20,8 @@ import {
   Users,
   Award,
   CreditCard,
-  Globe
+  Globe,
+  HelpCircle
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
@@ -74,6 +75,7 @@ const Header = () => {
     { name: "Gallery", path: "/gallery", icon: Image },
     { name: "Toppers", path: "/toppers", icon: Trophy },
     { name: "Notices", path: "/notices", icon: Megaphone },
+    { name: "FAQ", path: "/faq", icon: HelpCircle },
   ];
 
   const studentLinks = [
@@ -84,7 +86,7 @@ const Header = () => {
     // { name: "Courses", path: "/courses", icon: BookOpen },
     { name: "Notices", path: "/notices", icon: Bell },
      { name: "My Profile", path: "/student/profile", icon: User },
-    
+     { name: "FAQ", path: "/faq", icon: HelpCircle },
   ];
 
   const adminLinks = [

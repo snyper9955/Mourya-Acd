@@ -34,6 +34,7 @@ const Profile = lazy(() => import('./pages/Profile'));
 const Gallery = lazy(() => import('./pages/Gallery'));
 const StudentDashboard = lazy(() => import('./pages/student/StudentDashboard'));
 const CourseContent = lazy(() => import('./pages/student/CourseContent'));
+const FAQ = lazy(() => import('./pages/FAQ'));
 
 const LoadingSpinner = () => (
   <div className="flex flex-col items-center justify-center min-h-[400px] animate-in fade-in duration-700">
@@ -99,6 +100,7 @@ const AppContent = () => {
           <Route path="/course/:id" element={<CourseDetail />} />
           <Route path="/checkout/:courseId" element={<Checkout />} />
           <Route path="/gallery" element={<Gallery />} />
+          <Route path="/faq" element={<FAQ />} />
           
           {/* Authenticated Admin Routes */}
           <Route path="/admin" element={<ProtectedRoute><DashboardWrapper><Dashboard /></DashboardWrapper></ProtectedRoute>} />

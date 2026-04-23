@@ -62,6 +62,27 @@ const Footer = () => {
               </div>
             </div>
 
+            {/* Quick Links Column */}
+            <div className="text-left lg:col-span-1">
+              <h4 className="font-semibold text-white text-sm uppercase tracking-wider mb-4">
+                Quick Links
+              </h4>
+              <ul className="space-y-4 text-sm">
+                <li>
+                  <Link to="/" className="text-gray-400 hover:text-white transition-colors">Home</Link>
+                </li>
+                <li>
+                  <Link to="/courses" className="text-gray-400 hover:text-white transition-colors">Courses</Link>
+                </li>
+                <li>
+                  <Link to="/faq" className="text-gray-400 hover:text-white transition-colors">FAQ</Link>
+                </li>
+                <li>
+                  <Link to="/gallery" className="text-gray-400 hover:text-white transition-colors">Gallery</Link>
+                </li>
+              </ul>
+            </div>
+
             {/* Contact Column */}
             <div className="text-left lg:col-span-1">
               <h4 className="font-semibold text-white text-sm uppercase tracking-wider mb-4">
