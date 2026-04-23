@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApi } from '../context/ApiContext';
+import { getImageUrl } from '../utils/api';
 import { Award, Star, Search, GraduationCap, TrendingUp, Sparkles, User, Medal, Trophy, Crown, ChevronRight, Filter, X, Calendar, BookOpen, Users } from 'lucide-react';
 
 const PublicToppers = () => {
@@ -11,12 +12,6 @@ const PublicToppers = () => {
     const [selectedCourse, setSelectedCourse] = useState('all');
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [visibleCount, setVisibleCount] = useState(8);
-    const getImageUrl = (imagePath) => {
-        if (!imagePath) return null;
-        if (imagePath.startsWith('http')) return imagePath;
-        const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-        return `${baseUrl.replace(/\/$/, '')}${imagePath}`;
-    };
 
     useEffect(() => {
         const fetchToppers = async () => {

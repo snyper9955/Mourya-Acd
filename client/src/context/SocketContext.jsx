@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState, useRef } from 'r
 import { io } from 'socket.io-client';
 import { useAuth } from './AuthContext';
 import { speak } from '../utils/speak';
+import { getApiBaseUrl } from '../utils/api';
 import { toast } from 'react-hot-toast';
 
 const SocketContext = createContext();
@@ -17,7 +18,7 @@ export const SocketProvider = ({ children }) => {
         if (user && user._id) {
             // Avoid duplicate connections in React 18 Strict Mode
             if (!socketRef.current) {
-                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+                const apiUrl = getApiBaseUrl();
                 const newSocket = io(apiUrl, {
                     reconnection: true,
                     reconnectionAttempts: 10,

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useApi } from "../context/ApiContext";
+import { getImageUrl } from "../utils/api";
 import {
   BookOpen,
   Award,
@@ -44,12 +45,6 @@ const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return null;
-    if (imagePath.startsWith("http")) return imagePath;
-    const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
-    return `${baseUrl.replace(/\/$/, "")}${imagePath}`;
-  };
 
   // Featured courses for carousel (use first 5 active courses)
   const featuredCourses = courses.filter((c) => !c.isFinished).slice(0, 5);

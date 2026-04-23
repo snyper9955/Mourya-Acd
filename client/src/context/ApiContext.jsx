@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useMemo } from 'react';
 import axios from 'axios';
+import { getApiBaseUrl } from '../utils/api';
 import { useAuth } from './AuthContext';
 
 const ApiContext = createContext();
@@ -11,7 +12,7 @@ export const ApiProvider = ({ children }) => {
 
     const api = useMemo(() => {
         const instance = axios.create({
-            baseURL: (import.meta.env.VITE_API_URL || '').replace(/\/+$/, ''),
+            baseURL: getApiBaseUrl(),
         });
 
         // Add a request interceptor

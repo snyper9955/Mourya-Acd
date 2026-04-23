@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import io from 'socket.io-client';
 import { useAuth } from '../context/AuthContext';
+import { getApiBaseUrl } from '../utils/api';
 
 // Connect once
-const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const apiUrl = getApiBaseUrl();
 const socket = io(apiUrl, {
   withCredentials: true,
   transports: ['websocket', 'polling'], // Fallback

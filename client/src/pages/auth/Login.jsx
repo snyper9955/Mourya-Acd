@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
+import { getApiBaseUrl } from '../../utils/api';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -33,8 +34,7 @@ const Login = () => {
     };
 
     const handleGoogleLogin = () => {
-        let apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-        apiUrl = apiUrl.replace(/\/+$/, '');
+        const apiUrl = getApiBaseUrl();
         window.location.href = `${apiUrl}/api/auth/google`;
     };
 
