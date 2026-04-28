@@ -29,40 +29,39 @@ const FAQ = () => {
   const [openIndex, setOpenIndex] = useState(0);
 
   const faqs = [
-    {
-      question: "Aap kis exam ke liye coaching dete hain?",
-      answer: "CBSE Class VI to XII ke sabhi subjects ke liye coaching provides karte hain."
-    },
-    {
-      question: "Class 10th result?",
-      answer: "district topper"
-    },
-    {
-      question: "Demo class available hai kya?",
-      answer: "Haan, hum naye students ke liye 3 din ki bilkul FREE demo classes pradan karte hain taaki aap hamari teaching quality ko samajh saken aur phir admission ka faisla le saken."
-    },
-    {
-      question: "Online + offline dono hai kya?",
-      answer: "offline only + online (upcoming)"
-    },
-    {
-      question: "Batch size kitna hota hai? ",
-      answer: "Hum batch size ko hamesha limited rakhte hain (lagbhag 40-50 students) taaki har student par personal attention diya ja sake aur sabke sawalon ka answer easily mil sake."
-    },
-    {
-      question: "Study material provide karte hain?",
-      answer: "Haan, hum apne sabhi students ko comprehensive study material, printed notes, aur daily practice papers pradan karte hain jo latest exam patterns aur syllabus par aadharit hote hain."
-    },
-    {
-      question: "Test series included hai kya?",
-      answer: "Ji haan, hamare sabhi courses mein regular mock tests aur offline test series shamil hoti hain. Hum har hafte (weekly) test lete hain taaki aap apni progress ko track kar saken."
-    },
-  
-    {
-      question: "Admission ka process kya hai?",
-      answer: "Visit our center mourya academy or contact us on 8809193796."
-    }
-  ];
+  {
+    question: "Which classes do you teach?",
+    answer: "We provide coaching for all subjects from CBSE Classes 6 to 12."
+  },
+  {
+    question: "What is your Class 10 result?",
+    answer: "We have produced a district topper."
+  },
+  {
+    question: "Is a demo class available?",
+    answer: "Yes, we provide 3 days of completely free demo classes for new students so you can understand our teaching quality before taking admission."
+  },
+  {
+    question: "Do you offer both online and offline classes?",
+    answer: "Offline classes are currently available. Online classes are coming soon."
+  },
+  {
+    question: "What is the batch size?",
+    answer: "We keep our batch size limited (around 40–50 students) so that each student gets personal attention and all doubts can be cleared easily."
+  },
+  {
+    question: "Do you provide study material?",
+    answer: "Yes, we provide comprehensive study material, printed notes, and daily practice papers based on the latest exam pattern and syllabus."
+  },
+  {
+    question: "Is a test series included?",
+    answer: "Yes, all our courses include regular mock tests and an offline test series. We conduct weekly tests to help you track your progress."
+  },
+  {
+    question: "What is the admission process?",
+    answer: "Visit our center, Mourya Academy, or contact us at 8809193796."
+  }
+];
 
   return (
     <div className="min-h-screen  pt-24 pb-20">
