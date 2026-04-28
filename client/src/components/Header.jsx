@@ -131,7 +131,7 @@ const Header = () => {
               </div>
               <div className="flex flex-col">
                 <span className="text-lg lg:text-xl font-bold bg-linear-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent tracking-tight">
-                  Mourya Accadmy
+                  Mourya Academy
                 </span>
                 <span className="text-[10px] lg:text-xs text-slate-700 tracking-wider hidden sm:block">
                   Darbhanga
@@ -257,7 +257,7 @@ const Header = () => {
              </Link>
               <div>
                 <span className="text-base font-bold text-slate-800 block tracking-tight leading-tight">
-                  Mourya Accadmy
+                  Mourya Academy
                 </span>
                 <span className="text-[12px] text-slate-700 tracking-wider font-semibold">
                   Darbhanga

@@ -298,7 +298,7 @@ const Home = () => {
     <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-10">
       <div className="space-y-2 sm:space-y-3">
         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-heading font-black text-gray-900 tracking-tight leading-tight sm:leading-none">
-          Mourya Accadmy <span className="text-transparent bg-clip-text bg-emerald-600 ">Toppers</span>
+          Mourya Academy <span className="text-transparent bg-clip-text bg-emerald-600 ">Toppers</span>
         </h2>
       </div>
      

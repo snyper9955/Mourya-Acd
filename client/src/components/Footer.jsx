@@ -28,7 +28,7 @@ const Footer = () => {
                   <img src="/logo.jpeg" alt="" className='w-10 h-10 rounded-full' />
                 </div>
                 <span className="font-bold text-xl sm:text-2xl text-white tracking-tight">
-                  Mourya Accadmy
+                  Mourya Academy
                 </span>
               </div>
 
@@ -99,7 +99,7 @@ const Footer = () => {
                 </li>
                 <li className="flex gap-3">
                   <MapPin className="w-4 h-4 text-emerald-400" />
-                  <span>Mourya Accadmy, Darbhanga, Bihar 846001</span>
+                  <span>Mourya Academy, Darbhanga, Bihar 846001</span>
                 </li>
                 <li className="flex gap-3">
 +              <Link

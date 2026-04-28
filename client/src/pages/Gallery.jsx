@@ -44,7 +44,7 @@ const Gallery = () => {
         {/* Header Section */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
          <h1 className="text-4xl font-bold text-gray-900 mb-3">
-            Mourya Accadmy <span className="text-emerald-600 ">Gallery</span>
+            Mourya Academy <span className="text-emerald-600 ">Gallery</span>
           </h1>
       
         
