@@ -175,24 +175,25 @@ const Home = () => {
     },
   ];
   
-  const homeFaqs = [
-    {
-      question: "Aap kis exam ke liye coaching dete hain?",
-      answer: "CBSE Class VI to XII ke sabhi subjects ke liye coaching provides karte hain."
-    },
-    {
-      question: "Class 10th result?",
-      answer: "district topper"
-    },
-    {
-      question: "Demo class available hai kya?",
-      answer: "Haan, hum naye students ke liye 3 din ki bilkul FREE demo classes pradan karte hain."
-    },
-    {
-      question: "Online + offline dono hai kya?",
-      answer: "offline only + online (upcoming)"
-    }
-  ];
+ const homeFaqs = [
+  {
+    question: "Which classes do you teach?",
+    answer: "We provide coaching for all subjects from CBSE Classes 6 to 12."
+  },
+  {
+    question: "What is your Class 10 result?",
+    answer: "We have produced a district topper."
+  },
+  {
+    question: "Is a demo class available?",
+    answer: "Yes, we provide 3 days of completely free demo classes for new students so you can understand our teaching quality before taking admission."
+  },
+  {
+    question: "Do you offer both online and offline classes?",
+    answer: "Offline classes are currently available. Online classes are coming soon."
+  },
+
+];
 
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
 
