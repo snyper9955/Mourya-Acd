@@ -13,6 +13,8 @@ app.use(cors({
         "http://localhost:5173", 
         "http://127.0.0.1:5173", 
         "https://coaching-nine-nu.vercel.app",
+        "https://www.mouryaacademy.in",
+        "https://mouryaacademy.in",
         /\.vercel\.app$/
     ],
     credentials: true
