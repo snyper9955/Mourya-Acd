@@ -994,14 +994,14 @@ const Home = () => {
           </p>
            <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-                to="tel:+919876543210"
+                to="tel:+918809193796"
                 className="bg-emerald-600 flex items-center justify-center gap-2 text-white px-8 py-3.5 rounded-xl font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
               >
                 <Phone className="w-4 h-4" />
                 Call Now to admission
               </Link>
               <Link
-                to="https://wa.me/919876543210"
+                to="https://wa.me/8809193796"
                 className="text-neutral-100 flex items-center justify-center gap-2  bg-neutral-900 px-8 py-3.5 rounded-xl font-semibold  border border-neutral-200 transition-colors shadow-sm"
               >
                 <MessageCircle className="w-4 h-4" />
