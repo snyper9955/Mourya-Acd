@@ -71,7 +71,7 @@ const FAQ = () => {
         <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-200 text-green-950 text-sm font-bold mb-6 border border-green-600">
             <HelpCircle className="w-4 h-4" />
-            <span>KUCH PUCHNA HAI?</span>
+            <span> Your Questions</span>
           </div>
           <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight">
             Frequently Asked <span className="text-emerald-600">Questions</span>
@@ -103,9 +103,9 @@ const FAQ = () => {
           
           <div className="relative z-10 grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold mb-4">Abhi bhi sawal hain?</h2>
+              <h2 className="text-3xl font-bold mb-4">Still have questions?</h2>
               <p className="text-slate-300 mb-8">
-                Hamari team aapki sahayata ke liye hamesha taiyar hai. Aap hamein niche diye gaye contact options se kabhi bhi sampark kar sakte hain.
+                Our team is always ready to help you. You can contact us anytime using the contact options given below.
               </p>
               
               <div className="space-y-6">
@@ -114,7 +114,7 @@ const FAQ = () => {
                     <Phone className="w-6 h-6" />
                   </div>
                   <div>
-                    <p className="text-sm text-slate-400">Hamein Call Karein</p>
+                    <p className="text-sm text-slate-400">Call Us</p>
                     <p className="text-lg font-semibold">+91 88091 93796</p>
                   </div>
                 </div>
@@ -124,7 +124,7 @@ const FAQ = () => {
                     <Mail className="w-6 h-6" />
                   </div>
                   <div>
-                    <p className="text-sm text-slate-400">Email Karein</p>
+                    <p className="text-sm text-slate-400">Email</p>
                     <p className="text-lg font-semibold">mouryadbg@gmail.com</p>
                   </div>
                 </div>
@@ -134,7 +134,7 @@ const FAQ = () => {
                     <MapPin className="w-6 h-6" />
                   </div>
                   <div>
-                    <p className="text-sm text-slate-400">Hamara Pata</p>
+                    <p className="text-sm text-slate-400">Our Location</p>
                     <p className="text-lg font-semibold">Shivdhara Chowk, Darbhanga, Bihar</p>
                   </div>
                 </div>
@@ -142,7 +142,7 @@ const FAQ = () => {
             </div>
             
             <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10">
-              <h3 className="text-xl font-bold mb-6">Hamse Judiyiye</h3>
+              <h3 className="text-xl font-bold mb-6">Join Us</h3>
               <div className="space-y-4">
                 <button onClick={() => window.open('https://wa.me/+918809193796', '_blank')} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-2xl transition-all shadow-lg shadow-emerald-600/20 active:scale-95 flex items-center justify-center gap-2">
                   <MessageCircle className="w-5 h-5" />
