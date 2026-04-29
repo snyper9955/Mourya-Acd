@@ -1001,7 +1001,7 @@ const Home = () => {
                 Call Now to admission
               </Link>
               <Link
-                to="https://wa.me/8809193796"
+                to="https://wa.me/+918809193796"
                 className="text-neutral-100 flex items-center justify-center gap-2  bg-neutral-900 px-8 py-3.5 rounded-xl font-semibold  border border-neutral-200 transition-colors shadow-sm"
               >
                 <MessageCircle className="w-4 h-4" />

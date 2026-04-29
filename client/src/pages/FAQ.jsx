@@ -144,7 +144,7 @@ const FAQ = () => {
             <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 border border-white/10">
               <h3 className="text-xl font-bold mb-6">Hamse Judiyiye</h3>
               <div className="space-y-4">
-                <button onClick={() => window.open('https://wa.me/8809193796', '_blank')} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-2xl transition-all shadow-lg shadow-emerald-600/20 active:scale-95 flex items-center justify-center gap-2">
+                <button onClick={() => window.open('https://wa.me/+918809193796', '_blank')} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-2xl transition-all shadow-lg shadow-emerald-600/20 active:scale-95 flex items-center justify-center gap-2">
                   <MessageCircle className="w-5 h-5" />
                   Chat on WhatsApp
                 </button>
