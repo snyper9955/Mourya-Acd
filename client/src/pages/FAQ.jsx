@@ -6,7 +6,7 @@ const FAQItem = ({ question, answer, isOpen, onClick }) => {
     <div className={`border border-slate-200 rounded-2xl overflow-hidden transition-all duration-300 ${isOpen ? 'shadow-lg shadow-emerald-500/5 ring-1 ring-emerald-500/20' : 'hover:border-emerald-200'}`}>
       <button
         onClick={onClick}
-        className="w-full flex items-center justify-between p-5 text-left bg-neutral-400  transition-colors"
+        className="w-full flex items-center justify-between p-5 text-left bg-neutral-50  transition-colors"
       >
         <span className="text-lg font-semibold text-neutral-7=600 pr-8">{question}</span>
         <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-emerald-100 text-emerald-600 rotate-180' : 'bg-slate-100 text-slate-400'}`}>
