@@ -12,6 +12,7 @@ const PublicToppers = () => {
     const [selectedCourse, setSelectedCourse] = useState('all');
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [visibleCount, setVisibleCount] = useState(8);
+    const [selectedTopper, setSelectedTopper] = useState(null);
 
     useEffect(() => {
         const fetchToppers = async () => {
@@ -137,7 +138,8 @@ const PublicToppers = () => {
                                 return (
                                     <div 
                                         key={topper._id} 
-                                        className="group bg-white rounded-xl overflow-hidden relative aspect-[3/4.5] shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5"
+                                        onClick={() => setSelectedTopper(topper)}
+                                        className="group bg-white rounded-xl overflow-hidden relative aspect-[3/4.5] shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
                                     >
                                         {/* Topper Image */}
                                         {topper.image ? (
@@ -200,6 +202,46 @@ const PublicToppers = () => {
                     </div>
                 )}
             </div>
+
+            {/* Topper Image Modal */}
+            {selectedTopper && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" onClick={() => setSelectedTopper(null)}>
+                    <div className="relative max-w-xl w-full max-h-[90vh] flex flex-col items-center justify-center" onClick={e => e.stopPropagation()}>
+                        <button 
+                            onClick={() => setSelectedTopper(null)}
+                            className="absolute -top-12 right-0 p-2 text-white/70 hover:text-white bg-black/50 hover:bg-black/80 rounded-full transition-all"
+                        >
+                            <X className="w-6 h-6" />
+                        </button>
+                        <div className="w-full bg-white rounded-2xl overflow-hidden shadow-2xl flex flex-col items-center">
+                            <div className="w-full relative aspect-[3/4] sm:max-h-[60vh] flex justify-center bg-gray-100">
+                                {selectedTopper.image ? (
+                                    <img 
+                                        src={getImageUrl(selectedTopper.image)} 
+                                        alt={selectedTopper.name} 
+                                        className="w-full h-full object-contain"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full min-h-[300px] flex items-center justify-center bg-gradient-to-br from-emerald-100 to-teal-100">
+                                        <span className="text-6xl font-bold text-emerald-600">{selectedTopper.name.charAt(0)}</span>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="w-full p-6 text-center bg-white border-t border-gray-100">
+                                <h3 className="text-2xl font-bold text-gray-900 mb-2">{selectedTopper.name}</h3>
+                                <div className="flex flex-wrap justify-center gap-3">
+                                    <span className="px-4 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-sm font-semibold flex items-center gap-1.5">
+                                        <Award className="w-4 h-4" /> {selectedTopper.course}
+                                    </span>
+                                    <span className="px-4 py-1.5 bg-amber-100 text-amber-700 rounded-full text-sm font-semibold flex items-center gap-1.5">
+                                        <Star className="w-4 h-4" /> Marks: {selectedTopper.rank}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
