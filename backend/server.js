@@ -55,6 +55,27 @@ const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+
+    // Keep-alive ping to prevent Render/Heroku from sleeping
+    const BACKEND_URL = process.env.RENDER_EXTERNAL_URL || process.env.BASE_URL || `http://localhost:${PORT}`;
+    const PING_INTERVAL = 14 * 60 * 1000; // 14 minutes
+    
+    setInterval(() => {
+        try {
+            const protocol = BACKEND_URL.startsWith('https') ? require('https') : require('http');
+            protocol.get(BACKEND_URL, (resp) => {
+                if (resp.statusCode === 200) {
+                    console.log('Keep-alive ping successful');
+                } else {
+                    console.log('Keep-alive ping failed with status:', resp.statusCode);
+                }
+            }).on("error", (err) => {
+                console.log('Keep-alive ping error:', err.message);
+            });
+        } catch (error) {
+            console.log('Keep-alive ping error:', error.message);
+        }
+    }, PING_INTERVAL);
 });
 
 // Export io for use in controllers
