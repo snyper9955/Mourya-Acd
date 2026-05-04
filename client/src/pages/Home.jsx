@@ -872,7 +872,7 @@ const Home = () => {
            
                <Link
               to="/gallery"
-              className="group hidden md:flex items-center gap-2 px-6 py-3 justify-center bg-slate-900 text-white rounded-xl font-medium hover:bg-slate-800 transition-all shadow-md hover:shadow-lg active:scale-95"
+              className="group flex flex-col md:flex-row items-center gap-1 md:gap-2 px-2 md:px-6 py-3 justify-center bg-slate-900 text-white rounded-xl text-xs md:text-base font-medium hover:bg-slate-800 transition-all shadow-md hover:shadow-lg active:scale-95 text-center"
             >
               <span>View Full Gallery</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
