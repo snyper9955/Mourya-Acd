@@ -818,7 +818,7 @@ const Home = () => {
                   to="/toppers"
                   className="block w-full py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl text-sm font-semibold text-center transition-colors"
                 >
-                  View Hall of Fame
+                  View all toppers
                 </Link>
               </div>
             </div>
