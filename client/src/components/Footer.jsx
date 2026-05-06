@@ -119,7 +119,7 @@ const Footer = () => {
           <div className="pt-6 border-t border-gray-800 flex flex-col items-center">
             <div className="w-full flex flex-col md:flex-row justify-between items-center gap-3 text-center md:text-left">
               <p className="text-xs text-gray-500">
-                © {currentYear} Mourya Accadmy Darbhanga • Built for Success
+                © {currentYear} Mourya Academy Darbhanga • Built for Success
               </p>
        
             </div>
